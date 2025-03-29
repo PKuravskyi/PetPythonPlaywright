@@ -12,6 +12,7 @@ class LoginPage(BasePage):
         self.username_input: Locator = page.get_by_role("textbox", name="Username")
         self.password_input: Locator = page.get_by_role("textbox", name="Password")
         self.submit_button: Locator = page.get_by_role("button", name="Submit")
+        self.error_label: Locator = page.locator("#error")
 
     def open(self):
         self.page.goto(self.URL)
@@ -24,3 +25,6 @@ class LoginPage(BasePage):
 
     def click_on_submit(self):
         self.submit_button.click()
+
+    def retrieve_error(self):
+        return self.error_label
