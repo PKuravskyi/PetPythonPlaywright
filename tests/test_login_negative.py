@@ -1,14 +1,25 @@
+import os
+
 import pytest
-from playwright.sync_api import Playwright, expect
+from playwright.sync_api import expect
 
 from pages.login_page import LoginPage
+
+try:
+    STUDENT_USERNAME = os.environ['STUDENT_USERNAME']
+    STUDENT_PASSWORD = os.environ['STUDENT_PASSWORD']
+except KeyError:
+    import utils.secrets
+
+    STUDENT_USERNAME = utils.secrets.STUDENT_USERNAME
+    STUDENT_PASSWORD = utils.secrets.STUDENT_PASSWORD
 
 
 @pytest.mark.login
 @pytest.mark.negative
 @pytest.mark.parametrize('username, password, expected_error_message',
-                         [('incorrectUser', 'Password123', 'Your username is invalid!'),
-                          ('student', 'incorrectPassword', 'Your password is invalid!')])
+                         [('incorrectUser', STUDENT_PASSWORD, 'Your username is invalid!'),
+                          (STUDENT_USERNAME, 'incorrectPassword', 'Your password is invalid!')])
 def test_negative_login(set_up, username, password, expected_error_message) -> None:
     page = set_up
     login_page = LoginPage(page)
