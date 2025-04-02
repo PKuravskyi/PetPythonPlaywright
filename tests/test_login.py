@@ -3,17 +3,9 @@ import os
 import pytest
 from playwright.sync_api import expect
 
+from conftest import STUDENT_USERNAME, STUDENT_PASSWORD
 from pages.logged_in_successfully_page import LoggedInSuccessfullyPage
 from pages.login_page import LoginPage
-
-try:
-    STUDENT_USERNAME = os.environ['STUDENT_USERNAME']
-    STUDENT_PASSWORD = os.environ['STUDENT_PASSWORD']
-except KeyError:
-    import utils.secrets
-
-    STUDENT_USERNAME = utils.secrets.STUDENT_USERNAME
-    STUDENT_PASSWORD = utils.secrets.STUDENT_PASSWORD
 
 
 @pytest.mark.login

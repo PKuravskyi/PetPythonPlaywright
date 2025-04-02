@@ -2,4 +2,4 @@
 .idea
 
 test-reports
-utils/secrets.py
+.env
