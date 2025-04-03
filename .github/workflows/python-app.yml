@@ -36,15 +36,8 @@ jobs:
           # exit-zero treats all errors as warnings. The GitHub editor is 127 chars wide
           flake8 . --count --exit-zero --max-complexity=10 --max-line-length=127 --statistics
       - name: Test with pytest
-        continue-on-error: true
         env:
           STUDENT_USERNAME: ${{secrets.STUDENT_USERNAME}}
           STUDENT_PASSWORD: ${{secrets.STUDENT_PASSWORD}}
         run: |
           pytest
-      - name: Upload Playwright Snapshots
-        if: always()
-        uses: actions/upload-artifact@v4
-        with:
-          name: playwright-snapshots
-          path: tests/visual/snapshots/
