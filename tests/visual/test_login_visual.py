@@ -9,4 +9,4 @@ def test_login_visual(set_up, assert_snapshot) -> None:
     login_page = LoginPage(page)
     login_page.open()
 
-    assert_snapshot(page.screenshot(full_page=True), name="test_login_visual.png")
+    assert_snapshot(page.screenshot(full_page=True))

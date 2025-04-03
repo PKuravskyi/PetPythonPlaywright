@@ -13,4 +13,4 @@ def test_logged_in_successfully_visual(set_up, assert_snapshot) -> None:
     login_page.enter_password(STUDENT_PASSWORD)
     login_page.click_on_submit()
 
-    assert_snapshot(page.screenshot(full_page=True), name="test_logged_in_successfully_visual.png")
+    assert_snapshot(page.screenshot(full_page=True))
