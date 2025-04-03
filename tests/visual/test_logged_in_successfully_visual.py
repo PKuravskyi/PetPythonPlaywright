@@ -4,8 +4,7 @@ from conftest import STUDENT_USERNAME, STUDENT_PASSWORD
 from pages.login_page import LoginPage
 
 
-@pytest.mark.logout
-@pytest.mark.positive
+@pytest.mark.visual
 def test_logged_in_successfully_visual(set_up, assert_snapshot) -> None:
     page = set_up
     login_page = LoginPage(page)
@@ -14,4 +13,4 @@ def test_logged_in_successfully_visual(set_up, assert_snapshot) -> None:
     login_page.enter_password(STUDENT_PASSWORD)
     login_page.click_on_submit()
 
-    assert_snapshot(page.screenshot(full_page=True))
+    assert_snapshot(page.screenshot(full_page=True), name="test_logged_in_successfully_visual")
