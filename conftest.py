@@ -8,7 +8,7 @@ STUDENT_PASSWORD = os.environ['STUDENT_PASSWORD']
 
 @pytest.fixture
 def set_up(playwright: Playwright):
-    browser = playwright.chromium.launch()
+    browser = playwright.chromium.launch(headless=False)
     context = browser.new_context()
     page = context.new_page()
 
