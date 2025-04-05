@@ -1,0 +1,6 @@
+1. Add Jenkins support
+2. Add Docker support
+3. Add Allure report
+4. Add Logger
+5. Add GitHub Pages to store previous Allure report
+6. Add Code Quality tools
