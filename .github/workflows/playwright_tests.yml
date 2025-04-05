@@ -47,4 +47,4 @@ jobs:
         run: |
           chmod +x './ShoppingStoreApp/shopping-store-linux-amd64'
           ./ShoppingStoreApp/shopping-store-linux-amd64 &
-          pytest
+          xvfb-run pytest
