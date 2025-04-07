@@ -95,9 +95,9 @@ pipeline {
             steps {
                 script {
                     sh '''
-                      /opt/venv/bin/python -m pip install --upgrade pip
-                      if [ -f requirements.txt ]; then /opt/venv/bin/pip install -r requirements.txt; fi
-                      /opt/venv/bin/python -m playwright install
+                      python -m pip install --upgrade pip
+                      if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
+                      python -m playwright install
                     '''
                 }
             }
