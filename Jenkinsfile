@@ -140,7 +140,7 @@ pipeline {
 
                     try {
 //                        sh testCommand
-                       sh 'pytest'
+                       sh 'xvfb-run pytest'
                     } catch (error) {
                         currentBuild.result = 'UNSTABLE'
                     }
