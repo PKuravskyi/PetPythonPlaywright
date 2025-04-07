@@ -22,7 +22,7 @@ pipeline {
 
         extendedChoice(
                 name: 'PROJECTS',
-                defaultValue: 'Google Chrome, Mobile Chrome',
+                defaultValue: 'Google Chrome',
                 description: 'Playwright projects (browsers) to use. Choose at least one.',
                 multiSelectDelimiter: ',',
                 saveJSONParameterToFile: false,
@@ -95,9 +95,8 @@ pipeline {
             steps {
                 script {
                     sh '''
-                      python -m pip install --upgrade pip
                       pip install -r requirements.txt
-                      python -m playwright install
+                      python -m playwright install chromium
                       playwright install-deps
                     '''
                 }
@@ -180,7 +179,7 @@ pipeline {
 
     post {
         always {
-            sendEmailToRequestor()
+//             sendEmailToRequestor()
         }
     }
 }
