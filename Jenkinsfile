@@ -7,49 +7,55 @@ pipeline {
     agent any
 
     options {
-        buildDiscarder(logRotator(daysToKeepStr: '30', artifactDaysToKeepStr: '14'))
+        buildDiscarder(logRotator(daysToKeepStr: '30', numToKeepStr: '10', artifactDaysToKeepStr: '7'))
         timeout(time: 1, unit: 'HOURS')
-//         skipDefaultCheckout(true)
+        timestamps()
+    }
+
+    environment {
+        CI = true
+        STUDENT_USERNAME = credentials('STUDENT_USERNAME')
+        STUDENT_PASSWORD = credentials('STUDENT_PASSWORD')
     }
 
     parameters {
         gitParameter(
             name: 'BRANCH',
-            branchFilter: 'origin/(.*)',
+            branchFilter: '.*',
             defaultValue: 'main',
             type: 'PT_BRANCH'
         )
 
         extendedChoice(
-                name: 'PROJECTS',
+                name: 'BROWSERS',
                 defaultValue: 'Google Chrome',
-                description: 'Playwright projects (browsers) to use. Choose at least one.',
+                description: 'Playwright browsers to use. Choose at least one.',
                 multiSelectDelimiter: ',',
                 saveJSONParameterToFile: false,
                 type: 'PT_CHECKBOX',
                 value: 'Google Chrome, Microsoft Edge, Mobile Chrome, Mobile Safari',
-                visibleItemCount: 10
+                visibleItemCount: 5
         )
 
         string(
             name: 'TAGS_TO_INCLUDE',
-            description: 'Run tests that include specific tags.<br>Example: @smoke @ui',
+            description: 'Run tests that include specific tags. Example:\n@smoke @ui'
             trim: true
         )
 
         string(
             name: 'TAGS_TO_EXCLUDE',
-            description: 'Run tests that do not include specific tags.<br>Example: @wip @flaky',
+            description: 'Run tests that do not include specific tags. Example:\n@wip @flaky'
             trim: true
         )
 
         text(
             name: 'TESTS_LIST',
             description: '''List of tests to run. You can specify folder with tests, one test file, or one specific test from suite.
-             Each item should begin on new line. Examples:
-             ui
-             ui/register_user_test.py
-             ui/register_user_test.py:11
+                \nEach item should begin on new line. Examples:
+                \nui
+                \nui/register_user_test.py
+                \nui/arts_test.py:9
             ''' )
 
         choice(
@@ -59,35 +65,14 @@ pipeline {
         )
     }
 
-    environment {
-        CI = true
-        STUDENT_USERNAME = credentials('STUDENT_USERNAME')
-        STUDENT_PASSWORD = credentials('STUDENT_PASSWORD')
-    }
-
     stages {
         stage('Validate Parameters') {
             steps {
                 script {
-                    if (params.PROJECTS.trim() == '') {
+                    if (params.BROWSERS.trim() == '') {
                             error "No projects selected. Please choose at least one project."
                     }
                 }
-            }
-        }
-
-//         stage('Clone repository') {
-//             steps {
-//                 git branch: "${params.BRANCH}", url: 'https://github.com/PKuravskyi/PetPythonPlaywright.git'
-//             }
-//         }
-
-        stage('Prepare data') {
-            steps {
-                sh '''
-                    rm -rf allure-results
-                    rm -rf test-results
-                '''
             }
         }
 
@@ -96,8 +81,7 @@ pipeline {
                 script {
                     sh '''
                       pip install -r requirements.txt
-                      python -m playwright install chromium
-                      playwright install-deps
+                      playwright install --with-deps
                     '''
                 }
             }
@@ -145,14 +129,11 @@ pipeline {
 }
 
 def getSelectedProjects() {
-    def selectedProjects = params.PROJECTS
-                                    .split(',')
-                                    .collect { it.trim() }
-
-    def projects = selectedProjects.collect { "'${it}'" }
-                                .join(' ')
-
-    return projects
+    return params.BROWSERS
+                 .split(',')
+                 .collect { it.trim() }
+                 .collect { "'${it}'" }
+                 .join(' ')
 }
 
 def sendEmailToRequestor() {
