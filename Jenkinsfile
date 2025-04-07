@@ -45,13 +45,11 @@ pipeline {
 
         text(
             name: 'TESTS_LIST',
-            description: '''List of tests to run. You can specify folder with tests, one test file, or one specific test from suite. Each item should begin on new line.<br>
-                Examples:<br>
-                <div style='color:green'>
-                ui<br>
-                ui/register_user_test.py<br>
-                ui/register_user_test.py:11<br>
-                </div>
+            description: '''List of tests to run. You can specify folder with tests, one test file, or one specific test from suite.
+             Each item should begin on new line. Examples:
+             ui
+             ui/register_user_test.py
+             ui/register_user_test.py:11
             ''' )
 
         choice(
@@ -95,11 +93,13 @@ pipeline {
 
         stage('Install dependencies') {
             steps {
-                sh '''
-                  python -m pip install --upgrade pip
-                  if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
-                  python -m playwright install
-                '''
+                script {
+                    sh '''
+                      /opt/venv/bin/python -m pip install --upgrade pip
+                      if [ -f requirements.txt ]; then /opt/venv/bin/pip install -r requirements.txt; fi
+                      /opt/venv/bin/python -m playwright install
+                    '''
+                }
             }
         }
 
