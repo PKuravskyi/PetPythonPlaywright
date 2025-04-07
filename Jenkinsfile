@@ -9,7 +9,7 @@ pipeline {
     options {
         buildDiscarder(logRotator(daysToKeepStr: '30', artifactDaysToKeepStr: '14'))
         timeout(time: 1, unit: 'HOURS')
-        skipDefaultCheckout(true)
+//         skipDefaultCheckout(true)
     }
 
     parameters {
@@ -76,11 +76,11 @@ pipeline {
             }
         }
 
-        stage('Clone repository') {
-            steps {
-                git branch: "${params.BRANCH}", url: 'https://github.com/PKuravskyi/PetPythonPlaywright.git'
-            }
-        }
+//         stage('Clone repository') {
+//             steps {
+//                 git branch: "${params.BRANCH}", url: 'https://github.com/PKuravskyi/PetPythonPlaywright.git'
+//             }
+//         }
 
         stage('Prepare data') {
             steps {
