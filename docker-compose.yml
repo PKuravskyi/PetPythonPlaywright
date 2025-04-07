@@ -1,0 +1,16 @@
+services:
+  # username: admin
+  # password: f84ae56e48094de7ab9b5943572d31d5
+  jenkins:
+    build: .
+    container_name: jenkins-docker
+    ports:
+      - "8080:8080"
+      - "50000:50000"
+    volumes:
+      - jenkins_home:/var/jenkins_home
+      - /var/run/docker.sock:/var/run/docker.sock
+    restart: unless-stopped
+
+volumes:
+  jenkins_home:

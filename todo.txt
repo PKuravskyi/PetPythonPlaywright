@@ -4,3 +4,4 @@
 4. Add Logger
 5. Add GitHub Pages to store previous Allure report
 6. Add Code Quality tools
+7. Add more tests (UI + API + Visual comparison)

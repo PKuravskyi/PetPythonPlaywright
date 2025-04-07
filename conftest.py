@@ -6,6 +6,7 @@ from playwright.sync_api import Playwright
 STUDENT_USERNAME = os.environ['STUDENT_USERNAME']
 STUDENT_PASSWORD = os.environ['STUDENT_PASSWORD']
 
+
 @pytest.fixture
 def set_up(playwright: Playwright):
     browser = playwright.chromium.launch(headless=False)
