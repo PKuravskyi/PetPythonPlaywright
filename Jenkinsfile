@@ -63,8 +63,8 @@ pipeline {
 
     environment {
         CI = true
-        ADMIN_USERNAME = credentials('admin-username')
-        ADMIN_PASSWORD = credentials('admin-password')
+        STUDENT_USERNAME = credentials('STUDENT_USERNAME')
+        STUDENT_PASSWORD = credentials('STUDENT_PASSWORD')
     }
 
     stages {
