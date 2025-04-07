@@ -138,42 +138,10 @@ pipeline {
                     testCommand += " --workers=${params.WORKERS} --project ${projects}"
 
                     sh 'xvfb-run pytest'
-
                 }
             }
         }
-
-//         stage('Rerun failed tests') {
-//             when { expression { failedTests.size() > 0 } }
-//             steps {
-//                 script {
-//                     def projects = getSelectedProjects()
-//
-//                     try {
-//                         sh "pytest ${failedTests.toList().join(' ')} --workers=${params.WORKERS} --project ${projects}"
-//                     } catch (error) {
-//                         currentBuild.result = 'UNSTABLE'
-//                     }
-//                 }
-//             }
-//         }
-
-//         stage('Generate allure results') {
-//             steps {
-//                 allure([
-//                     includeProperties: false,
-//                     jdk: '',
-//                     results: [[path: 'allure-results']]
-//                 ])
-//             }
-//         }
     }
-
-//     post {
-//         always {
-//             sendEmailToRequestor()
-//         }
-//     }
 }
 
 def getSelectedProjects() {
