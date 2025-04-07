@@ -78,7 +78,7 @@ pipeline {
 
         stage('Clone repository') {
             steps {
-                git branch: "${params.BRANCH}", url: 'https://github.com/PKuravskyi/PetTypeScriptPlaywright.git'
+                git branch: "${params.BRANCH}", url: 'https://github.com/PKuravskyi/PetPythonPlaywright.git'
             }
         }
 
