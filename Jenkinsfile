@@ -137,16 +137,8 @@ pipeline {
 
                     testCommand += " --workers=${params.WORKERS} --project ${projects}"
 
-                    try {
-//                        sh testCommand
-                       sh 'xvfb-run pytest'
-                    } catch (error) {
-                        currentBuild.result = 'UNSTABLE'
-                    }
+                    sh 'xvfb-run pytest'
 
-                    def testResults = readJSON file: 'summary.json'
-                    failedTests = testResults.failed
-                    echo "Failed tests: ${failedTests}"
                 }
             }
         }
