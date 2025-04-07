@@ -39,13 +39,13 @@ pipeline {
 
         string(
             name: 'TAGS_TO_INCLUDE',
-            description: 'Run tests that include specific tags. Example:\n@smoke @ui'
+            description: 'Run tests that include specific tags. Example:\n@smoke @ui',
             trim: true
         )
 
         string(
             name: 'TAGS_TO_EXCLUDE',
-            description: 'Run tests that do not include specific tags. Example:\n@wip @flaky'
+            description: 'Run tests that do not include specific tags. Example:\n@wip @flaky',
             trim: true
         )
 
