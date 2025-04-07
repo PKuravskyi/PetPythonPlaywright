@@ -95,7 +95,6 @@ pipeline {
             steps {
                 script {
                     sh '''
-                      ls -R
                       python -m pip install --upgrade pip
                       pip install -r requirements.txt
                       python -m playwright install
@@ -139,7 +138,8 @@ pipeline {
                     testCommand += " --workers=${params.WORKERS} --project ${projects}"
 
                     try {
-                        sh testCommand
+//                        sh testCommand
+                       sh 'pytest'
                     } catch (error) {
                         currentBuild.result = 'UNSTABLE'
                     }
@@ -151,30 +151,30 @@ pipeline {
             }
         }
 
-        stage('Rerun failed tests') {
-            when { expression { failedTests.size() > 0 } }
-            steps {
-                script {
-                    def projects = getSelectedProjects()
+//         stage('Rerun failed tests') {
+//             when { expression { failedTests.size() > 0 } }
+//             steps {
+//                 script {
+//                     def projects = getSelectedProjects()
+//
+//                     try {
+//                         sh "pytest ${failedTests.toList().join(' ')} --workers=${params.WORKERS} --project ${projects}"
+//                     } catch (error) {
+//                         currentBuild.result = 'UNSTABLE'
+//                     }
+//                 }
+//             }
+//         }
 
-                    try {
-                        sh "pytest ${failedTests.toList().join(' ')} --workers=${params.WORKERS} --project ${projects}"
-                    } catch (error) {
-                        currentBuild.result = 'UNSTABLE'
-                    }
-                }
-            }
-        }
-
-        stage('Generate allure results') {
-            steps {
-                allure([
-                    includeProperties: false,
-                    jdk: '',
-                    results: [[path: 'allure-results']]
-                ])
-            }
-        }
+//         stage('Generate allure results') {
+//             steps {
+//                 allure([
+//                     includeProperties: false,
+//                     jdk: '',
+//                     results: [[path: 'allure-results']]
+//                 ])
+//             }
+//         }
     }
 
     post {
