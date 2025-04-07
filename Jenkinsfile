@@ -177,11 +177,11 @@ pipeline {
 //         }
     }
 
-    post {
-        always {
+//     post {
+//         always {
 //             sendEmailToRequestor()
-        }
-    }
+//         }
+//     }
 }
 
 def getSelectedProjects() {
