@@ -1,8 +1,0 @@
-playwright==1.51.0
-pytest~=8.3.5
-pytest-playwright==0.7.0
-pytest-xdist==3.6.1
-pytest-reporter-html1==0.9.2
-pytest-dotenv==0.5.2
-pytest-playwright-visual==2.1.2
-allure-pytest==2.14.0
