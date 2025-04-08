@@ -1,6 +1,5 @@
 To add:
 
 Logger
-GitHub Pages to store previous Allure report
 Code Quality tools
 More tests (UI + API + Visual comparison)
