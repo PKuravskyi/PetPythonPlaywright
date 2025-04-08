@@ -121,7 +121,7 @@ pipeline {
 
                     testCommand += " --workers=${params.WORKERS} --project ${projects}"
 
-                    sh 'xvfb-run pytest --alluredir allure-results'
+                    sh 'xvfb-run pytest'
                 }
             }
         }
