@@ -32,6 +32,9 @@ jobs:
           pip install flake8
           if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
           python -m playwright install chromium
+          curl -o allure.zip -L https://github.com/allure-framework/allure2/releases/download/2.17.3/allure-2.17.3.tgz
+          tar -zxvf allure.zip
+          sudo mv allure-2.17.3 /usr/local/bin/allure
 
       - name: Lint with flake8
         run: |
@@ -48,3 +51,22 @@ jobs:
           chmod +x './ShoppingStoreApp/shopping-store-linux-amd64'
           ./ShoppingStoreApp/shopping-store-linux-amd64 &
           xvfb-run pytest
+
+      - name: Upload Allure results
+        uses: actions/upload-artifact@v2
+        with:
+          name: allure-results
+          path: allure-results
+
+      - name: Generate Allure report
+        run: |
+          allure serve allure-results
+
+      - name: Deploy Allure Report to GitHub Pages
+        if: always() && hashFiles('allure-results/**') != ''
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./allure-results
+          publish_branch: gh-pages
+          keep_files: false
