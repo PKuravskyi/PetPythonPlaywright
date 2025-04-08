@@ -1,7 +1,5 @@
 To add:
 
-Jenkins support
-Allure report
 Logger
 GitHub Pages to store previous Allure report
 Code Quality tools
