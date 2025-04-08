@@ -121,7 +121,7 @@ pipeline {
 
                     testCommand += " --workers=${params.WORKERS} --project ${projects}"
 
-                    sh 'xvfb-run pytest --alluredir test-results'
+                    sh 'xvfb-run pytest --alluredir allure-results'
                 }
             }
         }
@@ -129,7 +129,7 @@ pipeline {
 
     post {
         always {
-            allure includeProperties: false, jdk: '', results: [[path: 'test-results']]
+            allure includeProperties: false, jdk: '', results: [[path: 'allure-results']]
         }
     }
 }

@@ -2,4 +2,5 @@
 .idea
 
 test-reports
+allure-results
 .env
