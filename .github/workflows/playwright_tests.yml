@@ -32,6 +32,7 @@ jobs:
           curl -o allure.zip -L https://github.com/allure-framework/allure2/releases/download/2.17.3/allure-2.17.3.tgz
           tar -zxvf allure.zip
           sudo mv allure-2.17.3 /usr/local/bin/allure
+          allure --version
 
       - name: Lint with flake8
         run: |
