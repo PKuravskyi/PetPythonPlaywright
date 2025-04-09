@@ -24,9 +24,4 @@ jobs:
 
     - name: Run Pylint
       run: |
-        changed_files=$(git diff --name-only origin/main...HEAD | grep '\.py$')
-        if [ -z "$changed_files" ]; then
-          echo "No Python files changed."
-        else
-          pylint $changed_files
-        fi
+        pylint $(git ls-files '*.py')
