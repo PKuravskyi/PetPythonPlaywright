@@ -16,3 +16,6 @@ class BasePage:
 
     def get_basket_items_locator(self) -> Locator:
         return self._basket_counter_text_field
+
+
+
