@@ -1,5 +1,5 @@
 To add:
 
 Logger
-Code Quality tools
 More tests (UI + API + Visual comparison)
+Files handling (json, csv etc.)
