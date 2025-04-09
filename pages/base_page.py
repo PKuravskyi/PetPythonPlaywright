@@ -4,7 +4,6 @@ from playwright.sync_api import Locator
 class BasePage:
     def __init__(self, page):
         self._page = page
-        self._BASE_URL = 'http://localhost:2221'
 
         self._basket_counter_text_field: Locator = page.locator('[data-qa="header-basket-count"]')
 
@@ -17,4 +16,3 @@ class BasePage:
 
     def get_basket_items_locator(self) -> Locator:
         return self._basket_counter_text_field
-

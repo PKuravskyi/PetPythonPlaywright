@@ -1,0 +1,32 @@
+name: Lint Python Files
+
+on:
+  pull_request:
+    paths:
+      - '**/*.py'
+
+jobs:
+  lint:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v4
+
+    - name: Set up Python
+      uses: actions/setup-python@v3
+      with:
+        python-version: '3.x'
+
+    - name: Install dependencies
+      run: |
+        pip install -r requirements.txt
+
+    - name: Run Pylint
+      run: |
+        changed_files=$(git diff --name-only origin/main...HEAD | grep '\.py$')
+        if [ -z "$changed_files" ]; then
+          echo "No Python files changed."
+        else
+          pylint $changed_files
+        fi

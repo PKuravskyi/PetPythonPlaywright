@@ -1,10 +1,5 @@
-import os
-
 import pytest
 from playwright.sync_api import Playwright
-
-STUDENT_USERNAME = os.environ['STUDENT_USERNAME']
-STUDENT_PASSWORD = os.environ['STUDENT_PASSWORD']
 
 
 @pytest.fixture
