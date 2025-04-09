@@ -1,4 +1,4 @@
-# Practice test automation with Python and Selenium
+# Practice test automation with Python and Playwright
 
 ### How to run tests locally:
 
