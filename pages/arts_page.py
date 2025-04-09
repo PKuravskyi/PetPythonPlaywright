@@ -22,3 +22,5 @@ class ArtsPage(BasePage):
 
     def add_art_to_basket(self, art_name: str):
         self._page.locator(f'//*[text()="{art_name}"]/..//button').click()
+
+    remove_art_from_basket = add_art_to_basket
