@@ -12,7 +12,7 @@
 
 Option 1: After tests are executed you can see allure results by running command: ```allure serve allure-results```   
 Option 2: You can go to the GitHub pages of this repository (https://pkuravskyi.github.io/PetPythonPlaywright/) which
-has the allure results from the latest run
+has the allure results from the latest run on `main` branch
 
 ### How to Lint code errors
 
