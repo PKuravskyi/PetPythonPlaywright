@@ -86,6 +86,7 @@ pytest==8.3.5
     #   pytest-base-url
     #   pytest-dotenv
     #   pytest-playwright
+    #   pytest-regex
     #   pytest-reporter
     #   pytest-xdist
 pytest-base-url==2.1.0
@@ -97,6 +98,8 @@ pytest-playwright==0.7.0
     #   -r requirements.in
     #   pytest-playwright-visual
 pytest-playwright-visual==2.1.2
+    # via -r requirements.in
+pytest-regex==0.2.0
     # via -r requirements.in
 pytest-reporter==0.5.3
     # via pytest-reporter-html1
