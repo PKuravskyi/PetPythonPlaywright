@@ -1,0 +1,1 @@
+test_new_user_can_be_registered_via_ui
