@@ -52,10 +52,10 @@ pipeline {
         text(
             name: 'TESTS_LIST',
             description: '''List of tests to run. You can specify folder with tests, one test file, or one specific test from suite.
-                \nEach item should begin on new line. Examples:
-                \nui
-                \nui/register_user_test.py
-                \nui/arts_test.py:9
+        Each item should begin on new line. Examples:
+        ui
+        ui/register_user_test.py
+        ui/arts_test.py:9
             ''' )
 
         choice(
