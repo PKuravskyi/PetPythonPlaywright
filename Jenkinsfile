@@ -66,6 +66,15 @@ pipeline {
     }
 
     stages {
+        stage('Prepare data') {
+            steps {
+                sh '''
+                    rm -rf allure-results
+                    rm -rf test-results
+                '''
+            }
+        }
+
         stage('Validate Parameters') {
             steps {
                 script {
@@ -106,7 +115,7 @@ pipeline {
                     for (browser in browsers) {
                         echo "Running tests on browser: ${browser}"
 
-                        def testCommand = "xvfb-run pytest --clean-alluredir --browser=${browser} -n ${params.THREADS}"
+                        def testCommand = "xvfb-run pytest --browser=${browser} -n ${params.THREADS}"
 
                         if (params.TESTS_LIST?.trim()) {
                             def tests = params.TESTS_LIST
