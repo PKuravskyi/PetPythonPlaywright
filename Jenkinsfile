@@ -126,10 +126,6 @@ ui/arts_test.py:9'''
                             testCommand += " -m \"${params.TAGS}\""
                         }
 
-                        if (params.TAGS_TO_EXCLUDE?.trim()) {
-                            testCommand += " --grep-invert ${params.TAGS_TO_EXCLUDE}"
-                        }
-
                         echo "Pytest command: '${testCommand}'"
                         sh testCommand
                     }
