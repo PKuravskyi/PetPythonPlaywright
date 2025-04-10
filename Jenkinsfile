@@ -106,7 +106,7 @@ pipeline {
                     for (browser in browsers) {
                         echo "Running tests on browser: ${browser}"
 
-                        def testCommand = 'xvfb-run pytest --browser=${browser}'
+                        def testCommand = "xvfb-run pytest --browser=${browser} -n ${params.THREADS}"
 
                         if (params.TESTS_LIST?.trim()) {
                             def tests = params.TESTS_LIST
@@ -123,8 +123,6 @@ pipeline {
                         if (params.TAGS_TO_EXCLUDE?.trim()) {
                             testCommand += " --grep-invert ${params.TAGS_TO_EXCLUDE}"
                         }
-
-                        testCommand += " -n ${params.THREADS}"
 
                         echo "Pytest command: '${testCommand}'"
                         sh testCommand
