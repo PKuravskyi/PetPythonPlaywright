@@ -39,26 +39,21 @@ pipeline {
 
         string(
             name: 'TAGS',
-            description: '''Run tests with specific tags.\nYou can select multiple tags by using 'and' word. Use 'not' word to exclude test with specified tag. Examples:
-            smoke and ui
-            smoke and not wip
-            not wip
+            description: '''Run tests with specific tags.\nYou can select multiple tags by using 'and' word. Use 'not' word to exclude test with specified tag.\nExamples:
+smoke and ui
+smoke and not wip
+not wip
             ''',
-            trim: true
-        )
-
-        string(
-            name: 'TAGS_TO_EXCLUDE',
-            description: 'Run tests that do not include specific tags. Example:\nwip flaky',
             trim: true
         )
 
         text(
             name: 'TESTS_LIST',
             description: '''List of tests to run. You can specify folder with tests, one test file, or one specific test from suite. Each item should begin on new line.\nExamples:
-        ui
-        ui/register_user_test.py
-        ui/arts_test.py:9''' )
+ui
+ui/register_user_test.py
+ui/arts_test.py:9'''
+        )
 
         choice(
             name: 'THREADS',
@@ -128,7 +123,7 @@ pipeline {
                         }
 
                         if (params.TAGS?.trim()) {
-                            testCommand += " -m ${params.TAGS}"
+                            testCommand += " -m \"${params.TAGS}\""
                         }
 
                         if (params.TAGS_TO_EXCLUDE?.trim()) {
