@@ -126,7 +126,6 @@ ui/arts_test.py:9'''
                             testCommand += " -m \"${params.TAGS}\""
                         }
 
-                        echo "Pytest command: '${testCommand}'"
                         sh testCommand
                     }
                 }
