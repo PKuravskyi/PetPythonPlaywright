@@ -1,6 +1,6 @@
 #!groovy
 
-List workers = ['5', '4', '3', '2', '1']
+List threads = ['5', '4', '3', '2', '1']
 def failedTests = []
 
 pipeline {
