@@ -108,7 +108,7 @@ pipeline {
 
                         def testCommand = 'xvfb-run pytest --browser=${browser}'
 
-                        if (params.TESTS_LIST?.trim() {
+                        if (params.TESTS_LIST?.trim()) {
                             def tests = params.TESTS_LIST
                                             .split('\n')
                                             .collect { it.trim().replace('\\', '/') }
@@ -116,11 +116,11 @@ pipeline {
                             testCommand += " tests/${tests}"
                         }
 
-                        if (params.TAGS_TO_INCLUDE?.trim() {
+                        if (params.TAGS_TO_INCLUDE?.trim()) {
                             testCommand += " --grep ${params.TAGS_TO_INCLUDE}"
                         }
 
-                        if (params.TAGS_TO_EXCLUDE?.trim() {
+                        if (params.TAGS_TO_EXCLUDE?.trim()) {
                             testCommand += " --grep-invert ${params.TAGS_TO_EXCLUDE}"
                         }
 
