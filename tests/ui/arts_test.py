@@ -19,7 +19,6 @@ def test_art_can_be_added_to_basket(set_up) -> None:
 
 
 @pytest.mark.ui
-@pytest.mark.smoke
 def test_art_can_be_removed_from_basket(set_up) -> None:
     page = set_up
     arts_page = ArtsPage(page)

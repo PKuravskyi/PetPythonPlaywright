@@ -28,13 +28,13 @@ pipeline {
 
         extendedChoice(
                 name: 'BROWSERS',
-                defaultValue: 'Google Chrome',
+                defaultValue: 'chromium',
                 description: 'Playwright browsers to use. Choose at least one.',
                 multiSelectDelimiter: ',',
                 saveJSONParameterToFile: false,
                 type: 'PT_CHECKBOX',
-                value: 'Google Chrome, Microsoft Edge, Mobile Chrome, Mobile Safari',
-                visibleItemCount: 5
+                value: 'chromium, firefox, webkit',
+                visibleItemCount: 3
         )
 
         string(
@@ -59,8 +59,8 @@ pipeline {
             ''' )
 
         choice(
-            name: 'WORKERS',
-            choices: workers,
+            name: 'THREADS',
+            choices: threads,
             description: 'Choose how many tests will be executed in parallel.'
         )
     }
@@ -99,29 +99,36 @@ pipeline {
         stage('Run tests') {
             steps {
                 script {
-                    def projects = getSelectedProjects()
+                    def browsers = params.BROWSERS
+                                         .split(',')
+                                         .collect { it.trim() }
 
-                    def testCommand = 'pytest'
+                    for (browser in browsers) {
+                        echo "Running tests on browser: ${browser}"
 
-                    if (params.TESTS_LIST) {
-                        def tests = params.TESTS_LIST
-                                        .split('\n')
-                                        .collect { it.trim().replace('\\', '/') }
-                                        .join(' ')
-                        testCommand += " tests/${tests}"
+                        def testCommand = 'xvfb-run pytest --browser=${browser}'
+
+                        if (params.TESTS_LIST?.trim() {
+                            def tests = params.TESTS_LIST
+                                            .split('\n')
+                                            .collect { it.trim().replace('\\', '/') }
+                                            .join(' ')
+                            testCommand += " tests/${tests}"
+                        }
+
+                        if (params.TAGS_TO_INCLUDE?.trim() {
+                            testCommand += " --grep ${params.TAGS_TO_INCLUDE}"
+                        }
+
+                        if (params.TAGS_TO_EXCLUDE?.trim() {
+                            testCommand += " --grep-invert ${params.TAGS_TO_EXCLUDE}"
+                        }
+
+                        testCommand += " -n ${params.THREADS}"
+
+                        echo "Pytest command: '${testCommand}'"
+                        sh testCommand
                     }
-
-                    if (params.TAGS_TO_INCLUDE) {
-                        testCommand += " --grep ${params.TAGS_TO_INCLUDE}"
-                    }
-
-                    if (params.TAGS_TO_EXCLUDE) {
-                        testCommand += " --grep-invert ${params.TAGS_TO_EXCLUDE}"
-                    }
-
-                    testCommand += " --workers=${params.WORKERS} --project ${projects}"
-
-                    sh 'xvfb-run pytest'
                 }
             }
         }
@@ -132,14 +139,6 @@ pipeline {
             allure includeProperties: false, jdk: '', results: [[path: 'allure-results']]
         }
     }
-}
-
-def getSelectedProjects() {
-    return params.BROWSERS
-                 .split(',')
-                 .collect { it.trim() }
-                 .collect { "'${it}'" }
-                 .join(' ')
 }
 
 def sendEmailToRequestor() {
