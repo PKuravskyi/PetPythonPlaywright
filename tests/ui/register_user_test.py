@@ -8,8 +8,6 @@ from pages.sign_up_page import SignUpPage
 @pytest.mark.ui
 @pytest.mark.smoke
 def test_new_user_can_be_registered_via_ui(set_up) -> None:
-    print('test_new_user_can_be_registered_via_ui')
-
     page = set_up
     sign_up_page = SignUpPage(page)
     sign_up_page.open()
