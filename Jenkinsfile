@@ -38,8 +38,12 @@ pipeline {
         )
 
         string(
-            name: 'TAGS_TO_INCLUDE',
-            description: 'Run tests that include specific tags. Example:\nsmoke ui',
+            name: 'TAGS',
+            description: '''Run tests with specific tags.\nYou can select multiple tags by using 'and' word. Use 'not' word to exclude test with specified tag. Examples:
+            smoke and ui
+            smoke and not wip
+            not wip
+            ''',
             trim: true
         )
 
@@ -123,8 +127,8 @@ pipeline {
                             testCommand += " tests/${tests}"
                         }
 
-                        if (params.TAGS_TO_INCLUDE?.trim()) {
-                            testCommand += " --grep ${params.TAGS_TO_INCLUDE}"
+                        if (params.TAGS?.trim()) {
+                            testCommand += " -m ${params.TAGS}"
                         }
 
                         if (params.TAGS_TO_EXCLUDE?.trim()) {
