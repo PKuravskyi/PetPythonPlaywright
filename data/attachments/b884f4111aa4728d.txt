@@ -1,1 +1,0 @@
-test_art_can_be_added_to_basket
