@@ -6,8 +6,8 @@ from pages.arts_page import ArtsPage
 
 @pytest.mark.ui
 @pytest.mark.smoke
-def test_art_can_be_added_to_basket(set_up) -> None:
-    page = set_up
+def test_art_can_be_added_to_basket(ui_page) -> None:
+    page = ui_page
     arts_page = ArtsPage(page)
     arts_page.open()
 
@@ -19,8 +19,8 @@ def test_art_can_be_added_to_basket(set_up) -> None:
 
 
 @pytest.mark.ui
-def test_art_can_be_removed_from_basket(set_up) -> None:
-    page = set_up
+def test_art_can_be_removed_from_basket(ui_page) -> None:
+    page = ui_page
     arts_page = ArtsPage(page)
     arts_page.open()
 
