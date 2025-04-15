@@ -50,9 +50,9 @@ not wip
         text(
             name: 'TESTS_LIST',
             description: '''List of tests to run. You can specify folder with tests, one test file, or one specific test from suite. Each item should begin on new line.\nExamples:
-ui
+ui/
 ui/register_user_test.py
-ui/arts_test.py:9'''
+ui/arts_test.py::test_art_can_be_removed_from_basket'''
         )
 
         choice(
