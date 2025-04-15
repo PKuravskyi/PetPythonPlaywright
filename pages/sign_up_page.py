@@ -1,5 +1,6 @@
 import time
 
+import allure
 from playwright.sync_api import Locator
 
 from pages.base_page import BasePage
@@ -16,20 +17,24 @@ class SignUpPage(BasePage):
         self.__password_input: Locator = page.get_by_role("textbox", name="Password")
         self.__register_button: Locator = page.get_by_role("button", name="Register")
 
+    @allure.step("Open Signup page")
     def open(self) -> 'SignUpPage':
         super()._navigate_to(self.__url)
         return self
 
+    @allure.step('Enter random email')
     def enter_random_email(self) -> 'SignUpPage':
         username = f'{int(time.time())}@gmail.com'
         super()._type(self.__email_input, username)
         return self
 
+    @allure.step('Enter random password')
     def enter_random_password(self) -> 'SignUpPage':
         password = str(int(time.time()))
         super()._type(self.__password_input, password)
         return self
 
+    @allure.step('Click on Register')
     def click_on_register(self):
         self.__register_button.click()
         self._page.wait_for_url(f'{BASE_URL}')

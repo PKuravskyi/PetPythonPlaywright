@@ -1,6 +1,8 @@
 .DS_Store
 .idea
 
+.env
+# test reports
 test-reports
 allure-results
-.env
+videos

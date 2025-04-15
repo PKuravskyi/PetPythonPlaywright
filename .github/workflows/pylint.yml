@@ -1,4 +1,4 @@
-name: Lint Python Files
+name: Pylint
 
 on:
   pull_request:
