@@ -1,3 +1,4 @@
+import allure
 from playwright.sync_api import Locator
 
 from pages.base_page import BasePage
@@ -16,18 +17,22 @@ class MyAccountPage(BasePage):
         self.__my_account_label = page.get_by_role("heading", name="My Account")
         self.__your_addresses_label = page.get_by_role("heading", name="Your addresses")
 
+    @allure.step('Open My Account page')
     def open(self) -> 'MyAccountPage':
         super()._navigate_to(self.__url)
         return self
 
+    @allure.step("Enter '{value}' email")
     def enter_email(self, value) -> 'MyAccountPage':
         super()._type(self.__email_input, value)
         return self
 
+    @allure.step("Enter '{value}' password")
     def enter_password(self, value) -> 'MyAccountPage':
         super()._type(self.__password_input, value)
         return self
 
+    @allure.step('Click on Login')
     def click_on_login(self):
         self.__login_button.click()
         self._page.wait_for_url(self.__url)

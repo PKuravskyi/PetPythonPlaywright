@@ -1,6 +1,5 @@
 To add:
 
 Logger
-Different reportings
 More tests (UI + API + Visual comparison)
 Files handling (json, csv etc.)
