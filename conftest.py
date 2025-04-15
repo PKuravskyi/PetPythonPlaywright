@@ -53,15 +53,12 @@ def pytest_runtest_teardown(item):
     yield
 
     if getattr(item, 'failed', False):
-        try:
-            artifacts_dir_path = pathlib.Path('videos') / item.name
-            if artifacts_dir_path.is_dir():
-                for file in artifacts_dir_path.iterdir():
-                    if file.is_file() and file.suffix == '.webm':
-                        allure.attach.file(
-                            file,
-                            name=file.name,
-                            attachment_type=allure.attachment_type.WEBM,
-                        )
-        except Exception as e:
-            print(f"Error attaching video: {e}")
+        artifacts_dir_path = pathlib.Path('videos') / item.name
+        if artifacts_dir_path.is_dir():
+            for file in artifacts_dir_path.iterdir():
+                if file.is_file() and file.suffix == '.webm':
+                    allure.attach.file(
+                        file,
+                        name=file.name,
+                        attachment_type=allure.attachment_type.WEBM,
+                    )
