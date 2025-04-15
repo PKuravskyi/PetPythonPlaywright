@@ -1,11 +1,14 @@
 import time
 
+import allure
+
 from api.base_api import BaseAPI
 
 
 class SignUpEndpoint(BaseAPI):
     SIGN_UP_ENDPOINT = 'signup'
 
+    @allure.step('Register random user')
     def sign_up_random_user(self):
         timestamp = str(int(time.time()))
         body = {
