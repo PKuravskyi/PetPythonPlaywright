@@ -10,12 +10,7 @@ pipeline {
         buildDiscarder(logRotator(daysToKeepStr: '30', numToKeepStr: '10', artifactDaysToKeepStr: '7'))
         timeout(time: 1, unit: 'HOURS')
         timestamps()
-    }
-
-    environment {
-        CI = true
-        STUDENT_USERNAME = credentials('STUDENT_USERNAME')
-        STUDENT_PASSWORD = credentials('STUDENT_PASSWORD')
+        skipDefaultCheckout(true)
     }
 
     parameters {
@@ -23,7 +18,8 @@ pipeline {
             name: 'BRANCH',
             branchFilter: '.*',
             defaultValue: 'main',
-            type: 'PT_BRANCH'
+            type: 'PT_BRANCH',
+            sortMode: 'ASCENDING_SMART'
         )
 
         extendedChoice(
@@ -63,15 +59,6 @@ ui/arts_test.py::test_art_can_be_removed_from_basket'''
     }
 
     stages {
-        stage('Prepare data') {
-            steps {
-                sh '''
-                    rm -rf allure-results
-                    rm -rf test-results
-                '''
-            }
-        }
-
         stage('Validate Parameters') {
             steps {
                 script {
@@ -81,6 +68,24 @@ ui/arts_test.py::test_art_can_be_removed_from_basket'''
                 }
             }
         }
+
+        // Don't use 'Lightweight checkout' on Jenkins UI in order for this to work
+        stage('Clone repository') {
+            steps {
+                git branch: params.BRANCH.replaceFirst(/^origin\//, ''), url: 'https://github.com/PKuravskyi/PetTypeScriptPlaywright.git'
+            }
+        }
+
+        stage('Prepare data') {
+            steps {
+                sh '''
+                    rm -rf allure-results
+                    rm -rf test-results
+                '''
+            }
+        }
+
+
 
         stage('Install dependencies') {
             steps {
@@ -97,7 +102,7 @@ ui/arts_test.py::test_art_can_be_removed_from_basket'''
             steps {
                 sh '''
                     chmod +x './ShoppingStoreApp/shopping-store-linux-amd64'
-                    ./ShoppingStoreApp/shopping-store-linux-amd64 &
+                    ./ShoppingStoreApp/shopping-store-linux-amd64 > /dev/null 2>&1 &
                 '''
             }
         }

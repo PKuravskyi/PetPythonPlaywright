@@ -1,16 +1,12 @@
-FROM jenkins/jenkins:lts
+FROM mcr.microsoft.com/playwright/python:v1.51.0-noble
 
-USER root
+WORKDIR /app
 
-# Install dependencies
+# Install python libraries
+COPY requirements.txt .
+RUN pip install --no-cache-dir -r requirements.txt
+
+# Install additional dependencies
 RUN apt-get update && \
-    apt-get install -y \
-    python3 python3-venv python3-pip curl xvfb xauth && \
-    ln -s /usr/bin/python3 /usr/bin/python && \
+    apt-get install -y xvfb && \
     apt-get clean
-
-# Set up a virtual environment
-RUN python3 -m venv /opt/venv
-
-# Activate the venv by default in all shells
-ENV PATH="/opt/venv/bin:$PATH"
