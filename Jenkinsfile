@@ -69,6 +69,7 @@ ui/arts_test.py::test_art_can_be_removed_from_basket'''
             }
         }
 
+        // Don't use 'Lightweight checkout' on Jenkins UI in order for this to work
         stage('Clone repository') {
             steps {
                 git branch: params.BRANCH.replaceFirst(/^origin\//, ''), url: 'https://github.com/PKuravskyi/PetTypeScriptPlaywright.git'
