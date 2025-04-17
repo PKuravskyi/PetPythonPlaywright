@@ -12,12 +12,6 @@ pipeline {
         timestamps()
     }
 
-    environment {
-        CI = true
-        STUDENT_USERNAME = credentials('STUDENT_USERNAME')
-        STUDENT_PASSWORD = credentials('STUDENT_PASSWORD')
-    }
-
     parameters {
         gitParameter(
             name: 'BRANCH',
@@ -97,7 +91,7 @@ ui/arts_test.py::test_art_can_be_removed_from_basket'''
             steps {
                 sh '''
                     chmod +x './ShoppingStoreApp/shopping-store-linux-amd64'
-                    ./ShoppingStoreApp/shopping-store-linux-amd64 &
+                    ./ShoppingStoreApp/shopping-store-linux-amd64 > /dev/null 2>&1 &
                 '''
             }
         }

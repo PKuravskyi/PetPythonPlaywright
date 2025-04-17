@@ -29,18 +29,14 @@ jobs:
       - name: Install dependencies
         run: |
           python -m pip install --upgrade pip
-          pip install flake8
           if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
           python -m playwright install chromium
           npm install -g allure-commandline
 
       - name: Run tests
-        env:
-          STUDENT_USERNAME: ${{secrets.STUDENT_USERNAME}}
-          STUDENT_PASSWORD: ${{secrets.STUDENT_PASSWORD}}
         run: |
           chmod +x './ShoppingStoreApp/shopping-store-linux-amd64'
-          ./ShoppingStoreApp/shopping-store-linux-amd64 &
+          ./ShoppingStoreApp/shopping-store-linux-amd64 > /dev/null 2>&1 &
           xvfb-run pytest
 
       - name: Generate Allure report
