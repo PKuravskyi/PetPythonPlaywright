@@ -19,7 +19,6 @@ pipeline {
             branchFilter: '.*',
             defaultValue: 'main',
             type: 'PT_BRANCH',
-            useRepository: 'origin',
             sortMode: 'ASCENDING_SMART'
         )
 
@@ -72,7 +71,7 @@ ui/arts_test.py::test_art_can_be_removed_from_basket'''
 
         stage('Clone repository') {
             steps {
-                git branch: params.BRANCH, url: 'https://github.com/PKuravskyi/PetTypeScriptPlaywright.git'
+                git branch: params.BRANCH.replaceFirst(/^origin\//, ''), url: 'https://github.com/PKuravskyi/PetTypeScriptPlaywright.git'
             }
         }
 
