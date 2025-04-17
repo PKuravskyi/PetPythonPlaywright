@@ -18,7 +18,9 @@ pipeline {
             name: 'BRANCH',
             branchFilter: '.*',
             defaultValue: 'main',
-            type: 'PT_BRANCH'
+            type: 'PT_BRANCH',
+            useRepository: 'origin',
+            sortMode: 'ASCENDING_SMART'
         )
 
         extendedChoice(
