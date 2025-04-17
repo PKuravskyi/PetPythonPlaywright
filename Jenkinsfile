@@ -10,6 +10,7 @@ pipeline {
         buildDiscarder(logRotator(daysToKeepStr: '30', numToKeepStr: '10', artifactDaysToKeepStr: '7'))
         timeout(time: 1, unit: 'HOURS')
         timestamps()
+        skipDefaultCheckout(true)
     }
 
     parameters {
@@ -57,15 +58,6 @@ ui/arts_test.py::test_art_can_be_removed_from_basket'''
     }
 
     stages {
-        stage('Prepare data') {
-            steps {
-                sh '''
-                    rm -rf allure-results
-                    rm -rf test-results
-                '''
-            }
-        }
-
         stage('Validate Parameters') {
             steps {
                 script {
@@ -75,6 +67,23 @@ ui/arts_test.py::test_art_can_be_removed_from_basket'''
                 }
             }
         }
+
+        stage('Clone repository') {
+            steps {
+                git branch: "${params.BRANCH}", url: 'https://github.com/PKuravskyi/PetTypeScriptPlaywright.git'
+            }
+        }
+
+        stage('Prepare data') {
+            steps {
+                sh '''
+                    rm -rf allure-results
+                    rm -rf test-results
+                '''
+            }
+        }
+
+
 
         stage('Install dependencies') {
             steps {
