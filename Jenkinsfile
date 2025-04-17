@@ -16,7 +16,7 @@ pipeline {
     parameters {
         gitParameter(
             name: 'BRANCH',
-            branchFilter: 'origin/(.*)',
+            branchFilter: '.*',
             defaultValue: 'main',
             type: 'PT_BRANCH'
         )
