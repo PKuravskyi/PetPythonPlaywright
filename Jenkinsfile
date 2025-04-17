@@ -71,7 +71,7 @@ ui/arts_test.py::test_art_can_be_removed_from_basket'''
 
         stage('Clone repository') {
             steps {
-            echo "${params.BRANCH.replaceFirst(/^origin\\//, '')}"
+            echo "BRANCH USED: ${params.BRANCH.replaceFirst(/^origin\\//, '')}"
                 git branch: params.BRANCH.replaceFirst(/^origin\//, ''), url: 'https://github.com/PKuravskyi/PetTypeScriptPlaywright.git'
             }
         }
