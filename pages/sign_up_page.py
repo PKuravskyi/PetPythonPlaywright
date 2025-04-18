@@ -1,17 +1,18 @@
 import time
 
 import allure
-from playwright.sync_api import Locator
+from playwright.sync_api import Locator, Page
 
+from pages.arts_page import ArtsPage
 from pages.base_page import BasePage
 from utils.constants import BASE_URL
 
 
 class SignUpPage(BasePage):
-    def __init__(self, page):
+    def __init__(self, page: Page):
         super().__init__(page)
 
-        self.__url = f'{BASE_URL}/signup'
+        self.__url: str = f'{BASE_URL}/signup'
 
         self.__email_input: Locator = page.get_by_role('textbox', name='E-Mail')
         self.__password_input: Locator = page.get_by_role('textbox', name='Password')
@@ -35,6 +36,7 @@ class SignUpPage(BasePage):
         return self
 
     @allure.step('Click on Register')
-    def click_on_register(self):
+    def click_on_register(self) -> ArtsPage:
         self.__register_button.click()
-        self._page.wait_for_url(f'{BASE_URL}')
+        self._page.wait_for_url(BASE_URL)
+        return ArtsPage(self._page)

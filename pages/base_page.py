@@ -1,16 +1,17 @@
-from playwright.sync_api import Locator
+from playwright.sync_api import Locator, Page
 
 
 class BasePage:
-    def __init__(self, page):
-        self._page = page
+    def __init__(self, page: Page):
+        self._page: Page = page
 
         self._basket_counter_text_field: Locator = page.locator('[data-qa="header-basket-count"]')
 
-    def _navigate_to(self, url):
+    def _navigate_to(self, url: str) -> 'BasePage':
         self._page.goto(url)
+        return self
 
-    def _type(self, locator: Locator, text: str):
+    def _type(self, locator: Locator, text: str) -> 'BasePage':
         locator.fill(text)
         return self
 
