@@ -3,3 +3,4 @@ To add:
 Logger
 More tests (UI + API + Visual comparison)
 Files handling (json, csv etc.)
+Makefile, to add predefined commands for running
