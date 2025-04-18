@@ -17,7 +17,7 @@ pipeline {
         gitParameter(
             name: 'BRANCH',
             branchFilter: '.*',
-            defaultValue: 'main',
+            defaultValue: 'origin/main',
             type: 'PT_BRANCH',
             sortMode: 'ASCENDING_SMART'
         )
