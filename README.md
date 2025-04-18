@@ -2,8 +2,8 @@
 
 ### How to run tests locally:
 
-1. `pip install -r requirements.txt`
-2. `python -m pytest`
+1. Install all dependencies: `pip install -r requirements.txt`
+2. Run tests: `python -m pytest`
 
 #### You can also specify additional arguments during run:
 
@@ -44,9 +44,10 @@ has the allure results from the latest GitHub Action run on `main` branch
 
 ### How to Lint code errors:
 
-Use `pylint **/*.py` command to lint all code errors
+Run `pylint **/*.py` command to lint all code errors
 
 ### How to update libraries/dependencies:
 
-1. `pip install --upgrade -r requirements.txt`
-2. `pip-compile`
+1. Update dependencies to the latest compatible versions: `pip-compile`
+2. Install new versions locally`pip install -r requirements.txt`
+
