@@ -8,7 +8,7 @@
 #### You can also specify additional arguments during run:
 
 1. Run in parallel: `-n <num_of_parallel_tests>`
-2. Browsers to run on: `--browser=<browser_name>`. Possible values: `chromium`, `firefox`, `webkit`
+2. Browsers to run on: `--browser <browser_name>`. Possible values: `chromium`, `firefox`, `webkit`. Default value: `chromium`
 3. Specific tests, examples:
     1. Test suite: `tests/ui`
     2. Test file: `tests/ui/register_user_test.py`
@@ -16,8 +16,8 @@
     4. Tests with tags: `-m smoke`, `-m 'smoke and not wip'`, `-m 'not wip'` etc. To see the full list of tags refer
        to [pytest.ini > markers](pytest.ini)
 
-Example command to run only working smoke UI tests in parallel:  
-`python -m pytest -n 5 -m 'smoke and not wip' tests/ui`
+Example command to run only working smoke UI tests in firefox in parallel:  
+`python -m pytest -n 5 --browser firefox -m 'smoke and not wip' tests/ui`
 
 ### How to run tests inside of docker container:
 
