@@ -19,7 +19,8 @@ pipeline {
             branchFilter: '.*',
             defaultValue: 'origin/main',
             type: 'PT_BRANCH',
-            sortMode: 'ASCENDING_SMART'
+            sortMode: 'ASCENDING_SMART',
+            selectedValue: 'DEFAULT'
         )
 
         extendedChoice(
