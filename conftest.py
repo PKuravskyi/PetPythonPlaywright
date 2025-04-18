@@ -10,11 +10,16 @@ from utils.constants import BASE_API_URL
 
 
 @pytest.fixture
-def ui_page(playwright: Playwright, request):
+def ui_page(playwright: Playwright, browser_name, request):
     video_path = pathlib.Path('videos') / request.node.name
     video_path.mkdir(parents=True, exist_ok=True)
 
-    browser = playwright.chromium.launch(headless=False)
+    if browser_name == 'firefox':
+        browser = playwright.firefox.launch(headless=False)
+    elif browser_name == 'webkit':
+        browser = playwright.webkit.launch(headless=False)
+    else:
+        browser = playwright.chromium.launch(headless=False)
     context = browser.new_context(
         record_video_dir=str(video_path)
     )

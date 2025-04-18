@@ -63,7 +63,7 @@ ui/arts_test.py::test_art_can_be_removed_from_basket'''
             steps {
                 script {
                     if (params.BROWSERS.trim() == '') {
-                            error "No projects selected. Please choose at least one project."
+                            error 'No projects selected. Please choose at least one project.'
                     }
                 }
             }

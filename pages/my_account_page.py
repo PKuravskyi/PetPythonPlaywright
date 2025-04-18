@@ -11,11 +11,11 @@ class MyAccountPage(BasePage):
 
         self.__url = f'{BASE_URL}/my-account'
 
-        self.__email_input: Locator = page.get_by_role("textbox", name="E-Mail")
-        self.__password_input: Locator = page.get_by_role("textbox", name="Password")
-        self.__login_button: Locator = page.get_by_role("button", name="Login")
-        self.__my_account_label = page.get_by_role("heading", name="My Account")
-        self.__your_addresses_label = page.get_by_role("heading", name="Your addresses")
+        self.__email_input: Locator = page.get_by_role('textbox', name='E-Mail')
+        self.__password_input: Locator = page.get_by_role('textbox', name='Password')
+        self.__login_button: Locator = page.get_by_role('button', name='Login')
+        self.__my_account_label = page.get_by_role('heading', name='My Account')
+        self.__your_addresses_label = page.get_by_role('heading', name='Your addresses')
 
     @allure.step('Open My Account page')
     def open(self) -> 'MyAccountPage':

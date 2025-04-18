@@ -12,8 +12,8 @@ class SignUpEndpoint(BaseAPI):
     def sign_up_random_user(self):
         timestamp = str(int(time.time()))
         body = {
-            "username": f"auto_user_{timestamp}",
-            "password": timestamp
+            'username': f"auto_user_{timestamp}",
+            'password': timestamp
         }
 
         response = self._post(self.SIGN_UP_ENDPOINT, body)

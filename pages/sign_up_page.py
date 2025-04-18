@@ -13,11 +13,11 @@ class SignUpPage(BasePage):
 
         self.__url = f'{BASE_URL}/signup'
 
-        self.__email_input: Locator = page.get_by_role("textbox", name="E-Mail")
-        self.__password_input: Locator = page.get_by_role("textbox", name="Password")
-        self.__register_button: Locator = page.get_by_role("button", name="Register")
+        self.__email_input: Locator = page.get_by_role('textbox', name='E-Mail')
+        self.__password_input: Locator = page.get_by_role('textbox', name='Password')
+        self.__register_button: Locator = page.get_by_role('button', name='Register')
 
-    @allure.step("Open Signup page")
+    @allure.step('Open Signup page')
     def open(self) -> 'SignUpPage':
         super()._navigate_to(self.__url)
         return self

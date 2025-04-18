@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/sh
 
 chmod +x ./ShoppingStoreApp/shopping-store-linux-amd64
 ./ShoppingStoreApp/shopping-store-linux-amd64 > /dev/null 2>&1 &
