@@ -49,9 +49,10 @@ Run `pylint **/*.py` command to lint all code errors
 ### How to update libraries/dependencies:
 
 1. Update dependencies to the latest compatible versions: `pip-compile`
-2. Install new versions locally: `pip install -r requirements.txt`  
+2. Install new versions locally: `pip install -r requirements.txt`
 
 **NOTE:** If new library was added and there is a need to only install it without updating existing libraries:
+
 1. Add new/update existing library: `pip-compile --upgrade-package <package_name>`
 2. Install new library locally: `pip install -r requirements.txt`  
 
