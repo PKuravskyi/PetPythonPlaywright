@@ -103,26 +103,24 @@ ui/arts_test.py::test_art_can_be_removed_from_basket'''
                     def browsers = params.BROWSERS
                                          .split(',')
                                          .collect { it.trim() }
+                                         .collect { "--browser ${it}" }
+                                         .join(' ')
 
-                    for (browser in browsers) {
-                        echo "Running tests on browser: ${browser}"
+                    def testCommand = "xvfb-run pytest -n ${params.THREADS} ${browsers}"
 
-                        def testCommand = "xvfb-run pytest --browser=${browser} -n ${params.THREADS}"
-
-                        if (params.TESTS_LIST?.trim()) {
-                            def tests = params.TESTS_LIST
-                                            .split('\n')
-                                            .collect { it.trim().replace('\\', '/') }
-                                            .join(' ')
-                            testCommand += " tests/${tests}"
-                        }
-
-                        if (params.TAGS?.trim()) {
-                            testCommand += " -m \"${params.TAGS}\""
-                        }
-
-                        sh testCommand
+                    if (params.TESTS_LIST?.trim()) {
+                        def tests = params.TESTS_LIST
+                                        .split('\n')
+                                        .collect { it.trim().replace('\\', '/') }
+                                        .join(' ')
+                        testCommand += " tests/${tests}"
                     }
+
+                    if (params.TAGS?.trim()) {
+                        testCommand += " -m \"${params.TAGS}\""
+                    }
+
+                    sh testCommand
                 }
             }
         }
@@ -130,7 +128,7 @@ ui/arts_test.py::test_art_can_be_removed_from_basket'''
 
     post {
         always {
-            allure includeProperties: false, jdk: '', results: [[path: 'allure-results']]
+            allure includeProperties: false, results: [[path: 'allure-results']]
         }
     }
 }
