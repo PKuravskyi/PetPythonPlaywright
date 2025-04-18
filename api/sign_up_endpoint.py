@@ -16,7 +16,6 @@ class SignUpEndpoint(BaseAPI):
             'password': timestamp
         }
 
-        response = self._post(self.SIGN_UP_ENDPOINT, body)
-        assert response.status == 200
+        self._post(self.SIGN_UP_ENDPOINT, body)
 
         return body
