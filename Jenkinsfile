@@ -77,17 +77,6 @@ ui/arts_test.py::test_art_can_be_removed_from_basket'''
             }
         }
 
-        stage('Prepare data') {
-            steps {
-                sh '''
-                    rm -rf allure-results
-                    rm -rf test-results
-                '''
-            }
-        }
-
-
-
         stage('Install dependencies') {
             steps {
                 script {
