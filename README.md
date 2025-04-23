@@ -2,7 +2,7 @@
 
 ### How to run tests locally:
 
-1. Install all dependencies: `pip install -r requirements.txt`
+1. Install all dependencies: `poetry install`
 2. Run tests: `python -m pytest`
 
 #### You can also specify additional arguments during run:
