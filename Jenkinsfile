@@ -81,8 +81,8 @@ ui/arts_test.py::test_art_can_be_removed_from_basket'''
             steps {
                 script {
                     sh '''
-                      pip install -r requirements.txt
-                      playwright install --with-deps
+                      poetry install --no-interaction --no-ansi
+                      poetry run python -m playwright install --with-deps
                     '''
                 }
             }
@@ -106,7 +106,7 @@ ui/arts_test.py::test_art_can_be_removed_from_basket'''
                                          .collect { "--browser ${it}" }
                                          .join(' ')
 
-                    def testCommand = "xvfb-run pytest -n ${params.THREADS} ${browsers}"
+                    def testCommand = "poetry run xvfb-run pytest -n ${params.THREADS} ${browsers}"
 
                     if (params.TESTS_LIST?.trim()) {
                         def tests = params.TESTS_LIST

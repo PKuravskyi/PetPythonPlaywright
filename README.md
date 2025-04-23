@@ -1,11 +1,16 @@
 # Practice test automation with Python and Playwright
 
+## Prerequisites:
+
+[Install Poetry](https://python-poetry.org/docs/#installation) on your local machine
+
 ### How to run tests locally:
 
 1. Install all dependencies: `poetry install`
-2. Run tests: `python -m pytest`
+2. Make sure you are using poetry venv: `poetry env activate`. You can also set poetry interpreter in your IDE.
+3. Run tests: `python -m pytest`
 
-#### You can also specify additional arguments during run:
+#### Optional test arguments:
 
 1. Run in parallel: `-n <num_of_parallel_tests>`
 2. Browsers to run on: `--browser <browser_name>`. Possible values: `chromium`, `firefox`, `webkit`. Default value:
@@ -25,7 +30,7 @@ Example command to run only working smoke UI tests in firefox in parallel:
 1. Build image: `docker-compose build test-runner`
 2. Run tests: `docker-compose run --rm test-runner xvfb-run pytest`  
    Refer
-   to [You can also specify additional arguments during run](#you-can-also-specify-additional-arguments-during-run)
+   to [Optional test arguments](#optional-test-arguments)
    section to see the list of available arguments during run.
 
 Example docker-compose command to run only working smoke UI tests in parallel:  
