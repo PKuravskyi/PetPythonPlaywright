@@ -3,9 +3,9 @@ FROM mcr.microsoft.com/playwright/python:v1.51.0-noble
 WORKDIR /app
 
 # Install system dependencies
-RUN apt-get update && \
-    apt-get install -y xvfb && \
-    apt-get clean
+RUN apt update && \
+    apt install -y xvfb && \
+    apt clean
 
 # Copy poetry project files
 COPY pyproject.toml poetry.lock ./
