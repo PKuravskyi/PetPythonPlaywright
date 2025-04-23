@@ -1,8 +1,7 @@
 To add:
 
-Logger
+Logger, for easier debugging
 More tests (UI + API + Visual comparison)
 Files handling (json, csv etc.)
 Makefile, to add predefined commands for running
-Poetry (dependency management)
-pyproject.toml
+AI support (?)

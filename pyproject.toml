@@ -1,0 +1,25 @@
+[project]
+name = "petpythonplaywright"
+version = "0.1.0"
+description = "Pet repository for practicing Python + Playwright"
+authors = [
+    { name = "Pavlo Kuravskyi", email = "pkuravsky@gmail.com" }
+]
+readme = "README.md"
+requires-python = ">=3.12"
+dependencies = [
+    "playwright (>=1.51.0,<2.0.0)",
+    "pytest (>=8.3.5,<9.0.0)",
+    "pytest-playwright (>=0.7.0,<0.8.0)",
+    "pytest-xdist (>=3.6.1,<4.0.0)",
+    "pytest-dotenv (>=0.5.2,<0.6.0)",
+    "allure-pytest (>=2.14.0,<3.0.0)",
+    "pylint (>=3.3.6,<4.0.0)"
+]
+
+[tool.poetry]
+package-mode = false
+
+[build-system]
+requires = ["poetry-core>=2.0.0,<3.0.0"]
+build-backend = "poetry.core.masonry.api"

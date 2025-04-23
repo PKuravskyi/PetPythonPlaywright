@@ -8,7 +8,8 @@
 #### You can also specify additional arguments during run:
 
 1. Run in parallel: `-n <num_of_parallel_tests>`
-2. Browsers to run on: `--browser <browser_name>`. Possible values: `chromium`, `firefox`, `webkit`. Default value: `chromium`
+2. Browsers to run on: `--browser <browser_name>`. Possible values: `chromium`, `firefox`, `webkit`. Default value:
+   `chromium`
 3. Specific tests, examples:
     1. Test suite: `tests/ui`
     2. Test file: `tests/ui/register_user_test.py`
@@ -46,13 +47,17 @@ has the allure results from the latest GitHub Action run on `main` branch
 
 Run `pylint **/*.py` command to lint all code errors
 
-### How to update libraries/dependencies:
+### How to update libraries/dependencies (Poetry):
 
-1. Update dependencies to the latest compatible versions: `pip-compile`
-2. Install new versions locally: `pip install -r requirements.txt`
+1. Install all dependencies from `pyproject.toml`:  
+   `poetry install`
 
-**NOTE:** If new library was added and there is a need to only install it without updating existing libraries:
+2. Add a new dependency (without changing others):  
+   `poetry add <package_name>`
 
-1. Add new/update existing library: `pip-compile --upgrade-package <package_name>`
-2. Install new library locally: `pip install -r requirements.txt`  
+3. Update a specific package to the latest version:  
+   `poetry update <package_name>`
+
+4. Update **all** dependencies to latest allowed versions:  
+   `poetry update`
 
