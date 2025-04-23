@@ -38,7 +38,7 @@ jobs:
         run: |
           chmod +x './ShoppingStoreApp/shopping-store-linux-amd64'
           ./ShoppingStoreApp/shopping-store-linux-amd64 > /dev/null 2>&1 &
-          xvfb-run pytest
+          poetry run xvfb-run pytest
 
       - name: Generate Allure report
         run: |
