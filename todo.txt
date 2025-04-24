@@ -1,8 +1,6 @@
 To add:
 
-Logger, for easier debugging
 More tests (UI + API + Visual comparison)
-Files handling (json, csv etc.)
+Files handling (csv etc.)
 AI support (?)
 Try to download only necessary browsers for CI
-Docstrings for everything that is not obvious

@@ -34,7 +34,9 @@ markers = [
     "wip: Broken tests that are expected to fail for some reason"
 ]
 addopts = [
-    "-v",
+    "--no-header",
+    "--verbose",
+    "--tb=short",
     "--alluredir=allure-results",
     "--clean-alluredir"
 ]
