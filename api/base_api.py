@@ -1,3 +1,4 @@
+import requests
 from playwright.sync_api import APIRequestContext, APIResponse
 
 
@@ -55,5 +56,6 @@ class BaseAPI:
             Exception: If the response status is not OK.
         """
         if not response.ok:
-            raise Exception(f"Request to '{response.url}' failed: {response.status} {response.status_text}")
+            raise requests.exceptions.HTTPError(
+                f"Request to '{response.url}' failed: {response.status} {response.status_text}")
         return response

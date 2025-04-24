@@ -16,5 +16,5 @@ def read_json(filename: str, folder: Path = DATA_DIR) -> dict:
         dict: The content of the JSON file as a Python dictionary.
     """
     file_path = folder / filename
-    with open(file_path) as file:
+    with open(file_path, encoding='utf-8') as file:
         return json.load(file)
