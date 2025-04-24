@@ -23,3 +23,18 @@ package-mode = false
 [build-system]
 requires = ["poetry-core>=2.0.0,<3.0.0"]
 build-backend = "poetry.core.masonry.api"
+
+[tool.pytest.ini_options]
+markers = [
+    "positive: All positive tests",
+    "negative: All negative tests",
+    "visual: All visual comparison tests",
+    "ui: All UI tests",
+    "smoke: All smoke tests",
+    "wip: Broken tests that are expected to fail for some reason"
+]
+addopts = [
+    "-v",
+    "--alluredir=allure-results",
+    "--clean-alluredir"
+]

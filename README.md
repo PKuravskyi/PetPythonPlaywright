@@ -22,7 +22,7 @@
     2. Test file: `tests/ui/register_user_test.py`
     3. Single test: `tests/ui/arts_test.py::test_art_can_be_added_to_basket`
     4. Tests with tags: `-m smoke`, `-m 'smoke and not wip'`, `-m 'not wip'` etc. To see the full list of tags refer
-       to [pytest.ini > markers](pytest.ini)
+       to _markers_ in [pyproject.toml](https://github.com/PKuravskyi/PetPythonPlaywright/blob/main/pyproject.toml#L28)
 
 Example command to run only working smoke UI tests in firefox in parallel:  
 `python -m pytest -n 5 --browser firefox -m 'smoke and not wip' tests/ui`
