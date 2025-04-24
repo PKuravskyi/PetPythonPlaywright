@@ -6,3 +6,4 @@ Files handling (json, csv etc.)
 Makefile, to add predefined commands for running
 AI support (?)
 Try to download only necessary browsers for CI
+Docstrings for everything that is not obvious
