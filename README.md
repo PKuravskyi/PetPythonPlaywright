@@ -2,7 +2,8 @@
 
 ## Prerequisites:
 
-[Install Poetry](https://python-poetry.org/docs/#installation) on your local machine
+[Install Poetry](https://python-poetry.org/docs/#installation) on your local machine  
+[Install Make](https://www.google.com/search?q=how+to+install+%22Make%22) on your local machine (optional)
 
 ### How to run tests locally:
 
@@ -67,3 +68,8 @@ Run `pylint **/*.py` command to lint all code errors
 4. Update **all** dependencies to latest allowed versions:  
    `poetry update`
 
+### How to use Make commands:
+
+1. Have "Make" installed on your local machine, refer to [prerequisites](#prerequisites)
+2. Go through the [Makefile](Makefile) to see the list of available commands
+3. Run the command, example: `make test-docker-all`
