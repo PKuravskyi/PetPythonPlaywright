@@ -8,17 +8,29 @@ on:
         required: true
         default: 'main'
       browsers:
-        description: 'Browsers (comma-separated). Possible values: chromium, firefox, webkit'
+        description: 'Browsers (comma-separated). Possible values: chromium, firefox, webkit. Example: chromium, firefox'
         required: true
         default: 'chromium'
       tags:
-        description: 'Tags (markers) for tests. Refer to markers in pyproject.toml'
+        description: |
+          Tags (markers) for tests. You can combine multiple markers using 'and', 'or', 'not'.
+          Examples:
+            'smoke and ui',
+            'smoke and not wip',
+            'not wip'
         required: false
       tests_list:
-        description: 'List of tests to run (newline separated)'
-        required: false
+        description: |
+          List of tests to run, separated by spaces (or commas).
+          You can specify folders, files, or single tests.
+          Examples:
+            'ui/',
+            'ui/register_user_test.py',
+            'ui/arts_test.py::test_art_can_be_removed_from_basket'.
+          If multiple: separate by space or comma
+            Example: ui/login_test.py, ui/arts_test.py::test_art_can_be_added_to_basket
       threads:
-        description: 'Threads'
+        description: 'How many tests to run in parallel'
         required: true
         default: '5'
 
@@ -51,24 +63,29 @@ jobs:
 
       - name: Run Tests
         run: |
-          BROWSERS=$(echo "${{ github.event.inputs.browsers }}" | tr ',' ' ' | sed 's/[^ ]\+/--browser &/g')
+          BROWSERS=$(echo "${{ github.event.inputs.browsers }}" | sed 's/, */,/g' | tr ',' '\n' | sed 's/^/--browser /' | tr '\n' ' ')
           TEST_COMMAND="poetry run xvfb-run pytest -n ${{ github.event.inputs.threads }} $BROWSERS"
           
           if [ -n "${{ github.event.inputs.tests_list }}" ]; then
-            TESTS=$(echo "${{ github.event.inputs.tests_list }}" | sed 's/\\/\//g' | tr '\n' ' ')
-            TEST_COMMAND="$TEST_COMMAND tests/${TESTS}"
+            TESTS=$(echo "${{ github.event.inputs.tests_list }}" | sed 's/, */,/g' | tr ',' '\n' | sed 's/^/tests\//' | tr '\n' ' ')
+            TEST_COMMAND="$TEST_COMMAND $TESTS"
           fi
 
-          if [ -n "${{ github.event.inputs.tags }}" ]; then
-            TEST_COMMAND="$TEST_COMMAND -m \"${{ github.event.inputs.tags }}\""
-          fi
+          echo "Running: $TEST_COMMAND" | awk '{$1=$1;print}'
+          eval $(echo "$TEST_COMMAND" | awk '{$1=$1;print}')
 
-          echo "Running: $TEST_COMMAND"
-          eval $TEST_COMMAND
+      - name: Generate Allure Report
+        if: always()
+        uses: simple-elf/allure-report-action@v1.7
+        with:
+          allure_results: allure-results
+          allure_report: allure-report
+          allure_history: allure-history
+          keep_reports: 10
 
-      - name: Upload Allure results
+      - name: Upload Allure Report as artifact
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: allure-results
-          path: allure-results
+          name: allure-report
+          path: allure-report
