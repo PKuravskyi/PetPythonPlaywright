@@ -1,55 +1,74 @@
-name: Playwright tests
+name: Run Playwright Tests
 
 on:
-  push:
-    branches: [ 'main' ]
-  pull_request:
-    branches: [ 'main' ]
-
-permissions:
-  contents: read
+  workflow_dispatch:
+    inputs:
+      branch:
+        description: 'Branch to test'
+        required: true
+        default: 'main'
+      browsers:
+        description: 'Browsers (comma-separated). Possible values: chromium, firefox, webkit'
+        required: true
+        default: 'chromium'
+      tags:
+        description: 'Tags (markers) for tests. Refer to markers in pyproject.toml'
+        required: false
+      tests_list:
+        description: 'List of tests to run (newline separated)'
+        required: false
+      threads:
+        description: 'Threads'
+        required: true
+        default: '5'
 
 jobs:
   test:
-    timeout-minutes: 10
+    timeout-minutes: 15
     runs-on: ubuntu-latest
-
-    permissions:
-      contents: write
 
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.inputs.branch }}
 
       - name: Set up Python
-        uses: actions/setup-python@v3
+        uses: actions/setup-python@v5
         with:
           python-version: '3.x'
 
       - name: Install dependencies
         run: |
-          curl -sSL https://install.python-poetry.org | python3 -
-          python -m pip install --upgrade pip
-          poetry install
-          poetry run python -m playwright install chromium
-          npm install -g allure-commandline
+          pip install poetry
+          poetry install --no-interaction --no-ansi
+          poetry run python -m playwright install --with-deps
 
-      - name: Run tests
+      - name: Start Shopping Store App
         run: |
           chmod +x './ShoppingStoreApp/shopping-store-linux-amd64'
           ./ShoppingStoreApp/shopping-store-linux-amd64 > /dev/null 2>&1 &
-          poetry run xvfb-run pytest
 
-      - name: Generate Allure report
+      - name: Run Tests
         run: |
-          allure generate allure-results --clean -o allure-report
+          BROWSERS=$(echo "${{ github.event.inputs.browsers }}" | tr ',' ' ' | sed 's/[^ ]\+/--browser &/g')
+          TEST_COMMAND="poetry run xvfb-run pytest -n ${{ github.event.inputs.threads }} $BROWSERS"
+          
+          if [ -n "${{ github.event.inputs.tests_list }}" ]; then
+            TESTS=$(echo "${{ github.event.inputs.tests_list }}" | sed 's/\\/\//g' | tr '\n' ' ')
+            TEST_COMMAND="$TEST_COMMAND tests/${TESTS}"
+          fi
 
-      - name: Deploy Allure Report to GitHub Pages
-        if: github.ref == 'refs/heads/main'
-        continue-on-error: true
-        uses: peaceiris/actions-gh-pages@v3
+          if [ -n "${{ github.event.inputs.tags }}" ]; then
+            TEST_COMMAND="$TEST_COMMAND -m \"${{ github.event.inputs.tags }}\""
+          fi
+
+          echo "Running: $TEST_COMMAND"
+          eval $TEST_COMMAND
+
+      - name: Upload Allure results
+        if: always()
+        uses: actions/upload-artifact@v4
         with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: ./allure-report
-          publish_branch: gh-pages
-          keep_files: false
+          name: allure-results
+          path: allure-results
