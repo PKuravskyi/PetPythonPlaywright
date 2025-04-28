@@ -4,11 +4,11 @@ on:
   workflow_dispatch:
     inputs:
       branch:
-        description: 'Branch to test. Example: main, feature/my-feature'
+        description: 'Branch to test'
         required: true
         default: 'main'
       browsers:
-        description: 'Browsers (comma-separated). Possible values: chromium, firefox, webkit. Example: chromium,firefox'
+        description: 'Browsers (comma-separated). Possible values: chromium, firefox, webkit. Example: chromium, firefox'
         required: true
         default: 'chromium'
       tags:
@@ -26,12 +26,12 @@ on:
           Examples:
             'ui/',
             'ui/register_user_test.py',
-            'ui/arts_test.py::test_art_can_be_removed_from_basket'
+            'ui/arts_test.py::test_art_can_be_removed_from_basket'.
           If multiple: separate by space
             Example: ui/login_test.py ui/basket_test.py::test_add_item
         required: false
       threads:
-        description: 'How many tests to run in parallel. Example: 5'
+        description: 'How many tests to run in parallel'
         required: true
         default: '5'
 
@@ -64,7 +64,7 @@ jobs:
 
       - name: Run Tests
         run: |
-          BROWSERS=$(echo "${{ github.event.inputs.browsers }}" | tr ',' ' ' | sed 's/[^ ]\+/--browser &/g')
+          BROWSERS=$(echo "${{ github.event.inputs.browsers }}" | tr ', ' ' ' | sed 's/[^ ]\+/--browser &/g')
           TEST_COMMAND="poetry run xvfb-run pytest -n ${{ github.event.inputs.threads }} $BROWSERS"
           
           if [ -n "${{ github.event.inputs.tests_list }}" ]; then
