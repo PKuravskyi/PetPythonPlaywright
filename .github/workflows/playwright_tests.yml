@@ -4,21 +4,32 @@ on:
   workflow_dispatch:
     inputs:
       branch:
-        description: 'Branch to test'
+        description: 'Branch to test. Example: main, feature/my-feature'
         required: true
         default: 'main'
       browsers:
-        description: 'Browsers (comma-separated). Possible values: chromium, firefox, webkit'
+        description: 'Browsers (comma-separated). Possible values: chromium, firefox, webkit. Example: chromium,firefox'
         required: true
         default: 'chromium'
       tags:
-        description: 'Tags (markers) for tests. Refer to markers in pyproject.toml'
+        description: |
+          Tags (markers) for tests. You can combine multiple markers using 'and', 'or', 'not'.
+          Examples:
+            smoke and ui
+            smoke and not wip
+            not wip
         required: false
       tests_list:
-        description: 'List of tests to run (newline separated)'
+        description: |
+          List of tests to run. One per line.
+          You can specify folder, file, or single test inside file.
+          Examples:
+            ui/
+            ui/register_user_test.py
+            ui/arts_test.py::test_art_can_be_removed_from_basket
         required: false
       threads:
-        description: 'Threads'
+        description: 'How many tests to run in parallel. Example: 5'
         required: true
         default: '5'
 
