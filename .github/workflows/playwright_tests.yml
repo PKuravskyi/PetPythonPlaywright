@@ -71,7 +71,8 @@ jobs:
             FINAL_TESTS=""
 
             for TEST in $TESTS; do
-              FINAL_TESTS="$FINAL_TESTS tests/$TEST "
+              TEST=$(echo "$TEST" | xargs)
+              FINAL_TESTS="$FINAL_TESTS tests/$TEST"
             done
 
             TEST_COMMAND="$TEST_COMMAND $FINAL_TESTS"
