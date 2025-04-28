@@ -64,16 +64,18 @@ jobs:
 
       - name: Run Tests
         run: |
-          BROWSERS=$(echo "${{ github.event.inputs.browsers }}" | tr ', ' ' ' | sed 's/[^ ]\+/--browser &/g')
+          BROWSERS=$(echo "${{ github.event.inputs.browsers }}" | tr ',' ' ' | tr -s ' ' | sed 's/[^ ]\+/--browser &/g')
           TEST_COMMAND="poetry run xvfb-run pytest -n ${{ github.event.inputs.threads }} $BROWSERS"
           
           if [ -n "${{ github.event.inputs.tests_list }}" ]; then
-            TESTS=$(echo "${{ github.event.inputs.tests_list }}" | sed 's/\\/\//g' | tr '\n' ' ')
-            TEST_COMMAND="$TEST_COMMAND tests/${TESTS}"
-          fi
-
-          if [ -n "${{ github.event.inputs.tags }}" ]; then
-            TEST_COMMAND="$TEST_COMMAND -m \"${{ github.event.inputs.tags }}\""
+            TESTS=$(echo "${{ github.event.inputs.tests_list }}" | tr ',' ' ' | tr -s ' ')
+            FINAL_TESTS=""
+            
+            for TEST in $TESTS; do
+              FINAL_TESTS="$FINAL_TESTS tests/$TEST"
+            done
+            
+            TEST_COMMAND="$TEST_COMMAND $FINAL_TESTS"
           fi
 
           echo "Running: $TEST_COMMAND"
