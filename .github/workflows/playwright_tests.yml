@@ -15,18 +15,20 @@ on:
         description: |
           Tags (markers) for tests. You can combine multiple markers using 'and', 'or', 'not'.
           Examples:
-            smoke and ui
-            smoke and not wip
-            not wip
+            'smoke and ui',
+            'smoke and not wip',
+            'not wip'
         required: false
       tests_list:
         description: |
-          List of tests to run. One per line.
-          You can specify folder, file, or single test inside file.
+          List of tests to run, separated by spaces.
+          You can specify folders, files, or single tests.
           Examples:
-            ui/
-            ui/register_user_test.py
-            ui/arts_test.py::test_art_can_be_removed_from_basket
+            'ui/',
+            'ui/register_user_test.py',
+            'ui/arts_test.py::test_art_can_be_removed_from_basket'
+          If multiple: separate by space
+            Example: ui/login_test.py ui/basket_test.py::test_add_item
         required: false
       threads:
         description: 'How many tests to run in parallel. Example: 5'
