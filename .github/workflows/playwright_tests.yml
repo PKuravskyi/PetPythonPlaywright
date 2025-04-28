@@ -67,15 +67,8 @@ jobs:
           TEST_COMMAND="poetry run xvfb-run pytest -n ${{ github.event.inputs.threads }} $BROWSERS"
           
           if [ -n "${{ github.event.inputs.tests_list }}" ]; then
-            TESTS=$(echo "${{ github.event.inputs.tests_list }}" | tr ',' ' ' | tr -s ' ')
-            FINAL_TESTS=""
-
-            for TEST in $TESTS; do
-              TEST=$(echo "$TEST" | xargs)
-              FINAL_TESTS+=("tests/$TEST")
-            done
-
-            TEST_COMMAND="$TEST_COMMAND ${FINAL_TESTS[*]}"
+            TESTS=$(echo "${{ github.event.inputs.tests_list }}" | sed 's/, */,/g' | tr ',' '\n' | sed 's/^/tests\//' | tr '\n' ' ')
+            TEST_COMMAND="$TEST_COMMAND $TESTS"
           fi
 
           echo "Running: $TEST_COMMAND"
