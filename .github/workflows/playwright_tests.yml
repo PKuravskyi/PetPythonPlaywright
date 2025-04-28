@@ -69,9 +69,9 @@ jobs:
           if [ -n "${{ github.event.inputs.tests_list }}" ]; then
             TESTS=$(echo "${{ github.event.inputs.tests_list }}" | tr ',' ' ' | tr -s ' ')
             FINAL_TESTS=""
-  
+
             for TEST in $TESTS; do
-              FINAL_TESTS="$FINAL_TESTS tests/$TEST"
+              FINAL_TESTS="$FINAL_TESTS tests/$TEST "
             done
 
             TEST_COMMAND="$TEST_COMMAND $FINAL_TESTS"
