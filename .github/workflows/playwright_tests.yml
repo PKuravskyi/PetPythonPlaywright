@@ -71,8 +71,8 @@ jobs:
             TEST_COMMAND="$TEST_COMMAND $TESTS"
           fi
 
-          echo "Running: $TEST_COMMAND"
-          eval $TEST_COMMAND
+          echo "Running: $TEST_COMMAND" | awk '{$1=$1;print}'
+          eval $(echo "$TEST_COMMAND" | awk '{$1=$1;print}')
 
       - name: Upload Allure results
         if: always()
