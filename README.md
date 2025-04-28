@@ -68,8 +68,8 @@ Example docker-compose command to run only working smoke UI tests in parallel:
 
 ### How to see test results:
 
-Option 1: After tests are executed you can see allure results by running command: `allure serve allure-results`   
-Option 2: After tests ran in GitHub Actions you can download Allure reports artifact and open `index.html` with results
+Option 1: After tests are executed locally you can see allure results by running command: `allure serve allure-results`   
+Option 2: After tests are executed in GitHub Actions you can download Allure reports artifact, extract and see allure results by running command: `allure serve allure-results`   
 
 ### How to Lint code errors:
 
