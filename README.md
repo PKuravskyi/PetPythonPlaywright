@@ -38,6 +38,28 @@ Example command to run only working smoke UI tests in firefox in parallel:
 Example docker-compose command to run only working smoke UI tests in parallel:  
 `docker-compose run --rm test-runner xvfb-run pytest -n 5 -m 'smoke and not wip' tests/ui`
 
+### How to run tests inside of GitHub:
+
+1. Go to the **Actions** tab in GitHub.
+2. Find and select the **"Run Playwright Tests"** workflow.
+3. Click the **"Run workflow"** button.
+4. Fill in the inputs:
+
+| Input          | Description                                                                                | Example                                                                    |
+|:---------------|:-------------------------------------------------------------------------------------------|:---------------------------------------------------------------------------|
+| **Branch**     | Name of the branch to test.                                                                | `main`, `feature/my-branch`                                                |
+| **Browsers**   | Browsers to run tests on (comma-separated). Valid values: `chromium`, `firefox`, `webkit`. | `chromium`, `chromium, firefox`                                            |
+| **Tags**       | *(Optional)* Pytest markers to select tests.                                               | `smoke and ui`, `not wip`                                                  |
+| **Tests list** | *(Optional)* Specific tests or folders to run. Separate by commas or spaces.               | `ui/login_test.py`, `ui/login_test.py ui/arts_test.py::test_add_to_basket` |
+| **Threads**    | How many tests to run in parallel.                                                         | `5`                                                                        |
+
+> **Note**:
+> - If **Tests list** is empty, all tests will be run.
+> - Tests paths should be relative to the `tests/` folder.
+
+5. Press **"Run workflow"** and wait for it to finish.
+6. Test results and Allure reports will be uploaded as artifacts.
+
 ### How to start Jenkins UI:
 
 1. Build image: `docker-compose build jenkins-ui`
@@ -46,9 +68,8 @@ Example docker-compose command to run only working smoke UI tests in parallel:
 
 ### How to see test results:
 
-Option 1: After tests are executed you can see allure results by running command: ```allure serve allure-results```   
-Option 2: You can go to the GitHub pages of this repository (https://pkuravskyi.github.io/PetPythonPlaywright/) which
-has the allure results from the latest GitHub Action run on `main` branch
+Option 1: After tests are executed you can see allure results by running command: `allure serve allure-results`   
+Option 2: After tests ran in GitHub Actions you can download Allure reports artifact and open `index.html` with results
 
 ### How to Lint code errors:
 
