@@ -6,6 +6,7 @@ import pytest
 from playwright.sync_api import Playwright
 
 from api.api_client import ApiClient
+from application.shopping_store_application import ShoppingStoreApplication
 from utils.constants import BASE_API_URL
 
 
@@ -56,6 +57,14 @@ def api_client(playwright: Playwright):
     request_context = playwright.request.new_context(base_url=BASE_API_URL)
     yield ApiClient(request_context)
     request_context.dispose()
+
+
+@pytest.fixture
+def shopping_store_app(ui_page):
+    """
+    Fixture that returns a CustomApplication instance initialized with the shared Playwright page.
+    """
+    return ShoppingStoreApplication(ui_page)
 
 
 @pytest.hookimpl(tryfirst=True)

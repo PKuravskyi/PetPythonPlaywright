@@ -1,20 +1,24 @@
+from abc import ABC
+from typing import TypeVar
+
 from playwright.sync_api import Locator, Page
 
 
-class BasePage:
+class BasePage(ABC):
     """
     Base class for all pages in the application.
 
     Provides common functionality like navigation and interacting with form fields.
     """
 
-    def __init__(self, page: Page):
+    def __init__(self, page: Page) -> None:
         """
         Initialize the BasePage with Playwright's Page object.
 
         Args:
             page (Page): Playwright page instance.
         """
+        super().__init__()
         self._page: Page = page
         self._basket_counter_text_field: Locator = page.locator('[data-qa="header-basket-count"]')
 
@@ -51,3 +55,6 @@ class BasePage:
             Locator: Playwright Locator for the basket counter element.
         """
         return self._basket_counter_text_field
+
+
+BasePageT = TypeVar("BasePageT", bound=BasePage)

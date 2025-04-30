@@ -4,7 +4,7 @@ import allure
 from playwright.sync_api import Locator, Page
 
 from pages.arts_page import ArtsPage
-from pages.base_page import BasePage
+from pages.abstracts.base_page import BasePage
 from utils.constants import BASE_URL
 
 
