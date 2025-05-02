@@ -1,7 +1,7 @@
 TODO:
 More tests (UI + API + Visual comparison)
 Files handling (csv etc.)
-AI support (?)
+AI support. Ideas: auto generate missing docstrings
 Try to download only necessary browsers for CI
 Add more linters (flake, black ...)
 
@@ -9,4 +9,3 @@ Add more linters (flake, black ...)
 Endpoint factory
 Remove unnecessary methods from pages
 Use locators directly in tests
-Add necessary docstrings

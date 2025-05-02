@@ -1,3 +1,9 @@
+"""
+file_reader.py
+
+Provides utility function to read JSON files from a specified folder.
+"""
+
 import json
 from pathlib import Path
 

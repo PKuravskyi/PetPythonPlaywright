@@ -1,3 +1,9 @@
+"""
+sign_up_endpoint.py
+
+This module provides the SignUpEndpoint class for sending API requests related to user registration.
+"""
+
 import time
 
 import allure
@@ -7,7 +13,9 @@ from api.base_api import BaseAPI
 
 class SignUpEndpoint(BaseAPI):
     """
-    Handles API requests related to user sign-up.
+    API endpoint class for handling user sign-up actions.
+
+    Inherits from BaseAPI to utilize shared HTTP methods and response validation.
     """
 
     SIGN_UP_ENDPOINT: str = 'signup'
@@ -15,10 +23,12 @@ class SignUpEndpoint(BaseAPI):
     @allure.step('Register random user')
     def sign_up_random_user(self) -> dict[str, str]:
         """
-        Registers a user with a unique username and password based on the current timestamp.
+        Sends a POST request to the sign-up endpoint with randomly generated credentials.
+
+        The credentials are generated using the current timestamp to ensure uniqueness.
 
         Returns:
-            dict[str, str]: A dictionary with 'username' and 'password' used for registration.
+            dict[str, str]: A dictionary containing the 'username' and 'password' used for registration.
         """
         timestamp = str(int(time.time()))
         body = {

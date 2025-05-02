@@ -1,3 +1,9 @@
+"""
+api_client.py
+
+Defines a wrapper client for managing API endpoint objects used in the test framework.
+"""
+
 from playwright.sync_api import APIRequestContext
 
 from api.sign_up_endpoint import SignUpEndpoint
@@ -5,7 +11,7 @@ from api.sign_up_endpoint import SignUpEndpoint
 
 class ApiClient:
     """
-    A wrapper client to organize API endpoint classes.
+    A wrapper client to organize and access all API endpoint classes.
 
     Attributes:
         sign_up_endpoint (SignUpEndpoint): Handles API calls related to user sign-up.

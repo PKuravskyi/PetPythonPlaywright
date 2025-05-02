@@ -1,3 +1,10 @@
+"""
+test_registration.py
+
+UI and API tests to validate that a new user can be registered via the user interface (UI)
+or via the backend (API), and then logged into the system.
+"""
+
 import allure
 import pytest
 from playwright.sync_api import expect
@@ -6,6 +13,15 @@ from playwright.sync_api import expect
 @pytest.mark.ui
 @pytest.mark.smoke
 def test_new_user_can_be_registered_via_ui(shopping_store_app) -> None:
+    """
+    Test that validates a new user can be registered via the UI and redirected to the arts page.
+
+    Steps:
+    - Open the signup page.
+    - Enter random email and password.
+    - Click on the register button.
+    - Validate that the arts page is opened with product cards.
+    """
     (
         shopping_store_app
         .pages
@@ -27,6 +43,15 @@ def test_new_user_can_be_registered_via_ui(shopping_store_app) -> None:
 
 @pytest.mark.ui
 def test_new_user_can_be_registered_via_be(shopping_store_app, api_client) -> None:
+    """
+    Test that validates a new user can be registered via the backend (API) and then logged in via the UI.
+
+    Steps:
+    - Register a user via the API.
+    - Open the login page and enter the credentials from the API response.
+    - Log in and verify the 'My Account' page is opened.
+    - Validate the user is logged into their account by checking visibility of account-related labels.
+    """
     user = api_client.sign_up_endpoint.sign_up_random_user()
 
     (
