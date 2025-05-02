@@ -1,3 +1,15 @@
+"""
+conftest.py
+
+Pytest configuration and fixtures for UI and API tests using Playwright.
+
+Includes:
+- UI browser page setup with video recording
+- API client setup with base URL
+- ShoppingStoreApplication injection for test use
+- Hooks for cleaning up old videos and attaching failed test videos to Allure reports
+"""
+
 import pathlib
 import shutil
 
