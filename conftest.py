@@ -1,3 +1,15 @@
+"""
+conftest.py
+
+Pytest configuration and fixtures for UI and API tests using Playwright.
+
+Includes:
+- UI browser page setup with video recording
+- API client setup with base URL
+- ShoppingStoreApplication injection for test use
+- Hooks for cleaning up old videos and attaching failed test videos to Allure reports
+"""
+
 import pathlib
 import shutil
 
@@ -6,11 +18,12 @@ import pytest
 from playwright.sync_api import Playwright
 
 from api.api_client import ApiClient
+from application.shopping_store_application import ShoppingStoreApplication
 from utils.constants import BASE_API_URL
 
 
-@pytest.fixture
-def ui_page(playwright: Playwright, browser_name, request):
+@pytest.fixture(name='ui_page')
+def fixture_ui_page(playwright: Playwright, browser_name, request):
     """
     Fixture to initialize and return a Playwright page for UI tests.
 
@@ -56,6 +69,14 @@ def api_client(playwright: Playwright):
     request_context = playwright.request.new_context(base_url=BASE_API_URL)
     yield ApiClient(request_context)
     request_context.dispose()
+
+
+@pytest.fixture
+def shopping_store_app(ui_page) -> ShoppingStoreApplication:
+    """
+    Fixture that returns a ShoppingStoreApplication instance initialized with the shared Playwright page.
+    """
+    return ShoppingStoreApplication(ui_page)
 
 
 @pytest.hookimpl(tryfirst=True)
