@@ -1,10 +1,12 @@
-To add:
-
+TODO:
 More tests (UI + API + Visual comparison)
 Files handling (csv etc.)
 AI support (?)
 Try to download only necessary browsers for CI
-Page factory
+Add more linters (flake, black ...)
+
+--- Code structure ---
+Endpoint factory
 Remove unnecessary methods from pages
 Use locators directly in tests
 Add necessary docstrings

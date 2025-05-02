@@ -10,8 +10,8 @@ from application.shopping_store_application import ShoppingStoreApplication
 from utils.constants import BASE_API_URL
 
 
-@pytest.fixture
-def ui_page(playwright: Playwright, browser_name, request):
+@pytest.fixture(name='ui_page')
+def fixture_ui_page(playwright: Playwright, browser_name, request):
     """
     Fixture to initialize and return a Playwright page for UI tests.
 
@@ -60,9 +60,9 @@ def api_client(playwright: Playwright):
 
 
 @pytest.fixture
-def shopping_store_app(ui_page):
+def shopping_store_app(ui_page) -> ShoppingStoreApplication:
     """
-    Fixture that returns a CustomApplication instance initialized with the shared Playwright page.
+    Fixture that returns a ShoppingStoreApplication instance initialized with the shared Playwright page.
     """
     return ShoppingStoreApplication(ui_page)
 

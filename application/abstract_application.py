@@ -8,7 +8,7 @@ from application.factories.page_factory import PageFactory
 class AbstractApplication(ABC):
     def __init__(self, page: Page):
         super().__init__()
-        self._page_factory = PageFactory(page)
+        self._app_page_factory = PageFactory(page)
 
     @property
     @abstractmethod
@@ -16,5 +16,5 @@ class AbstractApplication(ABC):
         ...
 
     @property
-    def page_factory(self) -> PageFactory:
-        return self._page_factory
+    def _page_factory(self) -> PageFactory:
+        return self._app_page_factory

@@ -1,7 +1,5 @@
 from dataclasses import dataclass
 
-from playwright.sync_api import Page
-
 from application.abstract_application import AbstractApplication
 from application.common import CommonPages
 from pages.arts_page import ArtsPage
@@ -19,9 +17,6 @@ class ShoppingStoreApplicationPages(CommonPages):
 
 
 class ShoppingStoreApplication(AbstractApplication):
-    def __init__(self, page: Page):
-        super().__init__(page)
-
     @property
     def pages(self) -> ShoppingStoreApplicationPages:
-        return self.page_factory.create_pages(ShoppingStoreApplicationPages)
+        return self._page_factory.create_pages(ShoppingStoreApplicationPages)
