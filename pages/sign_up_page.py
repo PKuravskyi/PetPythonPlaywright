@@ -27,25 +27,19 @@ class SignUpPage(BasePage):
             page (Page): The current browser page instance.
         """
         super().__init__(page)
-        self.__url: str = f'{BASE_URL}/signup'
+        self.__endpoint: str = f'{BASE_URL}/signup'
 
-        self.__email_input: Locator = page.get_by_role('textbox', name='E-Mail')
-        self.__password_input: Locator = page.get_by_role('textbox', name='Password')
-        self.__register_button: Locator = page.get_by_role('button', name='Register')
+        self.email_input: Locator = page.get_by_role('textbox', name='E-Mail')
+        self.password_input: Locator = page.get_by_role('textbox', name='Password')
+        self.register_button: Locator = page.get_by_role('button', name='Register')
 
-    @allure.step('Open Signup page')
-    def open(self) -> 'SignUpPage':
-        """
-        Navigate to the "Sign Up" page.
+    @property
+    def endpoint(self) -> str:
+        """Return the endpoint URL for the Sign-Up page."""
+        return self.__endpoint
 
-        Returns:
-            SignUpPage: The current page object for method chaining.
-        """
-        super()._navigate_to(self.__url)
-        return self
-
-    @allure.step('Enter random email')
-    def enter_random_email(self) -> 'SignUpPage':
+    @allure.step('Register random user')
+    def register_random_user(self) -> 'ArtsPage':
         """
         Fill in the email field with a randomly generated email address.
 
@@ -53,29 +47,11 @@ class SignUpPage(BasePage):
             SignUpPage: The current page object for method chaining.
         """
         username = f'{int(time.time())}@gmail.com'
-        super()._type(self.__email_input, username)
-        return self
-
-    @allure.step('Enter random password')
-    def enter_random_password(self) -> 'SignUpPage':
-        """
-        Fill in the password field with a randomly generated password.
-
-        Returns:
-            SignUpPage: The current page object for method chaining.
-        """
         password = str(int(time.time()))
-        super()._type(self.__password_input, password)
-        return self
 
-    @allure.step('Click on Register')
-    def click_on_register(self) -> ArtsPage:
-        """
-        Click the Register button and wait for redirect to ArtsPage.
+        self.email_input.fill(username)
+        self.password_input.fill(password)
+        self.register_button.click()
+        self.page.wait_for_url(BASE_URL)
 
-        Returns:
-            ArtsPage: New instance of ArtsPage after successful registration.
-        """
-        self.__register_button.click()
-        self._page.wait_for_url(BASE_URL)
-        return ArtsPage(self._page)
+        return ArtsPage(self.page)

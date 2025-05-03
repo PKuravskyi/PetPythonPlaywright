@@ -30,16 +30,14 @@ def test_admin_user_can_login(shopping_store_app) -> None:
         .pages
         .login_page
         .open()
-        .enter_email(admin_user['username'])
-        .enter_password(admin_user['password'])
-        .click_on_login()
+        .login(admin_user['username'], admin_user['password'])
     )
 
     shopping_store_app.pages.my_account_page.open()
-    with allure.step('Validate Admin user is logged in'):
+    with allure.step("Validate 'admin' user is logged in"):
         expect(
             shopping_store_app
             .pages
             .my_account_page
-            .get_email_address_label()
+            .email_address_label
         ).to_contain_text(admin_user['username'])

@@ -3,8 +3,8 @@ sign_up_endpoint.py
 
 This module provides the SignUpEndpoint class for sending API requests related to user registration.
 """
-
 import time
+from uuid import uuid4
 
 import allure
 
@@ -32,7 +32,7 @@ class SignUpEndpoint(BaseAPI):
         """
         timestamp = str(int(time.time()))
         body = {
-            'username': f"auto_user_{timestamp}",
+            'username': f"auto_user_{timestamp}_{uuid4().hex[:12]}",
             'password': timestamp
         }
 

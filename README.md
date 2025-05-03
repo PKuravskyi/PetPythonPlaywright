@@ -58,7 +58,7 @@ Example docker-compose command to run only working smoke UI tests in parallel:
 > - Tests paths should be relative to the `tests/` folder.
 
 5. Press **"Run workflow"** and wait for it to finish.
-6. Test results and Allure reports will be uploaded as artifacts.
+6. Allure reports will be uploaded as artifacts.
 
 ### How to start Jenkins UI:
 
@@ -73,7 +73,7 @@ Option 2: After tests are executed in GitHub Actions you can download Allure rep
 
 ### How to Lint code errors:
 
-Run `pylint **/*.py` command to lint all code errors
+Run `pylint **/*.py` command to lint all code errors. Or with Make `make lint`
 
 ### How to update libraries/dependencies (Poetry):
 

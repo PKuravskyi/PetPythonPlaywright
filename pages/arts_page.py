@@ -24,19 +24,13 @@ class ArtsPage(BasePage):
             page (Page): The current browser page instance.
         """
         super().__init__(page)
-        self.__url: str = BASE_URL
-        self.__products_cards: Locator = page.locator('[data-qa="product-card"]')
+        self.__endpoint: str = BASE_URL
+        self.products_cards: Locator = page.locator('[data-qa="product-card"]')
 
-    @allure.step('Open Arts page')
-    def open(self) -> 'ArtsPage':
-        """
-        Navigate to the Arts page using the base URL.
-
-        Returns:
-            ArtsPage: The current page object for method chaining.
-        """
-        super()._navigate_to(self.__url)
-        return self
+    @property
+    def endpoint(self) -> str:
+        """Return the endpoint URL for the Arts page."""
+        return self.__endpoint
 
     @allure.step("Add '{art_name}' art to basket")
     def add_art_to_basket(self, art_name: str) -> 'ArtsPage':
@@ -49,7 +43,7 @@ class ArtsPage(BasePage):
         Returns:
             ArtsPage: The current page object for method chaining.
         """
-        self._page.locator(f'//*[text()="{art_name}"]/..//button').click()
+        self.page.locator(f'//*[text()="{art_name}"]/..//button').click()
         return self
 
     @allure.step("Remove '{art_name}' art from basket")
@@ -63,14 +57,5 @@ class ArtsPage(BasePage):
         Returns:
             ArtsPage: The current page object for method chaining.
         """
-        self._page.locator(f'//*[text()="{art_name}"]/..//button').click()
+        self.page.locator(f'//*[text()="{art_name}"]/..//button').click()
         return self
-
-    def get_product_cards(self) -> Locator:
-        """
-        Get the locator for all product cards on the page.
-
-        Returns:
-            Locator: The locator for product card elements.
-        """
-        return self.__products_cards
