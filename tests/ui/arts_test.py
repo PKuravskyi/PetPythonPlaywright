@@ -28,7 +28,7 @@ def test_art_can_be_added_to_basket(shopping_store_app) -> None:
             shopping_store_app
             .pages
             .arts_page
-            .get_basket_items_locator()
+            .basket_counter_text_field
         ).to_have_text('0')
 
     shopping_store_app.pages.arts_page.add_art_to_basket('Mountain Landscape')
@@ -37,7 +37,7 @@ def test_art_can_be_added_to_basket(shopping_store_app) -> None:
             shopping_store_app
             .pages
             .arts_page
-            .get_basket_items_locator()
+            .basket_counter_text_field
         ).to_have_text('1')
 
     shopping_store_app.pages.arts_page.add_art_to_basket('Baby Zebra with butterfly')
@@ -46,7 +46,7 @@ def test_art_can_be_added_to_basket(shopping_store_app) -> None:
             shopping_store_app
             .pages
             .arts_page
-            .get_basket_items_locator()
+            .basket_counter_text_field
         ).to_have_text('2')
 
 
@@ -75,7 +75,7 @@ def test_art_can_be_removed_from_basket(shopping_store_app) -> None:
             shopping_store_app
             .pages
             .arts_page
-            .get_basket_items_locator()
+            .basket_counter_text_field
         ).to_have_text('2')
 
     shopping_store_app.pages.arts_page.remove_art_from_basket('Mountain Landscape')
@@ -84,7 +84,7 @@ def test_art_can_be_removed_from_basket(shopping_store_app) -> None:
             shopping_store_app
             .pages
             .arts_page
-            .get_basket_items_locator()
+            .basket_counter_text_field
         ).to_have_text('1')
 
     shopping_store_app.pages.arts_page.remove_art_from_basket('Baby Zebra with butterfly')
@@ -93,5 +93,5 @@ def test_art_can_be_removed_from_basket(shopping_store_app) -> None:
             shopping_store_app
             .pages
             .arts_page
-            .get_basket_items_locator()
+            .basket_counter_text_field
         ).to_have_text('0')

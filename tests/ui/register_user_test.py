@@ -18,8 +18,7 @@ def test_new_user_can_be_registered_via_ui(shopping_store_app) -> None:
 
     Steps:
     - Open the signup page.
-    - Enter random email and password.
-    - Click on the register button.
+    - Register user with random email and password.
     - Validate that the arts page is opened with product cards.
     """
     (
@@ -27,9 +26,7 @@ def test_new_user_can_be_registered_via_ui(shopping_store_app) -> None:
         .pages
         .sign_up_page
         .open()
-        .enter_random_email()
-        .enter_random_password()
-        .click_on_register()
+        .register_random_user()
     )
 
     with allure.step('Validate Arts page is opened'):
@@ -37,7 +34,7 @@ def test_new_user_can_be_registered_via_ui(shopping_store_app) -> None:
             shopping_store_app
             .pages
             .arts_page
-            .get_product_cards()
+            .products_cards
         ).to_have_count(5)
 
 
@@ -49,7 +46,7 @@ def test_new_user_can_be_registered_via_be(shopping_store_app, api_client) -> No
     Steps:
     - Register a user via the API.
     - Open the login page and enter the credentials from the API response.
-    - Log in and verify the 'My Account' page is opened.
+    - Log in and validate the 'My Account' page is opened.
     - Validate the user is logged into their account by checking visibility of account-related labels.
     """
     user = api_client.sign_up_endpoint.sign_up_random_user()
@@ -59,9 +56,7 @@ def test_new_user_can_be_registered_via_be(shopping_store_app, api_client) -> No
         .pages
         .login_page
         .open()
-        .enter_email(user['username'])
-        .enter_password(user['password'])
-        .click_on_login()
+        .login(user['username'], user['password'])
     )
 
     shopping_store_app.pages.my_account_page.open()
@@ -70,11 +65,11 @@ def test_new_user_can_be_registered_via_be(shopping_store_app, api_client) -> No
             shopping_store_app
             .pages
             .my_account_page
-            .get_my_account_label()
+            .my_account_label
         ).to_be_visible()
         expect(
             shopping_store_app
             .pages
             .my_account_page
-            .get_your_address_label()
+            .your_addresses_label
         ).to_be_visible()
