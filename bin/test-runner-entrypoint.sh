@@ -1,7 +1,7 @@
 #!/bin/sh
 
-chmod +x ./ShoppingStoreApp/shopping-store-linux-amd64
-./ShoppingStoreApp/shopping-store-linux-amd64 > /dev/null 2>&1 &
+chmod +x ./bin/shopping-store-linux-amd64
+./bin/shopping-store-linux-amd64 > /dev/null 2>&1 &
 
 
 echo 'Waiting until ShoppingStoreApp is launched...'

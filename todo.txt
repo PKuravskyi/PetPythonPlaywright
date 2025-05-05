@@ -7,4 +7,3 @@ Add more linters (flake, black ...)
 Trigger tests with timer
 
 --- Code structure ---
-Endpoint factory

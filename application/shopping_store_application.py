@@ -8,7 +8,8 @@ Extends the abstract application structure to register all page objects needed f
 from dataclasses import dataclass
 
 from application.abstract_application import AbstractApplication
-from application.common import CommonPages
+from application.common import CommonPages, CommonEndpoints
+from endpoints.sign_up_endpoint import SignUpEndpoint
 from pages.arts_page import ArtsPage
 from pages.login_page import LoginPage
 from pages.my_account_page import MyAccountPage
@@ -28,11 +29,21 @@ class ShoppingStoreApplicationPages(CommonPages):
     sign_up_page: SignUpPage
 
 
+@dataclass
+class ShoppingStoreApplicationEndpoints(CommonEndpoints):
+    """
+    Concrete implementation of CommonEndpoints for the Shopping Store application.
+
+    Defines all specific endpoints that are part of this app.
+    """
+    sign_up_endpoint: SignUpEndpoint
+
+
 class ShoppingStoreApplication(AbstractApplication):
     """
     Shopping Store-specific implementation of AbstractApplication.
 
-    Provides access to all pages via the PageFactory.
+    Provides access to all pages and endpoints.
     """
 
     @property
@@ -42,3 +53,11 @@ class ShoppingStoreApplication(AbstractApplication):
             ShoppingStoreApplicationPages: An instance of all pages for this app.
         """
         return self._page_factory.create_pages(ShoppingStoreApplicationPages)
+
+    @property
+    def endpoints(self) -> ShoppingStoreApplicationEndpoints:
+        """
+        Returns:
+            ShoppingStoreApplicationEndpoints: An instance of all endpoints for this app.
+        """
+        return self._endpoint_factory.create_endpoints(ShoppingStoreApplicationEndpoints)
