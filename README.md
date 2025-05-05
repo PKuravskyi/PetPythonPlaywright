@@ -9,7 +9,7 @@
 
 1. Install all dependencies: `poetry install`
 2. Make sure you are using poetry venv: `poetry env activate`. You can also set poetry interpreter in your IDE.
-3. Run [Shopping Store app](ShoppingStoreApp) on your local machine
+3. Run [Shopping Store app](bin) on your local machine
 4. Run tests: `python -m pytest`
 
 #### Optional test arguments:

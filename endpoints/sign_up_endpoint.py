@@ -8,10 +8,10 @@ from uuid import uuid4
 
 import allure
 
-from api.base_api import BaseAPI
+from endpoints.abstracts.base_endpoint import BaseEndpoint
 
 
-class SignUpEndpoint(BaseAPI):
+class SignUpEndpoint(BaseEndpoint):
     """
     API endpoint class for handling user sign-up actions.
 

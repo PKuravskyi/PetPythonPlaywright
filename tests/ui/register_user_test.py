@@ -39,7 +39,7 @@ def test_new_user_can_be_registered_via_ui(shopping_store_app) -> None:
 
 
 @pytest.mark.ui
-def test_new_user_can_be_registered_via_be(shopping_store_app, api_client) -> None:
+def test_new_user_can_be_registered_via_be(shopping_store_app) -> None:
     """
     Test that validates a new user can be registered via the backend (API) and then logged in via the UI.
 
@@ -49,7 +49,7 @@ def test_new_user_can_be_registered_via_be(shopping_store_app, api_client) -> No
     - Log in and validate the 'My Account' page is opened.
     - Validate the user is logged into their account by checking visibility of account-related labels.
     """
-    user = api_client.sign_up_endpoint.sign_up_random_user()
+    user = shopping_store_app.endpoints.sign_up_endpoint.sign_up_random_user()
 
     (
         shopping_store_app

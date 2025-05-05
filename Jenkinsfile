@@ -91,8 +91,8 @@ ui/arts_test.py::test_art_can_be_removed_from_basket'''
         stage('Start Shopping Store App') {
             steps {
                 sh '''
-                    chmod +x './ShoppingStoreApp/shopping-store-linux-amd64'
-                    ./ShoppingStoreApp/shopping-store-linux-amd64 > /dev/null 2>&1 &
+                    chmod +x './bin/shopping-store-linux-amd64'
+                    ./bin/shopping-store-linux-amd64 > /dev/null 2>&1 &
                 '''
             }
         }

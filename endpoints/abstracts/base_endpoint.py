@@ -1,5 +1,5 @@
 """
-base_api.py
+base_endpoint.py
 
 This module defines the BaseAPI class, which provides helper methods for sending
 API requests using Playwright's APIRequestContext and validating responses.
@@ -7,12 +7,13 @@ API requests using Playwright's APIRequestContext and validating responses.
 Usage:
     Subclass or use BaseAPI directly to interact with web service endpoints in a test framework.
 """
+from typing import TypeVar
 
 import requests
 from playwright.sync_api import APIRequestContext, APIResponse
 
 
-class BaseAPI:
+class BaseEndpoint:
     """
     A base class for interacting with APIs using Playwright's synchronous APIRequestContext.
     """
@@ -70,3 +71,6 @@ class BaseAPI:
                 f"Request to '{response.url}' failed: {response.status} {response.status_text}"
             )
         return response
+
+
+BaseEndpointT = TypeVar('BaseEndpointT', bound='BaseEndpoint')

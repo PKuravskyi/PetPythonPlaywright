@@ -17,7 +17,6 @@ import allure
 import pytest
 from playwright.sync_api import Playwright
 
-from api.api_client import ApiClient
 from application.shopping_store_application import ShoppingStoreApplication
 from utils.constants import BASE_API_URL
 
@@ -55,8 +54,8 @@ def fixture_ui_page(playwright: Playwright, browser_name, request):
     browser.close()
 
 
-@pytest.fixture(scope='session')
-def api_client(playwright: Playwright):
+@pytest.fixture(name='api_client')
+def fixture_api_client(playwright: Playwright):
     """
     Fixture to provide an instance of ApiClient for API tests.
 
@@ -67,16 +66,19 @@ def api_client(playwright: Playwright):
         playwright (Playwright): The Playwright instance to create the request context.
     """
     request_context = playwright.request.new_context(base_url=BASE_API_URL)
-    yield ApiClient(request_context)
+    yield request_context
     request_context.dispose()
 
 
 @pytest.fixture
-def shopping_store_app(ui_page) -> ShoppingStoreApplication:
+def shopping_store_app(ui_page, api_client) -> ShoppingStoreApplication:
     """
-    Fixture that returns a ShoppingStoreApplication instance initialized with the shared Playwright page.
+    Provides an instance of ShoppingStoreApplication initialized with shared Playwright UI and API clients.
+
+    Returns:
+        ShoppingStoreApplication: A fully initialized application object for UI and API interactions.
     """
-    return ShoppingStoreApplication(ui_page)
+    return ShoppingStoreApplication(ui_page, api_client)
 
 
 @pytest.hookimpl(tryfirst=True)
