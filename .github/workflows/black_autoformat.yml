@@ -1,0 +1,43 @@
+name: Autoformat with Black
+
+on:
+  pull_request:
+    paths:
+      - '**/*.py'
+
+jobs:
+  format:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout PR branch
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.x'
+
+      - name: Get changed Python files
+        id: changed
+        run: |
+          files=$(git diff --name-only origin/${{ github.base_ref }} -- '*.py' | xargs)
+          echo "$files" > changed_files.txt
+          echo "files=$files" >> $GITHUB_OUTPUT
+
+      - name: Run Black
+        if: steps.changed.outputs.files != ''
+        uses: psf/black@stable
+        with:
+          src: $(cat changed_files.txt)
+          options: "--verbose"
+          use_pyproject: true
+
+      - name: Commit and push changes
+        if: steps.changed.outputs.files != ''
+        run: |
+          git config user.name "github-actions"
+          git config user.email "github-actions@github.com"
+          git add $(cat changed_files.txt)
+          git commit -m "Apply Black formatting"
+          git push
