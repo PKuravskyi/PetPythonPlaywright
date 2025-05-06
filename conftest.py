@@ -2,12 +2,6 @@
 conftest.py
 
 Pytest configuration and fixtures for UI and API tests using Playwright.
-
-Includes:
-- UI browser page setup with video recording
-- API client setup with base URL
-- ShoppingStoreApplication injection for test use
-- Hooks for cleaning up old videos and attaching failed test videos to Allure reports
 """
 
 import pathlib
@@ -25,8 +19,8 @@ from application.shopping_store_application import ShoppingStoreApplication
 from utils.constants import BASE_API_URL
 
 
-@pytest.fixture(name="ui_page")
-def fixture_ui_page(
+@pytest.fixture
+def ui_page(
     playwright: Playwright, browser_name: str, request: pytest.FixtureRequest
 ) -> Generator[Page, Any, None]:
     """
@@ -36,9 +30,9 @@ def fixture_ui_page(
     the browser_name parameter and sets up video recording for the test.
 
     Args:
-        playwright (Playwright): The Playwright instance to launch the browser.
+        playwright (Playwright): The Playwright instance used to launch the browser.
         browser_name (str): The browser to launch (firefox, webkit, chromium).
-        request: Pytest fixture request to manage test metadata and resources.
+        request (pytest.FixtureRequest): The pytest request object to manage test metadata and resources.
     """
     video_path = pathlib.Path("videos") / request.node.name
     video_path.mkdir(parents=True, exist_ok=True)
@@ -58,18 +52,15 @@ def fixture_ui_page(
     browser.close()
 
 
-@pytest.fixture(name="api_client")
-def fixture_api_client(
+@pytest.fixture
+def api_client(
     playwright: Playwright,
 ) -> Generator[APIRequestContext, Any, None]:
     """
-    Fixture to provide an instance of ApiClient for API tests.
-
-    This fixture creates a new API request context using the base URL and
-    provides an ApiClient instance for interaction with the API.
+    Fixture to provide an API context for API tests.
 
     Args:
-        playwright (Playwright): The Playwright instance to create the request context.
+        playwright (Playwright): The Playwright instance used to create the request context.
     """
     request_context = playwright.request.new_context(base_url=BASE_API_URL)
     yield request_context
@@ -77,25 +68,25 @@ def fixture_api_client(
 
 
 @pytest.fixture
-def shopping_store_app(
-    ui_page: Page, api_client: APIRequestContext
-) -> ShoppingStoreApplication:
+def shopping_store_app(request: pytest.FixtureRequest) -> ShoppingStoreApplication:
     """
     Provides an instance of ShoppingStoreApplication initialized with shared Playwright UI and API clients.
+
+    Args:
+        request (pytest.FixtureRequest): The pytest request object used to retrieve other fixtures.
 
     Returns:
         ShoppingStoreApplication: A fully initialized application object for UI and API interactions.
     """
-    return ShoppingStoreApplication(ui_page, api_client)
+    return ShoppingStoreApplication(
+        request.getfixturevalue("ui_page"), request.getfixturevalue("api_client")
+    )
 
 
 @pytest.hookimpl(tryfirst=True)
 def pytest_sessionstart() -> None:
     """
-    Hook to clean up old video recordings before a test session starts.
-
-    This hook removes any existing video directory to ensure fresh video recordings
-    for each session.
+    Hook that runs before a test session starts.
     """
     videos_path = pathlib.Path("videos")
     if videos_path.exists() and videos_path.is_dir():
@@ -105,14 +96,11 @@ def pytest_sessionstart() -> None:
 @pytest.hookimpl(hookwrapper=True)
 def pytest_runtest_makereport(item: Item, call: CallInfo) -> Generator[None, Any, None]:
     """
-    Hook to mark the test item as failed if the test execution fails.
-
-    This hook captures the result of a test execution and sets the `failed` attribute
-    on the item if the test fails.
+    Hook that runs after 'setup', 'call' and 'teardown' phases
 
     Args:
         item: The pytest item (test case).
-        call: The result of the test call.
+        call: The result of the test call (includes information about the test result).
     """
     outcome = yield
     result = outcome.get_result()
@@ -123,10 +111,7 @@ def pytest_runtest_makereport(item: Item, call: CallInfo) -> Generator[None, Any
 @pytest.hookimpl(hookwrapper=True)
 def pytest_runtest_teardown(item: Item) -> Generator[None, Any, None]:
     """
-    Hook to attach video files as artifacts if a test fails.
-
-    This hook attaches video files recorded during the test to the Allure report if
-    the test fails. The video is retrieved from the 'videos' directory.
+    Hook that runs after each test.
 
     Args:
         item: The pytest item (test case).

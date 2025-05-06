@@ -29,7 +29,7 @@ class BasePage(ABC):
             page (Page): Playwright page object for browser interaction.
         """
         super().__init__()
-        self.page: Page = page
+        self._page: Page = page
         self.basket_counter_text_field: Locator = page.locator(
             '[data-qa="header-basket-count"]'
         )
@@ -56,7 +56,7 @@ class BasePage(ABC):
             BasePage: The current page object after navigation.
         """
         with allure.step(f"Open {self.endpoint} page"):
-            self.page.goto(str(self.endpoint))
+            self._page.goto(str(self.endpoint))
         return self
 
 

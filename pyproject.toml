@@ -16,11 +16,18 @@ dependencies = [
     "allure-pytest (>=2.14.0,<3.0.0)",
     "pylint (>=3.3.6,<4.0.0)",
     "black (>=25.1.0,<26.0.0)",
-    "mypy (>=1.15.0,<2.0.0)"
+    "mypy (>=1.15.0,<2.0.0)",
+    "vulture (>=2.14,<3.0)"
 ]
 
 [tool.poetry]
 package-mode = false
+
+[tool.vulture]
+exclude = [".venv"]
+make_whitelist = true
+paths = ["."]
+min_confidence = 80
 
 [build-system]
 requires = ["poetry-core>=2.0.0,<3.0.0"]

@@ -92,12 +92,12 @@ results by running command: `allure serve allure-results`
 4. Update **all** dependencies to latest allowed versions:  
    `poetry update`
 
-### How to use Make commands:
+### How to run Make commands:
 
 1. Have "Make" installed on your local machine, refer to [prerequisites](#prerequisites)
 2. Go through the [Makefile](Makefile) to see the list of available commands
 3. Run the command, example: `make test-docker-all`
 
-### How to autoformat code:
+### How to autoformat code locally:
 
 1. Autoformat everything in a project: `black .`. You can also specify custom path or files you want to autoformat
