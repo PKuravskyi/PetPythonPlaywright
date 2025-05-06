@@ -15,13 +15,13 @@ from utils.file_reader import read_json
 @pytest.mark.smoke
 def test_admin_user_can_login(shopping_store_app) -> None:
     """
-        Test that validates the admin user can log into the application successfully.
+    Test that validates the admin user can log into the application successfully.
 
-        Steps:
-        - Load admin credentials from JSON file.
-        - Open the login page and perform login.
-        - Navigate to 'My Account' page.
-        - Validate the logged-in user's email is displayed.
+    Steps:
+    - Load admin credentials from JSON file.
+    - Open the login page and perform login.
+    - Navigate to 'My Account' page.
+    - Validate the logged-in user's email is displayed.
     """
     admin_user = read_json("admin_user.json")
 
