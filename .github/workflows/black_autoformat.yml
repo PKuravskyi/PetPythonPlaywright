@@ -21,6 +21,11 @@ jobs:
         with:
           python-version: '3.x'
 
+      - name: Install dependencies
+        run: |
+          curl -sSL https://install.python-poetry.org | python3 -
+          poetry install
+
       - name: Get modified files
         id: changed
         run: |
@@ -30,11 +35,8 @@ jobs:
 
       - name: Run Black
         if: steps.changed.outputs.files != ''
-        uses: psf/black@stable
-        with:
-          src: $(cat changed_files.txt)
-          options: "--verbose"
-          use_pyproject: true
+        run: |
+          poetry run black --verbose --config pyproject.toml $(cat changed_files.txt)
 
       - name: Commit and push changes
         if: steps.changed.outputs.files != ''
