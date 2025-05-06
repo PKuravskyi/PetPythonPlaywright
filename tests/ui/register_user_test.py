@@ -9,10 +9,14 @@ import allure
 import pytest
 from playwright.sync_api import expect
 
+from application.shopping_store_application import ShoppingStoreApplication
+
 
 @pytest.mark.ui
 @pytest.mark.smoke
-def test_new_user_can_be_registered_via_ui(shopping_store_app) -> None:
+def test_new_user_can_be_registered_via_ui(
+    shopping_store_app: ShoppingStoreApplication,
+) -> None:
     """
     Test that validates a new user can be registered via the UI and redirected to the arts page.
 
@@ -28,7 +32,9 @@ def test_new_user_can_be_registered_via_ui(shopping_store_app) -> None:
 
 
 @pytest.mark.ui
-def test_new_user_can_be_registered_via_be(shopping_store_app) -> None:
+def test_new_user_can_be_registered_via_be(
+    shopping_store_app: ShoppingStoreApplication,
+) -> None:
     """
     Test that validates a new user can be registered via the backend (API) and then logged in via the UI.
 

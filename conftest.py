@@ -12,19 +12,23 @@ Includes:
 
 import pathlib
 import shutil
+from collections.abc import Generator
+from typing import Any
 
 import allure
 import pytest
 from _pytest.nodes import Item
 from _pytest.runner import CallInfo
-from playwright.sync_api import Playwright, APIRequestContext
+from playwright.sync_api import Playwright, Page, APIRequestContext
 
 from application.shopping_store_application import ShoppingStoreApplication
 from utils.constants import BASE_API_URL
 
 
 @pytest.fixture(name="ui_page")
-def fixture_ui_page(playwright: Playwright, browser_name, request: APIRequestContext):
+def fixture_ui_page(
+    playwright: Playwright, browser_name: str, request: pytest.FixtureRequest
+) -> Generator[Page, Any, None]:
     """
     Fixture to initialize and return a Playwright page for UI tests.
 
@@ -55,7 +59,9 @@ def fixture_ui_page(playwright: Playwright, browser_name, request: APIRequestCon
 
 
 @pytest.fixture(name="api_client")
-def fixture_api_client(playwright: Playwright):
+def fixture_api_client(
+    playwright: Playwright,
+) -> Generator[APIRequestContext, Any, None]:
     """
     Fixture to provide an instance of ApiClient for API tests.
 
@@ -71,7 +77,9 @@ def fixture_api_client(playwright: Playwright):
 
 
 @pytest.fixture
-def shopping_store_app(ui_page, api_client) -> ShoppingStoreApplication:
+def shopping_store_app(
+    ui_page: Page, api_client: APIRequestContext
+) -> ShoppingStoreApplication:
     """
     Provides an instance of ShoppingStoreApplication initialized with shared Playwright UI and API clients.
 
@@ -82,7 +90,7 @@ def shopping_store_app(ui_page, api_client) -> ShoppingStoreApplication:
 
 
 @pytest.hookimpl(tryfirst=True)
-def pytest_sessionstart():
+def pytest_sessionstart() -> None:
     """
     Hook to clean up old video recordings before a test session starts.
 
@@ -95,7 +103,7 @@ def pytest_sessionstart():
 
 
 @pytest.hookimpl(hookwrapper=True)
-def pytest_runtest_makereport(item: Item, call: CallInfo):
+def pytest_runtest_makereport(item: Item, call: CallInfo) -> Generator[None, Any, None]:
     """
     Hook to mark the test item as failed if the test execution fails.
 
@@ -109,11 +117,11 @@ def pytest_runtest_makereport(item: Item, call: CallInfo):
     outcome = yield
     result = outcome.get_result()
     if call.when == "call":
-        item.failed = result.failed
+        item.user_properties.append(("failed", result.failed))
 
 
 @pytest.hookimpl(hookwrapper=True)
-def pytest_runtest_teardown(item: Item):
+def pytest_runtest_teardown(item: Item) -> Generator[None, Any, None]:
     """
     Hook to attach video files as artifacts if a test fails.
 
@@ -125,7 +133,7 @@ def pytest_runtest_teardown(item: Item):
     """
     yield
 
-    if getattr(item, "failed", False):
+    if dict(item.user_properties).get("failed", False):
         artifacts_dir_path = pathlib.Path("videos") / item.name
         if artifacts_dir_path.is_dir():
             for file in artifacts_dir_path.iterdir():

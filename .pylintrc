@@ -448,7 +448,8 @@ disable=raw-checker-failed,
 # multiple time (only on the command line, not in the configuration file where
 # it should appear only once). See also the "--disable" option for examples.
 enable=unused-variable,
-       unused-import
+       unused-import,
+       missing-type-doc
 
 
 [METHOD_ARGS]
@@ -655,5 +656,6 @@ redefining-builtins-modules=six.moves,past.builtins,future.builtins,builtins,io
 [MASTER]
 load-plugins=
     pylint.extensions.docparams,
-    pylint.extensions.bad_builtin
+    pylint.extensions.bad_builtin,
+    pylint.extensions.typing
 ignore-paths=.*(venv|migrations|__pycache__|build|dist|node_modules).*

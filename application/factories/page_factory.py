@@ -7,12 +7,12 @@ ensuring reusable, type-safe, and structured page management.
 """
 
 from dataclasses import fields
-from typing import Generic, Type
+from typing import Generic, cast
 
 from playwright.sync_api import Page
 
 from application.common import CommonPagesT
-from pages.abstracts.base_page import BasePageT
+from pages.abstracts.base_page import BasePage
 from pages.abstracts.page_selectors import PageSelectors
 
 
@@ -36,9 +36,9 @@ class PageFactory(PageSelectors, Generic[CommonPagesT]):
             page (Page): The Playwright page used to initialize all page objects.
         """
         super().__init__(page)
-        self._pages = None
+        self._pages: CommonPagesT | None = None
 
-    def create_pages(self, pages_type: Type[CommonPagesT]) -> CommonPagesT:
+    def create_pages(self, pages_type: type[CommonPagesT]) -> CommonPagesT:
         """
         Instantiates the pages defined in a given CommonPages dataclass.
 
@@ -51,19 +51,19 @@ class PageFactory(PageSelectors, Generic[CommonPagesT]):
         if not self._pages:
             pages = []
             for field in fields(pages_type):
-                page_type = field.type
+                page_type = cast(type[BasePage], field.type)
                 pages.append(self.create_page(page_type))
             self._pages = pages_type(*pages)
         return self._pages
 
-    def create_page(self, page_type: Type[BasePageT]) -> BasePageT:
+    def create_page(self, page_type: type[BasePage]) -> BasePage:
         """
         Creates an instance of a page class that inherits from BasePage.
 
         Args:
-            page_type (Type[BasePageT]): The class of the page to instantiate.
+            page_type (Type[BasePage]): The class of the page to instantiate.
 
         Returns:
-            BasePageT: An instance of the requested page class.
+            BasePage: An instance of the requested page class.
         """
         return page_type(self.page)

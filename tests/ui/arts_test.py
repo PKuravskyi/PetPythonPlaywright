@@ -8,10 +8,14 @@ import allure
 import pytest
 from playwright.sync_api import expect
 
+from application.shopping_store_application import ShoppingStoreApplication
+
 
 @pytest.mark.ui
 @pytest.mark.smoke
-def test_art_can_be_added_to_basket(shopping_store_app) -> None:
+def test_art_can_be_added_to_basket(
+    shopping_store_app: ShoppingStoreApplication,
+) -> None:
     """
     Test that validates an art item can be successfully added to the basket.
 
@@ -42,7 +46,9 @@ def test_art_can_be_added_to_basket(shopping_store_app) -> None:
 
 
 @pytest.mark.ui
-def test_art_can_be_removed_from_basket(shopping_store_app) -> None:
+def test_art_can_be_removed_from_basket(
+    shopping_store_app: ShoppingStoreApplication,
+) -> None:
     """
     Test that validates art items can be successfully removed from the basket.
 
