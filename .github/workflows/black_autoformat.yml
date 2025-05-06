@@ -24,7 +24,7 @@ jobs:
       - name: Get modified files
         id: changed
         run: |
-          files=$(git diff-index HEAD -- '*.py' | xargs)
+          files=$(git diff --name-only origin/${{ github.base_ref }} -- '*.py' | xargs)
           echo "$files" > changed_files.txt
           echo "files=$files" >> $GITHUB_OUTPUT
 
