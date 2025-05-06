@@ -29,10 +29,13 @@ on:
             'ui/arts_test.py::test_art_can_be_removed_from_basket'.
           If multiple: separate by space or comma
             Example: ui/login_test.py, ui/arts_test.py::test_art_can_be_added_to_basket
+        required: false
       threads:
         description: 'How many tests to run in parallel'
         required: true
         default: '5'
+  schedule:
+    - cron: '*/5 * * * *'  # Every weekday at 6:00 UTC
 
 jobs:
   test:

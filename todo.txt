@@ -4,6 +4,5 @@ Files handling (csv etc.)
 AI support. Ideas: auto generate missing docstrings
 Download only necessary browsers during test execution
 Add more linters (flake, black ...)
-Trigger tests with timer
 
 --- Code structure ---
