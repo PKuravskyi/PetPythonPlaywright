@@ -447,7 +447,8 @@ disable=raw-checker-failed,
 # either give multiple identifier separated by comma (,) or put this option
 # multiple time (only on the command line, not in the configuration file where
 # it should appear only once). See also the "--disable" option for examples.
-enable=
+enable=unused-variable,
+       unused-import
 
 
 [METHOD_ARGS]
@@ -502,7 +503,7 @@ msg-template=
 # 'colorized', 'json2' (improved json format), 'json' (old json format), msvs
 # (visual studio) and 'github' (GitHub actions). You can also give a reporter
 # class, e.g. mypackage.mymodule.MyReporterClass.
-#output-format=
+#output-format=colorized
 
 # Tells whether to display a full report or only the messages.
 reports=no
@@ -580,6 +581,8 @@ generated-members=
 # is inferred to be None.
 ignore-none=yes
 
+ignore-mixin-members=yes
+
 # This flag controls whether pylint should warn about no-member and similar
 # checks whenever an opaque object is returned when inferring. The inference
 # can return multiple potential results while evaluating a Python object, but
@@ -648,3 +651,9 @@ init-import=no
 # List of qualified module names which can have objects that can redefine
 # builtins.
 redefining-builtins-modules=six.moves,past.builtins,future.builtins,builtins,io
+
+[MASTER]
+load-plugins=
+    pylint.extensions.docparams,
+    pylint.extensions.bad_builtin
+ignore-paths=.*(venv|migrations|__pycache__|build|dist|node_modules).*

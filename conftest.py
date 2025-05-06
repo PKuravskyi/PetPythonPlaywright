@@ -15,14 +15,16 @@ import shutil
 
 import allure
 import pytest
-from playwright.sync_api import Playwright
+from _pytest.nodes import Item
+from _pytest.runner import CallInfo
+from playwright.sync_api import Playwright, APIRequestContext
 
 from application.shopping_store_application import ShoppingStoreApplication
 from utils.constants import BASE_API_URL
 
 
 @pytest.fixture(name='ui_page')
-def fixture_ui_page(playwright: Playwright, browser_name, request):
+def fixture_ui_page(playwright: Playwright, browser_name, request: APIRequestContext):
     """
     Fixture to initialize and return a Playwright page for UI tests.
 
@@ -95,7 +97,7 @@ def pytest_sessionstart():
 
 
 @pytest.hookimpl(hookwrapper=True)
-def pytest_runtest_makereport(item, call):
+def pytest_runtest_makereport(item: Item, call: CallInfo):
     """
     Hook to mark the test item as failed if the test execution fails.
 
@@ -113,7 +115,7 @@ def pytest_runtest_makereport(item, call):
 
 
 @pytest.hookimpl(hookwrapper=True)
-def pytest_runtest_teardown(item):
+def pytest_runtest_teardown(item: Item):
     """
     Hook to attach video files as artifacts if a test fails.
 

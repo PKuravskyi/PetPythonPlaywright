@@ -35,7 +35,7 @@ on:
         required: true
         default: '5'
   schedule:
-    - cron: '*/5 * * * *'  # Every day at 6:00 UTC
+    - cron: '0 6 * * *'  # Every day at 6:00 UTC
 
 jobs:
   test:
@@ -66,11 +66,24 @@ jobs:
 
       - name: Run Tests
         run: |
-          BROWSERS=$(echo "${{ github.event.inputs.browsers }}" | sed 's/, */,/g' | tr ',' '\n' | sed 's/^/--browser /' | tr '\n' ' ')
-          TEST_COMMAND="poetry run xvfb-run pytest -n ${{ github.event.inputs.threads }} $BROWSERS"
+          # Set default values if not provided (for scheduled runs)
+          BRANCH="${{ github.event.inputs.branch || 'main' }}"
+          BROWSERS="${{ github.event.inputs.browsers || 'chromium, firefox, webkit' }}"
+          BROWSER_ARGS=$(echo "$BROWSERS" | sed 's/, */,/g' | tr ',' '\n' | sed 's/^/--browser /' | tr '\n' ' ')
+          TAGS="${{ github.event.inputs.tags || '' }}"
+          TESTS_LIST="${{ github.event.inputs.tests_list || '' }}"
+          THREADS="${{ github.event.inputs.threads || '5' }}"
           
-          if [ -n "${{ github.event.inputs.tests_list }}" ]; then
-            TESTS=$(echo "${{ github.event.inputs.tests_list }}" | sed 's/, */,/g' | tr ',' '\n' | sed 's/^/tests\//' | tr '\n' ' ')
+          TEST_COMMAND="poetry run xvfb-run pytest -n $THREADS $BROWSER_ARGS"
+
+          # If tags/markers are provided, include them
+          if [ -n "$TAGS" ]; then
+            TEST_COMMAND="$TEST_COMMAND -m \"$TAGS\""
+          fi
+
+          # If specific tests are provided, include them
+          if [ -n "$TESTS_LIST" ]; then
+            TESTS=$(echo "$TESTS_LIST" | sed 's/, */,/g' | tr ',' '\n' | sed 's/^/tests\//' | tr '\n' ' ')
             TEST_COMMAND="$TEST_COMMAND $TESTS"
           fi
 
