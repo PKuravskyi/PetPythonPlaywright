@@ -16,7 +16,7 @@ from utils.file_reader import read_json
 def test_admin_user_can_login(shopping_store_app) -> None:
     """
         Test that validates the admin user can log into the application successfully.
-    ts
+
         Steps:
         - Load admin credentials from JSON file.
         - Open the login page and perform login.
