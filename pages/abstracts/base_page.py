@@ -30,7 +30,9 @@ class BasePage(ABC):
         """
         super().__init__()
         self.page: Page = page
-        self.basket_counter_text_field: Locator = page.locator('[data-qa="header-basket-count"]')
+        self.basket_counter_text_field: Locator = page.locator(
+            '[data-qa="header-basket-count"]'
+        )
 
     @property
     @abstractmethod
@@ -46,7 +48,7 @@ class BasePage(ABC):
         """
         ...
 
-    def open(self) -> 'BasePage':
+    def open(self) -> "BasePage":
         """
         Navigate to a specific URL using the Playwright page.
 

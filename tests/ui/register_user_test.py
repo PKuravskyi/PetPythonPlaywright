@@ -21,21 +21,10 @@ def test_new_user_can_be_registered_via_ui(shopping_store_app) -> None:
     - Register user with random email and password.
     - Validate that the arts page is opened with product cards.
     """
-    (
-        shopping_store_app
-        .pages
-        .sign_up_page
-        .open()
-        .register_random_user()
-    )
+    (shopping_store_app.pages.sign_up_page.open().register_random_user())
 
-    with allure.step('Validate Arts page is opened'):
-        expect(
-            shopping_store_app
-            .pages
-            .arts_page
-            .products_cards
-        ).to_have_count(5)
+    with allure.step("Validate Arts page is opened"):
+        expect(shopping_store_app.pages.arts_page.products_cards).to_have_count(5)
 
 
 @pytest.mark.ui
@@ -52,24 +41,16 @@ def test_new_user_can_be_registered_via_be(shopping_store_app) -> None:
     user = shopping_store_app.endpoints.sign_up_endpoint.sign_up_random_user()
 
     (
-        shopping_store_app
-        .pages
-        .login_page
-        .open()
-        .login(user['username'], user['password'])
+        shopping_store_app.pages.login_page.open().login(
+            user["username"], user["password"]
+        )
     )
 
     shopping_store_app.pages.my_account_page.open()
-    with allure.step('Validate user is logged into their account'):
+    with allure.step("Validate user is logged into their account"):
         expect(
-            shopping_store_app
-            .pages
-            .my_account_page
-            .my_account_label
+            shopping_store_app.pages.my_account_page.my_account_label
         ).to_be_visible()
         expect(
-            shopping_store_app
-            .pages
-            .my_account_page
-            .your_addresses_label
+            shopping_store_app.pages.my_account_page.your_addresses_label
         ).to_be_visible()

@@ -33,7 +33,7 @@ class ArtsPage(BasePage):
         return self.__endpoint
 
     @allure.step("Add '{art_name}' art to basket")
-    def add_art_to_basket(self, art_name: str) -> 'ArtsPage':
+    def add_art_to_basket(self, art_name: str) -> "ArtsPage":
         """
         Add a specific art item to the basket by name.
 
@@ -47,7 +47,7 @@ class ArtsPage(BasePage):
         return self
 
     @allure.step("Remove '{art_name}' art from basket")
-    def remove_art_from_basket(self, art_name: str) -> 'ArtsPage':
+    def remove_art_from_basket(self, art_name: str) -> "ArtsPage":
         """
         Remove a specific art item from the basket by name.
 

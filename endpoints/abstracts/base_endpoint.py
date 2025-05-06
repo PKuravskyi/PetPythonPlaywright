@@ -7,6 +7,7 @@ API requests using Playwright's APIRequestContext and validating responses.
 Usage:
     Subclass or use BaseAPI directly to interact with web service endpoints in a test framework.
 """
+
 from typing import TypeVar
 
 import requests
@@ -73,4 +74,4 @@ class BaseEndpoint:
         return response
 
 
-BaseEndpointT = TypeVar('BaseEndpointT', bound='BaseEndpoint')
+BaseEndpointT = TypeVar("BaseEndpointT", bound="BaseEndpoint")

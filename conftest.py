@@ -23,7 +23,7 @@ from application.shopping_store_application import ShoppingStoreApplication
 from utils.constants import BASE_API_URL
 
 
-@pytest.fixture(name='ui_page')
+@pytest.fixture(name="ui_page")
 def fixture_ui_page(playwright: Playwright, browser_name, request: APIRequestContext):
     """
     Fixture to initialize and return a Playwright page for UI tests.
@@ -36,18 +36,16 @@ def fixture_ui_page(playwright: Playwright, browser_name, request: APIRequestCon
         browser_name (str): The browser to launch (firefox, webkit, chromium).
         request: Pytest fixture request to manage test metadata and resources.
     """
-    video_path = pathlib.Path('videos') / request.node.name
+    video_path = pathlib.Path("videos") / request.node.name
     video_path.mkdir(parents=True, exist_ok=True)
 
-    if browser_name == 'firefox':
+    if browser_name == "firefox":
         browser = playwright.firefox.launch(headless=False)
-    elif browser_name == 'webkit':
+    elif browser_name == "webkit":
         browser = playwright.webkit.launch(headless=False)
     else:
         browser = playwright.chromium.launch(headless=False)
-    context = browser.new_context(
-        record_video_dir=str(video_path)
-    )
+    context = browser.new_context(record_video_dir=str(video_path))
     page = context.new_page()
 
     yield page
@@ -56,7 +54,7 @@ def fixture_ui_page(playwright: Playwright, browser_name, request: APIRequestCon
     browser.close()
 
 
-@pytest.fixture(name='api_client')
+@pytest.fixture(name="api_client")
 def fixture_api_client(playwright: Playwright):
     """
     Fixture to provide an instance of ApiClient for API tests.
@@ -91,7 +89,7 @@ def pytest_sessionstart():
     This hook removes any existing video directory to ensure fresh video recordings
     for each session.
     """
-    videos_path = pathlib.Path('videos')
+    videos_path = pathlib.Path("videos")
     if videos_path.exists() and videos_path.is_dir():
         shutil.rmtree(videos_path)
 
@@ -110,7 +108,7 @@ def pytest_runtest_makereport(item: Item, call: CallInfo):
     """
     outcome = yield
     result = outcome.get_result()
-    if call.when == 'call':
+    if call.when == "call":
         item.failed = result.failed
 
 
@@ -127,11 +125,11 @@ def pytest_runtest_teardown(item: Item):
     """
     yield
 
-    if getattr(item, 'failed', False):
-        artifacts_dir_path = pathlib.Path('videos') / item.name
+    if getattr(item, "failed", False):
+        artifacts_dir_path = pathlib.Path("videos") / item.name
         if artifacts_dir_path.is_dir():
             for file in artifacts_dir_path.iterdir():
-                if file.is_file() and file.suffix == '.webm':
+                if file.is_file() and file.suffix == ".webm":
                     allure.attach.file(
                         file,
                         name=file.name,

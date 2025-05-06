@@ -23,11 +23,13 @@ class MyAccountPage(BasePage):
             page (Page): The current browser page instance.
         """
         super().__init__(page)
-        self.__endpoint: str = f'{BASE_URL}/my-account'
+        self.__endpoint: str = f"{BASE_URL}/my-account"
 
-        self.my_account_label: Locator = page.get_by_role('heading', name='My Account')
-        self.your_addresses_label: Locator = page.get_by_role('heading', name='Your addresses')
-        self.email_address_label: Locator = page.get_by_text('Email')
+        self.my_account_label: Locator = page.get_by_role("heading", name="My Account")
+        self.your_addresses_label: Locator = page.get_by_role(
+            "heading", name="Your addresses"
+        )
+        self.email_address_label: Locator = page.get_by_text("Email")
 
     @property
     def endpoint(self) -> str:

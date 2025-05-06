@@ -10,4 +10,4 @@ from pathlib import Path
 PROJECT_ROOT = Path(__file__).parent.parent
 
 # Path to the 'data' directory inside the project root
-DATA_DIR = PROJECT_ROOT / 'data'
+DATA_DIR = PROJECT_ROOT / "data"

@@ -68,8 +68,10 @@ Example docker-compose command to run only working smoke UI tests in parallel:
 
 ### How to see test results:
 
-Option 1: After tests are executed locally you can see allure results by running command: `allure serve allure-results`   
-Option 2: After tests are executed in GitHub Actions you can download Allure reports artifact, extract and see allure results by running command: `allure serve allure-results`   
+Option 1: After tests are executed locally you can see allure results by running command:
+`allure serve allure-results`   
+Option 2: After tests are executed in GitHub Actions you can download Allure reports artifact, extract and see allure
+results by running command: `allure serve allure-results`
 
 ### How to Lint code errors:
 
@@ -94,3 +96,7 @@ Run `pylint **/*.py` command to lint all code errors. Or with Make `make lint`
 1. Have "Make" installed on your local machine, refer to [prerequisites](#prerequisites)
 2. Go through the [Makefile](Makefile) to see the list of available commands
 3. Run the command, example: `make test-docker-all`
+
+### How to autoformat code:
+
+1. Autoformat everything in a project: `black .`. You can also specify custom path or files you want to autoformat

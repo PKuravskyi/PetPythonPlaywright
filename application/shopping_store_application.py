@@ -23,6 +23,7 @@ class ShoppingStoreApplicationPages(CommonPages):
 
     Defines all specific pages that are part of this app.
     """
+
     arts_page: ArtsPage
     login_page: LoginPage
     my_account_page: MyAccountPage
@@ -36,6 +37,7 @@ class ShoppingStoreApplicationEndpoints(CommonEndpoints):
 
     Defines all specific endpoints that are part of this app.
     """
+
     sign_up_endpoint: SignUpEndpoint
 
 
@@ -60,4 +62,6 @@ class ShoppingStoreApplication(AbstractApplication):
         Returns:
             ShoppingStoreApplicationEndpoints: An instance of all endpoints for this app.
         """
-        return self._endpoint_factory.create_endpoints(ShoppingStoreApplicationEndpoints)
+        return self._endpoint_factory.create_endpoints(
+            ShoppingStoreApplicationEndpoints
+        )

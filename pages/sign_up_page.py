@@ -27,26 +27,26 @@ class SignUpPage(BasePage):
             page (Page): The current browser page instance.
         """
         super().__init__(page)
-        self.__endpoint: str = f'{BASE_URL}/signup'
+        self.__endpoint: str = f"{BASE_URL}/signup"
 
-        self.email_input: Locator = page.get_by_role('textbox', name='E-Mail')
-        self.password_input: Locator = page.get_by_role('textbox', name='Password')
-        self.register_button: Locator = page.get_by_role('button', name='Register')
+        self.email_input: Locator = page.get_by_role("textbox", name="E-Mail")
+        self.password_input: Locator = page.get_by_role("textbox", name="Password")
+        self.register_button: Locator = page.get_by_role("button", name="Register")
 
     @property
     def endpoint(self) -> str:
         """Return the endpoint URL for the Sign-Up page."""
         return self.__endpoint
 
-    @allure.step('Register random user')
-    def register_random_user(self) -> 'ArtsPage':
+    @allure.step("Register random user")
+    def register_random_user(self) -> "ArtsPage":
         """
         Fill in the email field with a randomly generated email address.
 
         Returns:
             SignUpPage: The current page object for method chaining.
         """
-        username = f'{int(time.time())}@gmail.com'
+        username = f"{int(time.time())}@gmail.com"
         password = str(int(time.time()))
 
         self.email_input.fill(username)

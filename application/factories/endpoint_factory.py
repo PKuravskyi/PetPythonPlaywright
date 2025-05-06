@@ -34,7 +34,9 @@ class EndpointFactory(Generic[CommonEndpointsT]):
         self._request_context: APIRequestContext = request_context
         self._endpoints: CommonEndpointsT | None = None
 
-    def create_endpoints(self, endpoints_type: Type[CommonEndpointsT]) -> CommonEndpointsT:
+    def create_endpoints(
+        self, endpoints_type: Type[CommonEndpointsT]
+    ) -> CommonEndpointsT:
         """
         Instantiates the endpoints defined in a given CommonEndpoints dataclass.
 

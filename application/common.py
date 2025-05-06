@@ -19,6 +19,7 @@ class CommonPages:
             login_page: LoginPage
             home_page: HomePage
     """
+
     ...
 
 
@@ -32,6 +33,7 @@ class CommonEndpoints:
         class MyAppEndpoints(CommonEndpoints):
             sign_up_endpoint: SignUpEndpoint
     """
+
     ...
 
 
