@@ -19,7 +19,7 @@ class SignUpEndpoint(BaseEndpoint):
     Inherits from BaseAPI to utilize shared HTTP methods and response validation.
     """
 
-    SIGN_UP_ENDPOINT: str = "signup"
+    __SIGN_UP_ENDPOINT: str = "signup"
 
     @allure.step("Register random user")
     def sign_up_random_user(self) -> dict[str, str]:
@@ -37,6 +37,6 @@ class SignUpEndpoint(BaseEndpoint):
             "password": timestamp,
         }
 
-        self._post(self.SIGN_UP_ENDPOINT, body)
+        self._post(self.__SIGN_UP_ENDPOINT, body)
 
         return body

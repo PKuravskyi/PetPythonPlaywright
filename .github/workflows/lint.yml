@@ -23,6 +23,18 @@ jobs:
           curl -sSL https://install.python-poetry.org | python3 -
           poetry install
 
-      - name: Run Pylint
+      - name: Get modified Python files
+        id: changed
         run: |
-          poetry run pylint $(git ls-files '*.py')
+          files=$(git diff --name-only origin/main...HEAD | grep '\.py$' || true)
+          echo "files=$files" >> $GITHUB_OUTPUT
+
+      - name: Run Pylint
+        if: steps.changed.outputs.files != ''
+        run: |
+          poetry run pylint ${{ steps.changed.outputs.files }}
+
+      - name: Run Vulture
+        if: steps.changed.outputs.files != ''
+        run: |
+          poetry run vulture ${{ steps.changed.outputs.files }}

@@ -1,4 +1,4 @@
-.PHONY: install-deps test-all test-smoke test-docker-all test-docker-smoke update-deps pylint allure jenkins mypy
+.PHONY: install-deps test-all test-smoke test-docker-all test-docker-smoke update-deps pylint allure jenkins mypy vulture
 
 # Install deps with Poetry
 install-deps:
@@ -39,3 +39,7 @@ jenkins:
 # Lint with mypy
 mypy:
 	poetry run mypy --explicit-package-bases .
+
+# Lint with vulture
+vulture:
+	poetry run vulture

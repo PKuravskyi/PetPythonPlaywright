@@ -43,7 +43,7 @@ class ArtsPage(BasePage):
         Returns:
             ArtsPage: The current page object for method chaining.
         """
-        self.page.locator(f'//*[text()="{art_name}"]/..//button').click()
+        self._page.locator(f'//*[text()="{art_name}"]/..//button').click()
         return self
 
     @allure.step("Remove '{art_name}' art from basket")
@@ -57,5 +57,5 @@ class ArtsPage(BasePage):
         Returns:
             ArtsPage: The current page object for method chaining.
         """
-        self.page.locator(f'//*[text()="{art_name}"]/..//button').click()
+        self._page.locator(f'//*[text()="{art_name}"]/..//button').click()
         return self

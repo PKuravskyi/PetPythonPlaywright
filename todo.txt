@@ -1,9 +1,0 @@
-TODO:
-More tests (UI + API + Visual comparison)
-Files handling (csv etc.)
-AI support. Ideas: auto generate missing docstrings
-Download only necessary browsers during test execution
-Try to optimize 'Install dependencies' stage to reduce time of installing
-Test results logging (?)
-
---- Code structure ---
