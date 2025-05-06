@@ -75,7 +75,8 @@ results by running command: `allure serve allure-results`
 
 ### How to Lint code errors:
 
-Run `pylint **/*.py` command to lint all code errors. Or with Make `make lint`
+1. Pylint: run `pylint **/*.py` command to lint all code. Or with Make `make pylint`
+2. Mypy: run `mypy --explicit-package-bases .` command to lint all code. Or with Make `make mypy`
 
 ### How to update libraries/dependencies (Poetry):
 

@@ -6,6 +6,7 @@ Intended to be extended by specific application implementations.
 """
 
 from abc import ABC, abstractmethod
+from typing import Any
 
 from playwright.sync_api import Page, APIRequestContext
 
@@ -29,12 +30,12 @@ class AbstractApplication(ABC):
             request_context (APIRequestContext): Playwright request context for API testing.
         """
         super().__init__()
-        self._app_page_factory = PageFactory(page)
-        self._app_endpoint_factory = EndpointFactory(request_context)
+        self._app_page_factory: PageFactory = PageFactory(page)
+        self._app_endpoint_factory: EndpointFactory = EndpointFactory(request_context)
 
     @property
     @abstractmethod
-    def pages(self):
+    def pages(self) -> Any:
         """
         Abstract property to access application-specific page objects.
 
@@ -45,7 +46,7 @@ class AbstractApplication(ABC):
 
     @property
     @abstractmethod
-    def endpoints(self):
+    def endpoints(self) -> Any:
         """
         Abstract property to access application-specific endpoint objects.
 

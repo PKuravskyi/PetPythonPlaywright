@@ -7,12 +7,12 @@ ensuring reusable, type-safe, and structured endpoint management.
 """
 
 from dataclasses import fields
-from typing import Generic, Type
+from typing import Generic, cast
 
 from playwright.sync_api import APIRequestContext
 
 from application.common import CommonEndpointsT
-from endpoints.abstracts.base_endpoint import BaseEndpointT
+from endpoints.abstracts.base_endpoint import BaseEndpoint
 
 
 class EndpointFactory(Generic[CommonEndpointsT]):
@@ -35,7 +35,7 @@ class EndpointFactory(Generic[CommonEndpointsT]):
         self._endpoints: CommonEndpointsT | None = None
 
     def create_endpoints(
-        self, endpoints_type: Type[CommonEndpointsT]
+            self, endpoints_type: type[CommonEndpointsT]
     ) -> CommonEndpointsT:
         """
         Instantiates the endpoints defined in a given CommonEndpoints dataclass.
@@ -49,19 +49,19 @@ class EndpointFactory(Generic[CommonEndpointsT]):
         if not self._endpoints:
             endpoints = []
             for field in fields(endpoints_type):
-                endpoint_type = field.type
+                endpoint_type = cast(type[BaseEndpoint], field.type)
                 endpoints.append(self.create_endpoint(endpoint_type))
             self._endpoints = endpoints_type(*endpoints)
         return self._endpoints
 
-    def create_endpoint(self, endpoint_type: Type[BaseEndpointT]) -> BaseEndpointT:
+    def create_endpoint(self, endpoint_type: type[BaseEndpoint]) -> BaseEndpoint:
         """
         Creates an instance of an endpoint class that inherits from BaseEndpoint.
 
         Args:
-            endpoint_type (Type[BaseEndpointT]): The class of the endpoint to instantiate.
+            endpoint_type (Type[BaseEndpoint]): The class of the endpoint to instantiate.
 
         Returns:
-            BaseEndpointT: An instance of the requested endpoint class.
+            BaseEndpoint: An instance of the requested endpoint class.
         """
         return endpoint_type(self._request_context)

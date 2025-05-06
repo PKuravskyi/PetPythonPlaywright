@@ -1,4 +1,4 @@
-.PHONY: install-deps test-all test-smoke test-docker-all test-docker-smoke update-deps lint allure jenkins
+.PHONY: install-deps test-all test-smoke test-docker-all test-docker-smoke update-deps pylint allure jenkins mypy
 
 # Install deps with Poetry
 install-deps:
@@ -25,7 +25,7 @@ update-deps:
 	poetry update
 
 # Lint with Pylint
-lint:
+pylint:
 	poetry run pylint **/*.py
 
 # Serve Allure report
@@ -35,3 +35,7 @@ allure:
 # Start Jenkins locally
 jenkins:
 	docker-compose up -d jenkins
+
+# Lint with mypy
+mypy:
+	poetry run mypy --explicit-package-bases .

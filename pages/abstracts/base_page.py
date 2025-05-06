@@ -48,7 +48,7 @@ class BasePage(ABC):
         """
         ...
 
-    def open(self) -> "BasePage":
+    def open(self: "BasePageT") -> "BasePageT":
         """
         Navigate to a specific URL using the Playwright page.
 
@@ -56,7 +56,7 @@ class BasePage(ABC):
             BasePage: The current page object after navigation.
         """
         with allure.step(f"Open {self.endpoint} page"):
-            self.page.goto(self.endpoint)
+            self.page.goto(str(self.endpoint))
         return self
 
 

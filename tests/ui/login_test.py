@@ -8,12 +8,13 @@ import allure
 import pytest
 from playwright.sync_api import expect
 
+from application.shopping_store_application import ShoppingStoreApplication
 from utils.file_reader import read_json
 
 
 @pytest.mark.ui
 @pytest.mark.smoke
-def test_admin_user_can_login(shopping_store_app) -> None:
+def test_admin_user_can_login(shopping_store_app: ShoppingStoreApplication) -> None:
     """
     Test that validates the admin user can log into the application successfully.
 
