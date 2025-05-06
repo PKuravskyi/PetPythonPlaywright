@@ -14,7 +14,9 @@ from application.shopping_store_application import ShoppingStoreApplication
 
 @pytest.mark.ui
 @pytest.mark.smoke
-def test_new_user_can_be_registered_via_ui(shopping_store_app: ShoppingStoreApplication) -> None:
+def test_new_user_can_be_registered_via_ui(
+    shopping_store_app: ShoppingStoreApplication,
+) -> None:
     """
     Test that validates a new user can be registered via the UI and redirected to the arts page.
 
@@ -30,7 +32,9 @@ def test_new_user_can_be_registered_via_ui(shopping_store_app: ShoppingStoreAppl
 
 
 @pytest.mark.ui
-def test_new_user_can_be_registered_via_be(shopping_store_app: ShoppingStoreApplication) -> None:
+def test_new_user_can_be_registered_via_be(
+    shopping_store_app: ShoppingStoreApplication,
+) -> None:
     """
     Test that validates a new user can be registered via the backend (API) and then logged in via the UI.
 

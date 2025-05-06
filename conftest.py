@@ -25,8 +25,9 @@ from utils.constants import BASE_API_URL
 
 
 @pytest.fixture(name="ui_page")
-def fixture_ui_page(playwright: Playwright, browser_name: str, request: pytest.FixtureRequest) -> Generator[
-    Page, Any, None]:
+def fixture_ui_page(
+    playwright: Playwright, browser_name: str, request: pytest.FixtureRequest
+) -> Generator[Page, Any, None]:
     """
     Fixture to initialize and return a Playwright page for UI tests.
 
@@ -57,7 +58,9 @@ def fixture_ui_page(playwright: Playwright, browser_name: str, request: pytest.F
 
 
 @pytest.fixture(name="api_client")
-def fixture_api_client(playwright: Playwright) -> Generator[APIRequestContext, Any, None]:
+def fixture_api_client(
+    playwright: Playwright,
+) -> Generator[APIRequestContext, Any, None]:
     """
     Fixture to provide an instance of ApiClient for API tests.
 
@@ -73,7 +76,9 @@ def fixture_api_client(playwright: Playwright) -> Generator[APIRequestContext, A
 
 
 @pytest.fixture
-def shopping_store_app(ui_page: Page, api_client: APIRequestContext) -> ShoppingStoreApplication:
+def shopping_store_app(
+    ui_page: Page, api_client: APIRequestContext
+) -> ShoppingStoreApplication:
     """
     Provides an instance of ShoppingStoreApplication initialized with shared Playwright UI and API clients.
 

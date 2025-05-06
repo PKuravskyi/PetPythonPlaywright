@@ -35,7 +35,7 @@ class EndpointFactory(Generic[CommonEndpointsT]):
         self._endpoints: CommonEndpointsT | None = None
 
     def create_endpoints(
-            self, endpoints_type: type[CommonEndpointsT]
+        self, endpoints_type: type[CommonEndpointsT]
     ) -> CommonEndpointsT:
         """
         Instantiates the endpoints defined in a given CommonEndpoints dataclass.
