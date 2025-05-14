@@ -25,12 +25,28 @@ class ArtsPage(BasePage):
         """
         super().__init__(page)
         self.__endpoint: str = BASE_URL
+        self.sort_dropdown: Locator = page.get_by_test_id('sort-dropdown')
         self.products_cards: Locator = page.locator('[data-qa="product-card"]')
+        self.products_prices: Locator = page.locator('[datatype="product-price"]')
 
     @property
     def endpoint(self) -> str:
         """Return the endpoint URL for the Arts page."""
         return self.__endpoint
+
+    @allure.step("Sort arts by '{sort_option}'")
+    def sort_arts_by(self, sort_option) -> "ArtsPage":
+        """
+        Select a sort option from the dropdown to reorder the product list.
+
+        Args:
+            sort_option (str): The value of the sort option (e.g., 'price-asc', 'price-desc').
+
+        Returns:
+            ArtsPage: The current page object for method chaining.
+        """
+        self.sort_dropdown.select_option(sort_option)
+        return self
 
     @allure.step("Add '{art_name}' art to basket")
     def add_art_to_basket(self, art_name: str) -> "ArtsPage":
