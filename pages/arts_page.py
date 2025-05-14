@@ -38,7 +38,7 @@ class ArtsPage(BasePage):
         return self.__endpoint
 
     @allure.step("Sort arts by '{sort_option}'")
-    def sort_arts_by(self, sort_option) -> "ArtsPage":
+    def sort_arts_by(self, sort_option: str) -> "ArtsPage":
         """
         Select a sort option from the dropdown to reorder the product list.
 
