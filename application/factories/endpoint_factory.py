@@ -6,6 +6,7 @@ defined in a CommonEndpoints dataclass. This helps decouple endpoint constructio
 ensuring reusable, type-safe, and structured endpoint management.
 """
 
+import logging
 from dataclasses import fields
 from typing import Generic, cast
 
@@ -26,13 +27,20 @@ class EndpointFactory(Generic[CommonEndpointsT]):
         _endpoints (CommonEndpointsT | None): Cached instance of the created endpoints.
     """
 
-    def __init__(self, request_context: APIRequestContext) -> None:
+    def __init__(
+        self, request_context: APIRequestContext, logger: logging.Logger
+    ) -> None:
         """
         Initializes the EndpointFactory with the given Playwright Page object.
+
+        Args:
+            request_context (APIRequestContext): Playwright request context for API testing.
+            logger (logging.Logger): Logger instance used across endpoints.
         """
         super().__init__()
         self._request_context: APIRequestContext = request_context
         self._endpoints: CommonEndpointsT | None = None
+        self._logger = logger
 
     def create_endpoints(
         self, endpoints_type: type[CommonEndpointsT]
@@ -64,4 +72,4 @@ class EndpointFactory(Generic[CommonEndpointsT]):
         Returns:
             BaseEndpoint: An instance of the requested endpoint class.
         """
-        return endpoint_type(self._request_context)
+        return endpoint_type(self._request_context, self._logger)

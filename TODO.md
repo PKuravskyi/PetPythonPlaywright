@@ -8,4 +8,6 @@
 3. AI support. Ideas: auto generate missing docstrings, run RCA based on failure logs
 4. Download only necessary browsers during test execution
 5. Try to optimize 'Install dependencies' stage to reduce time of installing
-6. Test results logging (?)
+6. Try to always create test results/videos/logs in one folder
+7. Add mypy for linter action
+8. After Black autoformatting commit every other GitHub action is not running anymore

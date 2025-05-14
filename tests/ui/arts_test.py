@@ -88,7 +88,7 @@ def test_art_can_be_removed_from_basket(
 @pytest.mark.ui
 @pytest.mark.parametrize("sort_option", ["price-asc", "price-desc"])
 def test_arts_can_be_sorted_by_price_ascending(
-    shopping_store_app: ShoppingStoreApplication, sort_option
+    shopping_store_app: ShoppingStoreApplication, sort_option: str
 ) -> None:
     """
     Test that validates arts are sorted correctly by price in ascending or descending order.

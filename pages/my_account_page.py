@@ -4,6 +4,8 @@ my_account_page.py
 Defines the MyAccountPage class for interacting with the user's account page.
 """
 
+import logging
+
 from playwright.sync_api import Locator, Page
 
 from pages.abstracts.base_page import BasePage
@@ -15,14 +17,15 @@ class MyAccountPage(BasePage):
     Page object for the "My Account" page.
     """
 
-    def __init__(self, page: Page):
+    def __init__(self, page: Page, logger: logging.Logger):
         """
         Initialize the MyAccountPage with a Playwright Page instance.
 
         Args:
             page (Page): The current browser page instance.
+            logger (logging.Logger): Logger instance.
         """
-        super().__init__(page)
+        super().__init__(page, logger)
         self.__endpoint: str = f"{BASE_URL}/my-account"
 
         self.my_account_label: Locator = page.get_by_role("heading", name="My Account")

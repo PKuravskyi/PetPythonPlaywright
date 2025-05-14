@@ -8,6 +8,7 @@ Usage:
     Subclass or use BaseAPI directly to interact with web service endpoints in a test framework.
 """
 
+import logging
 from typing import TypeVar
 
 import requests
@@ -19,14 +20,16 @@ class BaseEndpoint:
     A base class for interacting with APIs using Playwright's synchronous APIRequestContext.
     """
 
-    def __init__(self, request_context: APIRequestContext):
+    def __init__(self, request_context: APIRequestContext, logger: logging.Logger):
         """
         Initialize the BaseAPI with a shared request context.
 
         Args:
             request_context (APIRequestContext): The Playwright API request context for making HTTP requests.
+            logger (logging.Logger): Logger instance used across endpoints.
         """
         self._context: APIRequestContext = request_context
+        self.log = logger
 
     def _post(self, endpoint: str, body: dict) -> APIResponse:
         """
@@ -39,7 +42,14 @@ class BaseEndpoint:
         Returns:
             APIResponse: A validated API response object.
         """
-        return self.__validate_response(self._context.post(endpoint, data=body))
+        self.log.debug(f"Sending POST request to '{endpoint}' with body: {body}")
+
+        response = self._context.post(endpoint, data=body)
+        self.log.debug(
+            f"Received response: {response.status} {response.status_text} for POST '{endpoint}'"
+        )
+
+        return self.__validate_response(response)
 
     def _get(self, endpoint: str) -> APIResponse:
         """
@@ -51,7 +61,14 @@ class BaseEndpoint:
         Returns:
             APIResponse: A validated API response object.
         """
-        return self.__validate_response(self._context.get(endpoint))
+        self.log.debug(f"Sending GET request to '{endpoint}'")
+
+        response = self._context.get(endpoint)
+        self.log.debug(
+            f"Received response: {response.status} {response.status_text} for GET '{endpoint}'"
+        )
+
+        return self.__validate_response(response)
 
     @staticmethod
     def __validate_response(response: APIResponse) -> APIResponse:

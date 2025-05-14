@@ -4,6 +4,7 @@ conftest.py
 Pytest configuration and fixtures for UI and API tests using Playwright.
 """
 
+import logging
 import pathlib
 import shutil
 from collections.abc import Generator
@@ -17,6 +18,7 @@ from playwright.sync_api import Playwright, Page, APIRequestContext
 
 from application.shopping_store_application import ShoppingStoreApplication
 from utils.constants import BASE_API_URL
+from utils.logger import init_logger
 
 
 @pytest.fixture
@@ -70,6 +72,22 @@ def api_client(
 
 
 @pytest.fixture
+def logger(request: pytest.FixtureRequest, browser_name: str) -> logging.Logger:
+    """
+    Provides an instance of ShoppingStoreApplication initialized with shared Playwright UI and API clients.
+
+    Args:
+        request (pytest.FixtureRequest): The pytest request object used to retrieve other fixtures.
+        browser_name (str): The browser name.
+
+    Returns:
+       Logger instance.
+    """
+    test_name = request.node.originalname
+    return init_logger(test_name, browser_name)
+
+
+@pytest.fixture
 def shopping_store_app(request: pytest.FixtureRequest) -> ShoppingStoreApplication:
     """
     Provides an instance of ShoppingStoreApplication initialized with shared Playwright UI and API clients.
@@ -78,10 +96,12 @@ def shopping_store_app(request: pytest.FixtureRequest) -> ShoppingStoreApplicati
         request (pytest.FixtureRequest): The pytest request object used to retrieve other fixtures.
 
     Returns:
-        ShoppingStoreApplication: A fully initialized application object for UI and API interactions.
+        ShoppingStoreApplication: A fully initialized application object.
     """
     return ShoppingStoreApplication(
-        request.getfixturevalue("ui_page"), request.getfixturevalue("api_client")
+        request.getfixturevalue("ui_page"),
+        request.getfixturevalue("api_client"),
+        request.getfixturevalue("logger"),
     )
 
 
@@ -93,6 +113,10 @@ def pytest_sessionstart() -> None:
     videos_path = pathlib.Path("videos")
     if videos_path.exists() and videos_path.is_dir():
         shutil.rmtree(videos_path)
+
+    logs_path = pathlib.Path("logs")
+    if logs_path.exists() and logs_path.is_dir():
+        shutil.rmtree(logs_path)
 
 
 @pytest.hookimpl(hookwrapper=True)
@@ -120,8 +144,9 @@ def pytest_runtest_teardown(item: Item) -> Generator[None, Any, None]:
     """
     yield
 
-    if dict(item.user_properties).get("failed", False):
+    if dict(item.user_properties).get("failed", True):
         artifacts_dir_path = pathlib.Path("videos") / item.name
+        # Attach video for failed test to Allure
         if artifacts_dir_path.is_dir():
             for file in artifacts_dir_path.iterdir():
                 if file.is_file() and file.suffix == ".webm":

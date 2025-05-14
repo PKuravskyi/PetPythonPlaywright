@@ -4,6 +4,7 @@ signup_page.py
 Defines the SignUpPage class for interacting with the signup page.
 """
 
+import logging
 import time
 
 import allure
@@ -19,14 +20,15 @@ class SignUpPage(BasePage):
     Page object for the "Sign Up" page.
     """
 
-    def __init__(self, page: Page):
+    def __init__(self, page: Page, logger: logging.Logger):
         """
         Initialize the SignUpPage with a Playwright Page instance.
 
         Args:
             page (Page): The current browser page instance.
+            logger (logging.Logger): Logger instance.
         """
-        super().__init__(page)
+        super().__init__(page, logger)
         self.__endpoint: str = f"{BASE_URL}/signup"
 
         self.email_input: Locator = page.get_by_role("textbox", name="E-Mail")
@@ -54,4 +56,6 @@ class SignUpPage(BasePage):
         self.register_button.click()
         self._page.wait_for_url(BASE_URL)
 
-        return ArtsPage(self._page)
+        self.log.debug(f"Registered user '{username}' with password '{password}'")
+
+        return ArtsPage(self._page, self.log)

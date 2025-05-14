@@ -4,6 +4,8 @@ login_page.py
 Defines the LoginPage class for interacting with the login screen.
 """
 
+import logging
+
 import allure
 from playwright.sync_api import Locator, Page
 
@@ -17,14 +19,15 @@ class LoginPage(BasePage):
     Page object for the login page of the application.
     """
 
-    def __init__(self, page: Page):
+    def __init__(self, page: Page, logger: logging.Logger):
         """
         Initialize the LoginPage with a Playwright Page instance.
 
         Args:
             page (Page): The current browser page instance.
+            logger (logging.Logger): Logger instance.
         """
-        super().__init__(page)
+        super().__init__(page, logger)
         self.__endpoint: str = f"{BASE_URL}/login"
 
         self.email_input: Locator = page.get_by_role("textbox", name="E-Mail")
@@ -55,5 +58,6 @@ class LoginPage(BasePage):
             self.password_input.fill(password)
             self.login_button.click()
             self._page.wait_for_url(BASE_URL)
+            self.log.debug(f"Logged in as '{email}', password - '{password}'")
 
-        return ArtsPage(self._page)
+        return ArtsPage(self._page, self.log)
