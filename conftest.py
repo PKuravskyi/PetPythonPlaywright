@@ -141,8 +141,9 @@ def pytest_runtest_teardown(item: Item) -> Generator[None, Any, None]:
     """
     yield
 
-    if dict(item.user_properties).get("failed", False):
+    if dict(item.user_properties).get("failed", True):
         artifacts_dir_path = pathlib.Path("videos") / item.name
+        # Attach video for failed test to Allure
         if artifacts_dir_path.is_dir():
             for file in artifacts_dir_path.iterdir():
                 if file.is_file() and file.suffix == ".webm":
