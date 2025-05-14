@@ -86,9 +86,9 @@ def test_art_can_be_removed_from_basket(
 
 
 @pytest.mark.ui
-@pytest.mark.parametrize('sort_option', ['price-asc', 'price-desc'])
+@pytest.mark.parametrize("sort_option", ["price-asc", "price-desc"])
 def test_arts_can_be_sorted_by_price_ascending(
-        shopping_store_app: ShoppingStoreApplication, sort_option
+    shopping_store_app: ShoppingStoreApplication, sort_option
 ) -> None:
     """
     Test that validates arts are sorted correctly by price in ascending or descending order.
@@ -102,4 +102,6 @@ def test_arts_can_be_sorted_by_price_ascending(
     prices = shopping_store_app.pages.arts_page.products_prices
 
     with allure.step(f"Validate arts are sorted by '{sort_option}'"):
-        expect(prices).to_have_text(sorted(prices.all_text_contents(), reverse=sort_option == 'price-desc'))
+        expect(prices).to_have_text(
+            sorted(prices.all_text_contents(), reverse=sort_option == "price-desc")
+        )

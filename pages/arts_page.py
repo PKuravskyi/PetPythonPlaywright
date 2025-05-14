@@ -25,7 +25,7 @@ class ArtsPage(BasePage):
         """
         super().__init__(page)
         self.__endpoint: str = BASE_URL
-        self.sort_dropdown: Locator = page.get_by_test_id('sort-dropdown')
+        self.sort_dropdown: Locator = page.get_by_test_id("sort-dropdown")
         self.products_cards: Locator = page.locator('[data-qa="product-card"]')
         self.products_prices: Locator = page.locator('[datatype="product-price"]')
 
