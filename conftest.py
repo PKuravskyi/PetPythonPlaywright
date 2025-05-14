@@ -46,6 +46,8 @@ def ui_page(
     context = browser.new_context(record_video_dir=str(video_path))
     page = context.new_page()
 
+    playwright.selectors.set_test_id_attribute("data-qa")
+
     yield page
 
     context.close()
