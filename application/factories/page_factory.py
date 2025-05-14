@@ -5,7 +5,7 @@ Provides a PageFactory class responsible for creating instances of page objects
 defined in a CommonPages dataclass. This helps decouple page construction from usage,
 ensuring reusable, type-safe, and structured page management.
 """
-
+import logging
 from dataclasses import fields
 from typing import Generic, cast
 
@@ -23,20 +23,19 @@ class PageFactory(PageSelectors, Generic[CommonPagesT]):
     Inherits:
         PageSelectors: Provides access to the shared Playwright page instance.
         Generic[CommonPagesT]: Enforces that only types extending CommonPages can be used.
-
-    Attributes:
-        _pages (CommonPagesT | None): Cached instance of the created pages.
     """
 
-    def __init__(self, page: Page) -> None:
+    def __init__(self, page: Page, logger: logging.Logger) -> None:
         """
         Initializes the PageFactory with the given Playwright Page object.
 
         Args:
             page (Page): The Playwright page used to initialize all page objects.
+            logger (logging.Logger): Logger instance used across pages.
         """
         super().__init__(page)
         self._pages: CommonPagesT | None = None
+        self._logger = logger
 
     def create_pages(self, pages_type: type[CommonPagesT]) -> CommonPagesT:
         """
@@ -66,4 +65,4 @@ class PageFactory(PageSelectors, Generic[CommonPagesT]):
         Returns:
             BasePage: An instance of the requested page class.
         """
-        return page_type(self.page)
+        return page_type(self.page, self._logger)

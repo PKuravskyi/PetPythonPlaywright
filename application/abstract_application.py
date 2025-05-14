@@ -4,7 +4,7 @@ abstract_application.py
 Defines an abstract base class for an application, encapsulating shared setup logic.
 Intended to be extended by specific application implementations.
 """
-
+import logging
 from abc import ABC, abstractmethod
 from typing import Any
 
@@ -21,17 +21,18 @@ class AbstractApplication(ABC):
     Provides shared setup logic.
     """
 
-    def __init__(self, page: Page, request_context: APIRequestContext):
+    def __init__(self, page: Page, request_context: APIRequestContext, logger: logging.Logger):
         """
         Initialize the AbstractApplication.
 
         Args:
             page (Page): Playwright Page instance for browser automation.
             request_context (APIRequestContext): Playwright request context for API testing.
+            logger (logging.Logger): Logger instance used across application.
         """
         super().__init__()
-        self._app_page_factory: PageFactory = PageFactory(page)
-        self._app_endpoint_factory: EndpointFactory = EndpointFactory(request_context)
+        self._app_page_factory: PageFactory = PageFactory(page, logger)
+        self._app_endpoint_factory: EndpointFactory = EndpointFactory(request_context, logger)
 
     @property
     @abstractmethod
@@ -61,7 +62,7 @@ class AbstractApplication(ABC):
         Internal accessor for the PageFactory instance.
 
         Returns:
-            PageFactory: Factory for creating and managing page objects.
+            PageFactory: Factory used to create and retrieve page objects.
         """
         return self._app_page_factory
 
@@ -71,6 +72,6 @@ class AbstractApplication(ABC):
         Internal accessor for the EndpointFactory instance.
 
         Returns:
-            EndpointFactory: Factory for creating and managing endpoint objects.
+            EndpointFactory: Factory used to create and retrieve endpoint objects.
         """
         return self._app_endpoint_factory

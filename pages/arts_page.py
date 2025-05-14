@@ -3,6 +3,7 @@ arts_page.py
 
 Contains the ArtsPage class, which represents the main product listing page.
 """
+import logging
 
 import allure
 from playwright.sync_api import Locator, Page
@@ -16,15 +17,17 @@ class ArtsPage(BasePage):
     Page object for the Arts page of the shopping store application.
     """
 
-    def __init__(self, page: Page):
+    def __init__(self, page: Page, logger: logging.Logger):
         """
         Initialize the ArtsPage with a Playwright Page.
 
         Args:
             page (Page): The current browser page instance.
+            logger (logging.Logger): Logger instance.
         """
-        super().__init__(page)
+        super().__init__(page, logger)
         self.__endpoint: str = BASE_URL
+
         self.sort_dropdown: Locator = page.get_by_test_id("sort-dropdown")
         self.products_cards: Locator = page.locator('[data-qa="product-card"]')
         self.products_prices: Locator = page.locator('[datatype="product-price"]')
@@ -46,6 +49,7 @@ class ArtsPage(BasePage):
             ArtsPage: The current page object for method chaining.
         """
         self.sort_dropdown.select_option(sort_option)
+        self.log.debug(f"Sorted arts by '{sort_option}'")
         return self
 
     @allure.step("Add '{art_name}' art to basket")
@@ -60,6 +64,7 @@ class ArtsPage(BasePage):
             ArtsPage: The current page object for method chaining.
         """
         self._page.locator(f'//*[text()="{art_name}"]/..//button').click()
+        self.log.debug(f"Added '{art_name}' art to the basket")
         return self
 
     @allure.step("Remove '{art_name}' art from basket")
@@ -74,4 +79,5 @@ class ArtsPage(BasePage):
             ArtsPage: The current page object for method chaining.
         """
         self._page.locator(f'//*[text()="{art_name}"]/..//button').click()
+        self.log.debug(f"Removed '{art_name}' art from the basket")
         return self

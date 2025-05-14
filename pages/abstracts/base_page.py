@@ -5,7 +5,7 @@ Defines the BasePage class which serves as the foundation for all page objects.
 
 Provides common actions such as navigation, form input handling, and locating shared elements.
 """
-
+import logging
 from abc import ABC, abstractmethod
 from typing import TypeVar
 
@@ -21,15 +21,18 @@ class BasePage(ABC):
     and holds commonly used locators.
     """
 
-    def __init__(self, page: Page) -> None:
+    def __init__(self, page: Page, logger: logging.Logger) -> None:
         """
         Initialize the BasePage with a Playwright Page instance.
 
         Args:
             page (Page): Playwright page object for browser interaction.
+            logger (logging.Logger): Logger instance used across pages.
         """
         super().__init__()
         self._page: Page = page
+
+        self.log = logger
         self.basket_counter_text_field: Locator = page.locator(
             '[data-qa="header-basket-count"]'
         )
@@ -57,6 +60,7 @@ class BasePage(ABC):
         """
         with allure.step(f"Open {self.endpoint} page"):
             self._page.goto(str(self.endpoint))
+            self.log.debug(f"Opened {self.endpoint} page")
         return self
 
 
