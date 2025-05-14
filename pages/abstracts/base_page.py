@@ -5,6 +5,7 @@ Defines the BasePage class which serves as the foundation for all page objects.
 
 Provides common actions such as navigation, form input handling, and locating shared elements.
 """
+
 import logging
 from abc import ABC, abstractmethod
 from typing import TypeVar

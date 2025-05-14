@@ -5,6 +5,7 @@ Provides a PageFactory class responsible for creating instances of page objects
 defined in a CommonPages dataclass. This helps decouple page construction from usage,
 ensuring reusable, type-safe, and structured page management.
 """
+
 import logging
 from dataclasses import fields
 from typing import Generic, cast

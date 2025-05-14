@@ -5,6 +5,7 @@ Provides an EndpointFactory class responsible for creating instances of endpoint
 defined in a CommonEndpoints dataclass. This helps decouple endpoint construction from usage,
 ensuring reusable, type-safe, and structured endpoint management.
 """
+
 import logging
 from dataclasses import fields
 from typing import Generic, cast
@@ -26,7 +27,9 @@ class EndpointFactory(Generic[CommonEndpointsT]):
         _endpoints (CommonEndpointsT | None): Cached instance of the created endpoints.
     """
 
-    def __init__(self, request_context: APIRequestContext, logger: logging.Logger) -> None:
+    def __init__(
+        self, request_context: APIRequestContext, logger: logging.Logger
+    ) -> None:
         """
         Initializes the EndpointFactory with the given Playwright Page object.
 
@@ -40,7 +43,7 @@ class EndpointFactory(Generic[CommonEndpointsT]):
         self._logger = logger
 
     def create_endpoints(
-            self, endpoints_type: type[CommonEndpointsT]
+        self, endpoints_type: type[CommonEndpointsT]
     ) -> CommonEndpointsT:
         """
         Instantiates the endpoints defined in a given CommonEndpoints dataclass.

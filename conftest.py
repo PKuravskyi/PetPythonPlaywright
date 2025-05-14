@@ -3,6 +3,7 @@ conftest.py
 
 Pytest configuration and fixtures for UI and API tests using Playwright.
 """
+
 import logging
 import pathlib
 import shutil
@@ -22,7 +23,7 @@ from utils.logger import init_logger
 
 @pytest.fixture
 def ui_page(
-        playwright: Playwright, browser_name: str, request: pytest.FixtureRequest
+    playwright: Playwright, browser_name: str, request: pytest.FixtureRequest
 ) -> Generator[Page, Any, None]:
     """
     Fixture to initialize and return a Playwright page for UI tests.
@@ -57,7 +58,7 @@ def ui_page(
 
 @pytest.fixture
 def api_client(
-        playwright: Playwright,
+    playwright: Playwright,
 ) -> Generator[APIRequestContext, Any, None]:
     """
     Fixture to provide an API context for API tests.
@@ -98,7 +99,9 @@ def shopping_store_app(request: pytest.FixtureRequest) -> ShoppingStoreApplicati
         ShoppingStoreApplication: A fully initialized application object.
     """
     return ShoppingStoreApplication(
-        request.getfixturevalue("ui_page"), request.getfixturevalue("api_client"), request.getfixturevalue("logger")
+        request.getfixturevalue("ui_page"),
+        request.getfixturevalue("api_client"),
+        request.getfixturevalue("logger"),
     )
 
 

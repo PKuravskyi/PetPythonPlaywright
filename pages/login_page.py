@@ -3,6 +3,7 @@ login_page.py
 
 Defines the LoginPage class for interacting with the login screen.
 """
+
 import logging
 
 import allure

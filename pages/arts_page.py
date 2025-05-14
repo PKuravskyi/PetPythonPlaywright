@@ -3,6 +3,7 @@ arts_page.py
 
 Contains the ArtsPage class, which represents the main product listing page.
 """
+
 import logging
 
 import allure

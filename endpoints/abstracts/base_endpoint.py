@@ -7,6 +7,7 @@ API requests using Playwright's APIRequestContext and validating responses.
 Usage:
     Subclass or use BaseAPI directly to interact with web service endpoints in a test framework.
 """
+
 import logging
 from typing import TypeVar
 
@@ -44,7 +45,9 @@ class BaseEndpoint:
         self.log.debug(f"Sending POST request to '{endpoint}' with body: {body}")
 
         response = self._context.post(endpoint, data=body)
-        self.log.debug(f"Received response: {response.status} {response.status_text} for POST '{endpoint}'")
+        self.log.debug(
+            f"Received response: {response.status} {response.status_text} for POST '{endpoint}'"
+        )
 
         return self.__validate_response(response)
 
@@ -61,7 +64,9 @@ class BaseEndpoint:
         self.log.debug(f"Sending GET request to '{endpoint}'")
 
         response = self._context.get(endpoint)
-        self.log.debug(f"Received response: {response.status} {response.status_text} for GET '{endpoint}'")
+        self.log.debug(
+            f"Received response: {response.status} {response.status_text} for GET '{endpoint}'"
+        )
 
         return self.__validate_response(response)
 

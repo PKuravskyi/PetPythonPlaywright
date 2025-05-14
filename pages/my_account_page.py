@@ -3,6 +3,7 @@ my_account_page.py
 
 Defines the MyAccountPage class for interacting with the user's account page.
 """
+
 import logging
 
 from playwright.sync_api import Locator, Page

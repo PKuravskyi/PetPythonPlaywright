@@ -3,6 +3,7 @@ signup_page.py
 
 Defines the SignUpPage class for interacting with the signup page.
 """
+
 import logging
 import time
 
