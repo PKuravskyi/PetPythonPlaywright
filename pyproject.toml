@@ -23,11 +23,17 @@ dependencies = [
 [tool.poetry]
 package-mode = false
 
+# vulture linter settings
 [tool.vulture]
 exclude = [".venv"]
 make_whitelist = true
 paths = ["."]
 min_confidence = 80
+
+# mypy linter settings
+[tool.mypy]
+disallow_untyped_defs = true
+disable_error_code = ["import-untyped"]
 
 [build-system]
 requires = ["poetry-core>=2.0.0,<3.0.0"]
