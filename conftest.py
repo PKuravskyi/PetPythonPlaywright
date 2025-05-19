@@ -8,7 +8,7 @@ import logging
 import pathlib
 import shutil
 from collections.abc import Generator
-from typing import Any
+from typing import Any, Dict
 
 import allure
 import pytest
@@ -20,6 +20,16 @@ from application.shopping_store_application import ShoppingStoreApplication
 from utils.constants import BASE_API_URL
 from utils.logger import init_logger
 
+
+@pytest.fixture(scope="session")
+def browser_context_args(browser_context_args: Dict[str, Any]) -> Dict[str, Any]:
+    """Configuring browser context to ignore https errors"""
+    return {
+        **browser_context_args,
+        "ignore_https_errors": True,
+        "viewport": {"width": 1920, "height": 1080},
+        "permissions": ["clipboard-read", "clipboard-write"],
+    }
 
 @pytest.fixture
 def ui_page(
