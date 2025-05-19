@@ -8,7 +8,7 @@ import logging
 import pathlib
 import shutil
 from collections.abc import Generator
-from typing import Any, Dict
+from typing import Any
 
 import allure
 import pytest
@@ -22,7 +22,7 @@ from utils.logger import init_logger
 
 
 @pytest.fixture(scope="session")
-def browser_context_args(browser_context_args: Dict[str, Any]) -> Dict[str, Any]:
+def browser_context_args(browser_context_args: dict[str, Any]) -> dict[str, Any]: # pylint: disable=redefined-outer-name
     """Configuring browser context to ignore https errors"""
     return {
         **browser_context_args,
