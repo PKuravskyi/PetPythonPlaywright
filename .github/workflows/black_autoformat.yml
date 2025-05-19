@@ -5,10 +5,6 @@ on:
     paths:
       - '**/*.py'
 
-concurrency:
-  group: ${{ github.workflow }}-${{ github.head_ref || github.run_id }}
-  cancel-in-progress: false
-
 jobs:
   format:
     runs-on: ubuntu-latest
@@ -18,9 +14,7 @@ jobs:
         uses: actions/checkout@v4
         with:
           ref: ${{ github.head_ref }}
-
-      - name: Fetch all remote branches
-        run: git fetch --all
+          fetch-depth: 0
 
       - name: Set up Python
         uses: actions/setup-python@v5
@@ -32,23 +26,35 @@ jobs:
           curl -sSL https://install.python-poetry.org | python3 -
           poetry install
 
-      - name: Get modified files
-        id: changed
-        run: |
-          files=$(git diff --name-only origin/${{ github.base_ref }} -- '*.py' | xargs)
-          echo "$files" > changed_files.txt
-          echo "files=$files" >> $GITHUB_OUTPUT
-
       - name: Run Black
-        if: steps.changed.outputs.files != ''
         run: |
-          poetry run black --verbose --config pyproject.toml $(cat changed_files.txt)
+          poetry run black --config pyproject.toml .
 
-      - name: Commit and push changes
-        if: steps.changed.outputs.files != ''
+      - name: Create a new branch and push formatting changes
         run: |
+          branch_name="black-fixes/${{ github.head_ref }}"
           git config user.name "github-actions"
           git config user.email "github-actions@github.com"
-          git add $(cat changed_files.txt)
-          git commit -m "Apply Black formatting" || echo "No changes to commit"
-          git push
+      
+          if [[ -n $(git status --porcelain) ]]; then
+            git checkout -b "$branch_name"
+            git add .
+            git commit -m "Apply Black formatting"
+            git push origin "$branch_name"
+      
+            echo "needs_pr=true" >> $GITHUB_ENV
+          else
+            echo "No formatting changes detected"
+            echo "needs_pr=false" >> $GITHUB_ENV
+          fi
+
+      - name: Create a PR with Black fixes
+        if: env.needs_pr == 'true'
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          gh pr create --head "black-fixes/${{ github.head_ref }}" \
+                       --base "${{ github.head_ref }}" \
+                       --title "Apply Black formatting" \
+                       --body "This PR applies auto-formatting using Black."
+      
