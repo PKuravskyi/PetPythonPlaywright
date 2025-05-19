@@ -46,7 +46,9 @@ def ui_page(
     else:
         browser = playwright.chromium.launch(headless=False)
     context = browser.new_context(record_video_dir=str(video_path))
-    context.tracing.start(title=request.node.nodeid, screenshots=True, snapshots=True, sources=True)
+    context.tracing.start(
+        title=request.node.nodeid, screenshots=True, snapshots=True, sources=True
+    )
     page = context.new_page()
 
     playwright.selectors.set_test_id_attribute("data-qa")
@@ -68,7 +70,7 @@ def ui_page(
 
 @pytest.fixture
 def api_client(
-        playwright: Playwright,
+    playwright: Playwright,
 ) -> Generator[APIRequestContext, Any, None]:
     """
     Fixture to provide an API context for API tests.
