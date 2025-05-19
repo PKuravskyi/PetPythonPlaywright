@@ -31,6 +31,7 @@ def browser_context_args(browser_context_args: Dict[str, Any]) -> Dict[str, Any]
         "permissions": ["clipboard-read", "clipboard-write"],
     }
 
+
 @pytest.fixture
 def ui_page(
     playwright: Playwright, browser_name: str, request: pytest.FixtureRequest
