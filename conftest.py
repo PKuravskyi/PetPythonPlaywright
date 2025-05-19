@@ -46,11 +46,23 @@ def ui_page(
     else:
         browser = playwright.chromium.launch(headless=False)
     context = browser.new_context(record_video_dir=str(video_path))
+    context.tracing.start(
+        title=request.node.nodeid, screenshots=True, snapshots=True, sources=True
+    )
     page = context.new_page()
 
     playwright.selectors.set_test_id_attribute("data-qa")
 
     yield page
+
+    # Save trace ONLY if test failed
+    if dict(request.node.user_properties).get("failed", True):
+        trace_dir = pathlib.Path("traces")
+        trace_dir.mkdir(parents=True, exist_ok=True)
+        trace_path = trace_dir / f"trace_{request.node.name}.zip"
+        context.tracing.stop(path=str(trace_path))
+    else:
+        context.tracing.stop()
 
     context.close()
     browser.close()
@@ -118,6 +130,10 @@ def pytest_sessionstart() -> None:
     if logs_path.exists() and logs_path.is_dir():
         shutil.rmtree(logs_path)
 
+    traces_path = pathlib.Path("traces")
+    if traces_path.exists() and traces_path.is_dir():
+        shutil.rmtree(traces_path)
+
 
 @pytest.hookimpl(hookwrapper=True)
 def pytest_runtest_makereport(item: Item, call: CallInfo) -> Generator[None, Any, None]:
@@ -144,9 +160,10 @@ def pytest_runtest_teardown(item: Item) -> Generator[None, Any, None]:
     """
     yield
 
+    # Attach results to Allure only for failed tests
     if dict(item.user_properties).get("failed", True):
         artifacts_dir_path = pathlib.Path("videos") / item.name
-        # Attach video for failed test to Allure
+        # Video recording
         if artifacts_dir_path.is_dir():
             for file in artifacts_dir_path.iterdir():
                 if file.is_file() and file.suffix == ".webm":
@@ -155,3 +172,7 @@ def pytest_runtest_teardown(item: Item) -> Generator[None, Any, None]:
                         name=file.name,
                         attachment_type=allure.attachment_type.WEBM,
                     )
+        # Playwright trace
+        trace_file = pathlib.Path("traces") / f"trace_{item.name}.zip"
+        if trace_file.exists():
+            allure.attach.file(trace_file, name=trace_file.name, extension="zip")

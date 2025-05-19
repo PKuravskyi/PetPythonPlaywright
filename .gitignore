@@ -4,7 +4,7 @@ __pycache__
 
 .env
 # test reports
-test-reports
+traces
 allure-results
 videos
 logs

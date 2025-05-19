@@ -87,7 +87,7 @@ def test_art_can_be_removed_from_basket(
 
 @pytest.mark.ui
 @pytest.mark.parametrize("sort_option", ["price-asc", "price-desc"])
-def test_arts_can_be_sorted_by_price_ascending(
+def test_arts_can_be_sorted_by_price(
     shopping_store_app: ShoppingStoreApplication, sort_option: str
 ) -> None:
     """
