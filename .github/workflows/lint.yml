@@ -54,3 +54,9 @@ jobs:
         continue-on-error: true
         run: |
           poetry run mypy --explicit-package-bases ${{ steps.changed.outputs.files }}
+
+      - name: Run Black
+        if: steps.changed.outputs.files != ''
+        continue-on-error: true
+        run: |
+         poetry run black --check --config pyproject.toml ${{ steps.changed.outputs.files }}

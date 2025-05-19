@@ -22,7 +22,9 @@ from utils.logger import init_logger
 
 
 @pytest.fixture(scope="session")
-def browser_context_args(browser_context_args: dict[str, Any]) -> dict[str, Any]: # pylint: disable=redefined-outer-name
+def browser_context_args(  # pylint: disable=redefined-outer-name
+    browser_context_args: dict[str, Any],
+) -> dict[str, Any]:
     """Configuring browser context to ignore https errors"""
     return {
         **browser_context_args,
@@ -30,6 +32,7 @@ def browser_context_args(browser_context_args: dict[str, Any]) -> dict[str, Any]
         "viewport": {"width": 1920, "height": 1080},
         "permissions": ["clipboard-read", "clipboard-write"],
     }
+
 
 @pytest.fixture
 def ui_page(

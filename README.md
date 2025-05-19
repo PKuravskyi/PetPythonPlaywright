@@ -3,7 +3,7 @@
 ## Prerequisites:
 
 [Install Poetry](https://python-poetry.org/docs/#installation) on your local machine  
-[Install Make](https://www.google.com/search?q=how+to+install+%22Make%22) on your local machine (optional)
+(optional) [Install Make](https://www.google.com/search?q=how+to+install+%22Make%22) on your local machine
 
 ### How to run tests locally:
 
@@ -59,6 +59,12 @@ Example docker-compose command to run only working smoke UI tests in parallel:
 
 5. Press **"Run workflow"** and wait for it to finish.
 6. Allure reports will be uploaded as artifacts.
+
+### How to use pre-commit hook:
+
+1. Install pre-commit locally: `pre-commit install`
+2. You can run some pre-commit linters beforehand, example:
+`pre-commit run --files $(git diff --name-only main)`
 
 ### How to start Jenkins UI:
 
