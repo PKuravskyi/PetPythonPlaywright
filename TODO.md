@@ -7,5 +7,4 @@
 2. Files handling (csv etc.)
 3. AI support. Ideas: auto generate missing docstrings, run RCA based on failure logs
 4. Download only necessary browsers during test execution
-5. Try to optimize 'Install dependencies' stage to reduce time of installing
-6. Try to always create test results/videos/logs in one folder
+5. Try to always create test results/videos/logs in one folder
