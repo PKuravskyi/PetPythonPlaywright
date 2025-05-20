@@ -53,11 +53,33 @@ jobs:
         with:
           python-version: '3.x'
 
+      - name: Cache Poetry dependencies
+        uses: actions/cache@v4
+        with:
+          path: |
+            ~/.cache/pypoetry
+            ~/.cache/pip
+            .venv
+          key: ${{ runner.os }}-poetry-${{ hashFiles('**/poetry.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-poetry-
+
+      - name: Cache Playwright browsers
+        uses: actions/cache@v4
+        with:
+          path: ~/.cache/ms-playwright
+          key: ${{ runner.os }}-playwright-${{ hashFiles('**/poetry.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-playwright-
+
       - name: Install dependencies
         run: |
           pip install poetry
           poetry install --no-interaction --no-ansi
-          poetry run python -m playwright install --with-deps
+          # Extract selected browsers and install only those
+          BROWSERS="${{ github.event.inputs.browsers || 'chromium, firefox, webkit' }}"
+          BROWSERS=$(echo "$BROWSERS" | sed 's/, */,/g' | tr ',' ' ')
+          poetry run python -m playwright install --with-deps $BROWSERS
 
       - name: Start Shopping Store App
         run: |
