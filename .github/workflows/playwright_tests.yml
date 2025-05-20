@@ -76,11 +76,10 @@ jobs:
         run: |
           pip install poetry
           poetry install --no-interaction --no-ansi
-          poetry run python -m playwright install --with-deps
           # Extract selected browsers and install only those
           BROWSERS="${{ github.event.inputs.browsers || 'chromium, firefox, webkit' }}"
           BROWSERS=$(echo "$BROWSERS" | sed 's/, */,/g' | tr ',' ' ')
-          poetry run python -m playwright install $BROWSERS
+          poetry run python -m playwright install --with-deps $BROWSERS
 
       - name: Start Shopping Store App
         run: |
