@@ -32,11 +32,10 @@ jobs:
       - name: Get modified Python files
         id: changed
         run: |
-          files=$(git diff --name-only origin/main...HEAD | grep '\.py$' || true)
+          files=$(git diff --name-only origin/main...HEAD -- '*.py')
           echo "Modified Python files:"
           echo "$files"
-          files_json=$(printf '%s\n' "$files" | jq -R . | jq -s .)
-          echo "files=$files_json" >> $GITHUB_OUTPUT
+          echo "files=$files" >> $GITHUB_OUTPUT
 
       - name: Run Pylint
         if: steps.changed.outputs.files != ''
