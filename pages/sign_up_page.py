@@ -54,8 +54,8 @@ class SignUpPage(BasePage):
         self.email_input.fill(username)
         self.password_input.fill(password)
         self.register_button.click()
-        self._page.wait_for_url(BASE_URL)
+        self.page.wait_for_url(BASE_URL)
 
         self.log.debug(f"Registered user '{username}' with password '{password}'")
 
-        return ArtsPage(self._page, self.log)
+        return ArtsPage(self.page, self.log)

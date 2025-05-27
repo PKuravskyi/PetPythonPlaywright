@@ -57,7 +57,7 @@ class LoginPage(BasePage):
             self.email_input.fill(email)
             self.password_input.fill(password)
             self.login_button.click()
-            self._page.wait_for_url(BASE_URL)
+            self.page.wait_for_url(BASE_URL)
             self.log.debug(f"Logged in as '{email}', password - '{password}'")
 
-        return ArtsPage(self._page, self.log)
+        return ArtsPage(self.page, self.log)

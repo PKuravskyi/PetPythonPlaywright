@@ -31,7 +31,7 @@ class BasePage(ABC):
             logger (logging.Logger): Logger instance used across pages.
         """
         super().__init__()
-        self._page: Page = page
+        self.page: Page = page
 
         self.log = logger
         self.basket_counter_text_field: Locator = page.locator(
@@ -60,7 +60,7 @@ class BasePage(ABC):
             BasePage: The current page object after navigation.
         """
         with allure.step(f"Open {self.endpoint} page"):
-            self._page.goto(str(self.endpoint))
+            self.page.goto(str(self.endpoint))
             self.log.debug(f"Opened {self.endpoint} page")
         return self
 
