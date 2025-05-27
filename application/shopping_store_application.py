@@ -28,6 +28,7 @@ class ShoppingStoreApplicationPages(CommonPages):
     Defines all specific pages that are part of this app.
     """
 
+    # pylint: disable=too-many-instance-attributes
     arts_page: ArtsPage
     login_page: LoginPage
     my_account_page: MyAccountPage

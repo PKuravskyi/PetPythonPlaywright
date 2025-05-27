@@ -142,11 +142,11 @@ def test_art_can_be_purchased(
 
     delivery_address = read_csv("delivery_address.csv")[0]
     shopping_store_app.pages.delivery_details_page.enter_delivery_address(
-        delivery_address["first_name"],
-        delivery_address["last_name"],
-        delivery_address["street"],
-        delivery_address["post_code"],
-        delivery_address["city"],
+        first_name=delivery_address["first_name"],
+        last_name=delivery_address["last_name"],
+        street=delivery_address["street"],
+        post_code=delivery_address["post_code"],
+        city=delivery_address["city"],
     )
     shopping_store_app.pages.delivery_details_page.continue_to_payment_button.click()
 
@@ -159,7 +159,7 @@ def test_art_can_be_purchased(
     )
     shopping_store_app.pages.payment_page.pay_button.click()
 
-    with allure.step(f"Validate Thank-you page is opened after successful purchase"):
+    with allure.step("Validate Thank-you page is opened after successful purchase"):
         expect(
             shopping_store_app.pages.thank_you_page.back_to_shop_button
         ).to_be_visible()

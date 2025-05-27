@@ -65,7 +65,11 @@ class PaymentPage(BasePage):
             self.valid_until_input_input.fill(valid_until)
             self.credit_card_cvc_input.fill(cc_cvc)
             self.log.debug(
-                f"Entered credit card details: cc_owner - {cc_owner}, cc_number - {cc_number}, valid_until - {valid_until}, cc_cvc - {cc_cvc}"
+                f"Entered credit card details: "
+                f"cc_owner - {cc_owner}, "
+                f"cc_number - {cc_number}, "
+                f"valid_until - {valid_until}, "
+                f"cc_cvc - {cc_cvc}"
             )
 
         return PaymentPage(self.page, self.log)

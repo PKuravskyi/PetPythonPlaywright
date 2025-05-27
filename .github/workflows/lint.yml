@@ -33,31 +33,32 @@ jobs:
         id: changed
         run: |
           files=$(git diff --name-only origin/main...HEAD -- '*.py')
-          echo "Modified Python files:"
-          echo "$files"
-          files_string=$(echo "$files" | paste -sd " " -)
-          echo "files=$files_string" >> "$GITHUB_OUTPUT"
+          echo "files=$(echo "$files" | paste -sd " " -)" >> "$GITHUB_OUTPUT"
 
-      - name: Run Pylint
+      - name: Run linters
         if: steps.changed.outputs.files != ''
-        continue-on-error: true
         run: |
-          poetry run pylint ${{ steps.changed.outputs.files }}
+          set -e
+          files="${{ steps.changed.outputs.files }}"
+          echo "Running linters on: $files"
 
-      - name: Run Vulture
-        if: steps.changed.outputs.files != ''
-        continue-on-error: true
-        run: |
-          poetry run vulture ${{ steps.changed.outputs.files }}
+          # Run Pylint
+          poetry run pylint $files || pylint_status=$?
 
-      - name: Run Mypy
-        if: steps.changed.outputs.files != ''
-        continue-on-error: true
-        run: |
-          poetry run mypy --explicit-package-bases ${{ steps.changed.outputs.files }}
+          # Run Vulture
+          poetry run vulture $files || vulture_status=$?
 
-      - name: Run Black
-        if: steps.changed.outputs.files != ''
-        continue-on-error: true
-        run: |
-         poetry run black --check --config pyproject.toml ${{ steps.changed.outputs.files }}
+          # Run Mypy
+          poetry run mypy --explicit-package-bases $files || mypy_status=$?
+
+          # Run Black
+          poetry run black --check --config pyproject.toml $files || black_status=$?
+
+          # Sum up results
+          exit_code=0
+          [ "$pylint_status" ] && exit_code=1
+          [ "$vulture_status" ] && exit_code=1
+          [ "$mypy_status" ] && exit_code=1
+          [ "$black_status" ] && exit_code=1
+
+          exit $exit_code

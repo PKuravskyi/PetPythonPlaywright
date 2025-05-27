@@ -44,7 +44,7 @@ class DeliveryDetailsPage(BasePage):
         return self.__endpoint
 
     def enter_delivery_address(
-        self, first_name: str, last_name: str, street: str, post_code: str, city: str
+        self, *, first_name: str, last_name: str, street: str, post_code: str, city: str
     ) -> "DeliveryDetailsPage":
         """
         Fills in the delivery address form with the provided user details.
@@ -68,7 +68,12 @@ class DeliveryDetailsPage(BasePage):
             self.post_code_input.fill(post_code)
             self.city_input.fill(city)
             self.log.debug(
-                f"Entered delivery address: first_name - {first_name}, last_name - {last_name}, street - {street}, post_code - {post_code}, city - {city}"
+                f"Entered delivery address: "
+                f"first_name - {first_name}, "
+                f"last_name - {last_name}, "
+                f"street - {street}, "
+                f"post_code - {post_code}, "
+                f"city - {city}"
             )
 
         return DeliveryDetailsPage(self.page, self.log)
