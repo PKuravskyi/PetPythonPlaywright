@@ -11,9 +11,13 @@ from application.abstract_application import AbstractApplication
 from application.common import CommonPages, CommonEndpoints
 from endpoints.sign_up_endpoint import SignUpEndpoint
 from pages.arts_page import ArtsPage
+from pages.basket_page import BasketPage
+from pages.delivery_details_page import DeliveryDetailsPage
 from pages.login_page import LoginPage
 from pages.my_account_page import MyAccountPage
+from pages.payment_page import PaymentPage
 from pages.sign_up_page import SignUpPage
+from pages.thank_you_page import ThankYouPage
 
 
 @dataclass
@@ -28,6 +32,10 @@ class ShoppingStoreApplicationPages(CommonPages):
     login_page: LoginPage
     my_account_page: MyAccountPage
     sign_up_page: SignUpPage
+    basket_page: BasketPage
+    delivery_details_page: DeliveryDetailsPage
+    payment_page: PaymentPage
+    thank_you_page: ThankYouPage
 
 
 @dataclass

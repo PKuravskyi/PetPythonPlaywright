@@ -25,7 +25,9 @@ from utils.logger import init_logger
 def browser_context_args(  # pylint: disable=redefined-outer-name
     browser_context_args: dict[str, Any],
 ) -> dict[str, Any]:
-    """Configuring browser context to ignore https errors"""
+    """
+    Browser context configurations
+    """
     return {
         **browser_context_args,
         "ignore_https_errors": True,

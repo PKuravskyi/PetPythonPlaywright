@@ -9,6 +9,7 @@ import pytest
 from playwright.sync_api import expect
 
 from application.shopping_store_application import ShoppingStoreApplication
+from utils.file_reader import read_csv, read_json
 
 
 @pytest.mark.ui
@@ -105,3 +106,60 @@ def test_arts_can_be_sorted_by_price(
         expect(prices).to_have_text(
             sorted(prices.all_text_contents(), reverse=sort_option == "price-desc")
         )
+
+
+@pytest.mark.ui
+@pytest.mark.smoke
+def test_art_can_be_purchased(
+    shopping_store_app: ShoppingStoreApplication,
+) -> None:
+    """
+    Test that validates art can be successfully purchased.
+
+    Steps:
+    - Sign up a new random user and log in.
+    - Add two specific art items to the basket on Arts page.
+    - Enter delivery address on Checkout page.
+    - Enter credit card details on Payment page.
+    - Validate the thank-you page is displayed (purchase was successful).
+    """
+
+    user = shopping_store_app.endpoints.sign_up_endpoint.sign_up_random_user()
+    (
+        shopping_store_app.pages.login_page.open().login(
+            user["username"], user["password"]
+        )
+    )
+
+    shopping_store_app.pages.arts_page.open()
+
+    (
+        shopping_store_app.pages.arts_page.add_art_to_basket(
+            "Mountain Landscape"
+        ).add_art_to_basket("Baby Zebra with butterfly")
+    )
+    shopping_store_app.pages.basket_page.open().continue_to_checkout_button.click()
+
+    delivery_address = read_csv("delivery_address.csv")[0]
+    shopping_store_app.pages.delivery_details_page.enter_delivery_address(
+        delivery_address["first_name"],
+        delivery_address["last_name"],
+        delivery_address["street"],
+        delivery_address["post_code"],
+        delivery_address["city"],
+    )
+    shopping_store_app.pages.delivery_details_page.continue_to_payment_button.click()
+
+    cc_details = read_json("credit_card_details.json")
+    shopping_store_app.pages.payment_page.enter_credit_card_details(
+        cc_details["cc_owner"],
+        cc_details["cc_number"],
+        cc_details["valid_until"],
+        cc_details["cc_cvc"],
+    )
+    shopping_store_app.pages.payment_page.pay_button.click()
+
+    with allure.step(f"Validate Thank-you page is opened after successful purchase"):
+        expect(
+            shopping_store_app.pages.thank_you_page.back_to_shop_button
+        ).to_be_visible()

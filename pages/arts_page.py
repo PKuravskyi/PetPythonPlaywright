@@ -64,7 +64,7 @@ class ArtsPage(BasePage):
         Returns:
             ArtsPage: The current page object for method chaining.
         """
-        self._page.locator(f'//*[text()="{art_name}"]/..//button').click()
+        self.page.locator(f'//*[text()="{art_name}"]/..//button').click()
         self.log.debug(f"Added '{art_name}' art to the basket")
         return self
 
@@ -79,6 +79,6 @@ class ArtsPage(BasePage):
         Returns:
             ArtsPage: The current page object for method chaining.
         """
-        self._page.locator(f'//*[text()="{art_name}"]/..//button').click()
+        self.page.locator(f'//*[text()="{art_name}"]/..//button').click()
         self.log.debug(f"Removed '{art_name}' art from the basket")
         return self

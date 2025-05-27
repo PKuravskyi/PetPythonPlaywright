@@ -4,6 +4,5 @@
    3. Multiple windows
    4. Waiting for something to happen
    5. BrowserSession, cookies storage
-2. Files handling (csv etc.)
-3. AI support. Ideas: auto generate missing docstrings, run RCA based on failure logs
-4. Try to always create test results/videos/logs in one folder
+2. AI support. Ideas: auto generate missing docstrings, run RCA based on failure logs
+3. Try to always create test results/videos/logs in one folder
