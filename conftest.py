@@ -18,7 +18,7 @@ from _pytest.config import Config
 from playwright.sync_api import Playwright, Page, APIRequestContext
 
 from application.shopping_store_application import ShoppingStoreApplication
-from utils.ai_helper import generate_failure_ai_summary
+from utils.ai_helper import generate_ai_summary
 from utils.constants import BASE_API_URL
 from utils.logger import init_logger
 from utils.paths import (
@@ -215,4 +215,4 @@ def pytest_sessionfinish() -> None:
     """
     Hook that runs after session is finished.
     """
-    generate_failure_ai_summary()
+    generate_ai_summary()

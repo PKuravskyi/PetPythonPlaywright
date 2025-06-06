@@ -36,4 +36,4 @@ def test_admin_user_can_login(shopping_store_app: ShoppingStoreApplication) -> N
     with allure.step("Validate 'admin' user is logged in"):
         expect(
             shopping_store_app.pages.my_account_page.email_address_label
-        ).to_contain_text("incorrect")
+        ).to_contain_text(admin_user["username"])

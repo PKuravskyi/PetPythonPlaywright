@@ -9,10 +9,11 @@ import os
 import pathlib
 import re
 
+import markdown
 import requests
 from requests import Response
 
-from utils.paths import TESTS_DIR
+from utils.paths import TESTS_DIR, AI_REPORTS_PATH
 
 API_KEY: str | None = os.getenv("OPENROUTER_API_KEY")
 MODEL: str = "deepseek/deepseek-chat-v3-0324:free"
@@ -88,19 +89,19 @@ def ask_ai_about_failures() -> list:
     return responses
 
 
-def generate_failure_ai_summary() -> None:
+def generate_ai_summary() -> None:
     """
-    Generates a Markdown summary of AI suggestions for failed tests.
-    Saves it as ai_summary.md.
+    Generates a summary of AI suggestions for failed tests.
     """
-    print("\n\n🤖 Asking AI for help with failed tests...")
+    print("\n\nAsking AI for help with failed tests...")
 
     suggestions: list = ask_ai_about_failures()
     if not suggestions:
-        print("✅ No test failures found.\n")
+        print("No test failures found.\n")
         return
 
-    md_lines: list = ["# 🤖 AI Suggestions for Test Failures\n", "## Failed tests\n"]
+    AI_REPORTS_PATH.mkdir(parents=True, exist_ok=True)
+    md_lines: list = ["# AI Suggestions for Test Failures\n", "## Failed tests\n"]
 
     # Table of contents
     for suggestion in suggestions:
@@ -113,8 +114,13 @@ def generate_failure_ai_summary() -> None:
     for suggestion in suggestions:
         md_lines.append(f"## {suggestion["test"]}\n{suggestion['ai_suggestion']}\n")
 
-    # Save to file
-    summary_path: pathlib.Path = pathlib.Path(TESTS_DIR / "ai_summary.md")
+    # Save to md file
+    summary_path: pathlib.Path = pathlib.Path(AI_REPORTS_PATH / "ai_summary.md")
     summary_path.write_text("\n".join(md_lines), encoding="utf-8")
 
-    print("🤖 AI summary was generated and saved to ai_summary.md\n")
+    # Convert Markdown to HTML
+    html_content = markdown.markdown("\n".join(md_lines), extensions=["fenced_code"])
+    html_path: pathlib.Path = pathlib.Path(AI_REPORTS_PATH / "ai_summary.html")
+    html_path.write_text(html_content, encoding="utf-8")
+
+    print("AI summary was generated and saved to ai_summary.md and ai_summary.html\n")
