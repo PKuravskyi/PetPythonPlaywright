@@ -8,3 +8,5 @@ traces
 allure-results
 videos
 logs
+tests_report*
+ai_summary*

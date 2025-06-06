@@ -14,11 +14,29 @@ import allure
 import pytest
 from _pytest.nodes import Item
 from _pytest.runner import CallInfo
+from _pytest.config import Config
 from playwright.sync_api import Playwright, Page, APIRequestContext
 
 from application.shopping_store_application import ShoppingStoreApplication
+from utils.ai_helper import generate_failure_ai_summary
 from utils.constants import BASE_API_URL
 from utils.logger import init_logger
+from utils.paths import (
+    ALLURE_PATH,
+    TESTS_REPORT_PATH,
+    VIDEOS_DIR,
+    TRACES_DIR,
+    LOGS_PATH,
+)
+
+
+@pytest.hookimpl(tryfirst=True)
+def pytest_configure(config: Config) -> None:
+    """
+    Pytest hook to set custom test configurations at the begging of a Pytest session.
+    """
+    config.option.allure_report_dir = str(ALLURE_PATH)
+    config.option.json_report_file = str(TESTS_REPORT_PATH)
 
 
 @pytest.fixture(scope="session")
@@ -51,7 +69,7 @@ def ui_page(
         browser_name (str): The browser to launch (firefox, webkit, chromium).
         request (pytest.FixtureRequest): The pytest request object to manage test metadata and resources.
     """
-    video_path = pathlib.Path("videos") / request.node.name
+    video_path = pathlib.Path(VIDEOS_DIR) / request.node.name
     video_path.mkdir(parents=True, exist_ok=True)
 
     if browser_name == "firefox":
@@ -72,7 +90,7 @@ def ui_page(
 
     # Save trace ONLY if test failed
     if dict(request.node.user_properties).get("failed", True):
-        trace_dir = pathlib.Path("traces")
+        trace_dir = pathlib.Path(TRACES_DIR)
         trace_dir.mkdir(parents=True, exist_ok=True)
         trace_path = trace_dir / f"trace_{request.node.name}.zip"
         context.tracing.stop(path=str(trace_path))
@@ -137,15 +155,15 @@ def pytest_sessionstart() -> None:
     """
     Hook that runs before a test session starts.
     """
-    videos_path = pathlib.Path("videos")
+    videos_path = pathlib.Path(VIDEOS_DIR)
     if videos_path.exists() and videos_path.is_dir():
         shutil.rmtree(videos_path)
 
-    logs_path = pathlib.Path("logs")
+    logs_path = pathlib.Path(LOGS_PATH)
     if logs_path.exists() and logs_path.is_dir():
         shutil.rmtree(logs_path)
 
-    traces_path = pathlib.Path("traces")
+    traces_path = pathlib.Path(TRACES_DIR)
     if traces_path.exists() and traces_path.is_dir():
         shutil.rmtree(traces_path)
 
@@ -177,7 +195,7 @@ def pytest_runtest_teardown(item: Item) -> Generator[None, Any, None]:
 
     # Attach results to Allure only for failed tests
     if dict(item.user_properties).get("failed", True):
-        artifacts_dir_path = pathlib.Path("videos") / item.name
+        artifacts_dir_path = pathlib.Path(VIDEOS_DIR) / item.name
         # Video recording
         if artifacts_dir_path.is_dir():
             for file in artifacts_dir_path.iterdir():
@@ -188,6 +206,13 @@ def pytest_runtest_teardown(item: Item) -> Generator[None, Any, None]:
                         attachment_type=allure.attachment_type.WEBM,
                     )
         # Playwright trace
-        trace_file = pathlib.Path("traces") / f"trace_{item.name}.zip"
+        trace_file = pathlib.Path(TRACES_DIR) / f"trace_{item.name}.zip"
         if trace_file.exists():
             allure.attach.file(trace_file, name=trace_file.name, extension="zip")
+
+
+def pytest_sessionfinish() -> None:
+    """
+    Hook that runs after session is finished.
+    """
+    generate_failure_ai_summary()
