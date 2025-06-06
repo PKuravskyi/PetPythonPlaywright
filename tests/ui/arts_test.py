@@ -103,7 +103,9 @@ def test_arts_can_be_sorted_by_price(
     prices = shopping_store_app.pages.arts_page.products_prices
 
     with allure.step(f"Validate arts are sorted by '{sort_option}'"):
-        expect(prices).to_have_text("incorrect")
+        expect(prices).to_have_text(
+            sorted(prices.all_text_contents(), reverse=sort_option == "price-desc")
+        )
 
 
 @pytest.mark.ui

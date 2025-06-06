@@ -16,7 +16,9 @@ from requests import Response
 from utils.paths import TESTS_DIR, AI_REPORTS_PATH
 
 API_KEY: str | None = os.getenv("OPENROUTER_API_KEY")
-MODEL: str = "deepseek/deepseek-chat-v3-0324:free"
+MODEL: str = (
+    "deepseek/deepseek-chat-v3-0324:free"  # free models allow only 50 usages per day
+)
 
 HEADERS: dict[str, str] = {
     "Authorization": f"Bearer {API_KEY}",
