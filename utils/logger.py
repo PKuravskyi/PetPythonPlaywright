@@ -9,6 +9,8 @@ import logging
 import os
 from datetime import datetime
 
+from utils.paths import LOGS_PATH
+
 
 def init_logger(test_name: str, browser_name: str) -> logging.Logger:
     """
@@ -24,10 +26,10 @@ def init_logger(test_name: str, browser_name: str) -> logging.Logger:
     Returns:
         logging.Logger: Configured logger instance.
     """
-    log_dir = os.path.join("logs", browser_name)
+    log_dir: str = os.path.join(LOGS_PATH, browser_name)
     os.makedirs(log_dir, exist_ok=True)
 
-    log_path = os.path.join(
+    log_path: str = os.path.join(
         log_dir, f"{test_name}_{datetime.now().strftime('%Y-%m-%d_%H-%M-%S')}.log"
     )
 

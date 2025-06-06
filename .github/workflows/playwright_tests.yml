@@ -41,6 +41,8 @@ jobs:
   test:
     timeout-minutes: 15
     runs-on: ubuntu-latest
+    env:
+      OPENROUTER_API_KEY: ${{ secrets.OPENROUTER_API_KEY }}
 
     steps:
       - name: Checkout repository
@@ -127,3 +129,10 @@ jobs:
         with:
           name: allure-report
           path: allure-report
+
+      - name: Upload AI Summary as artifact
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: ai-summary
+          path: tests/ai_reports/ai_summary.html
