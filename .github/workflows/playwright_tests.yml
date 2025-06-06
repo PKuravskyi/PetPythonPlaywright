@@ -130,7 +130,7 @@ jobs:
           name: allure-report
           path: allure-report
 
-      - name: Upload AI Summary
+      - name: Upload AI Summary as artifact
         if: always()
         uses: actions/upload-artifact@v4
         with:

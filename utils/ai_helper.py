@@ -8,8 +8,8 @@ import json
 import os
 import pathlib
 import re
+import subprocess
 
-import markdown
 import requests
 from requests import Response
 
@@ -115,12 +115,14 @@ def generate_ai_summary() -> None:
         md_lines.append(f"## {suggestion["test"]}\n{suggestion['ai_suggestion']}\n")
 
     # Save to md file
-    summary_path: pathlib.Path = pathlib.Path(AI_REPORTS_PATH / "ai_summary.md")
-    summary_path.write_text("\n".join(md_lines), encoding="utf-8")
+    md_summary_path: pathlib.Path = pathlib.Path(AI_REPORTS_PATH / "ai_summary.md")
+    md_summary_path.write_text("\n".join(md_lines), encoding="utf-8")
 
     # Convert Markdown to HTML
-    html_content = markdown.markdown("\n".join(md_lines), extensions=["fenced_code"])
-    html_path: pathlib.Path = pathlib.Path(AI_REPORTS_PATH / "ai_summary.html")
-    html_path.write_text(html_content, encoding="utf-8")
+    html_summary_path = AI_REPORTS_PATH / "ai_summary.html"
+    subprocess.run(
+        ["grip", str(md_summary_path), "--export", str(html_summary_path)],
+        check=True,
+    )
 
     print("AI summary was generated and saved to ai_summary.md and ai_summary.html\n")

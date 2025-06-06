@@ -27,6 +27,7 @@ from utils.paths import (
     VIDEOS_DIR,
     TRACES_DIR,
     LOGS_PATH,
+    AI_REPORTS_PATH,
 )
 
 
@@ -166,6 +167,10 @@ def pytest_sessionstart() -> None:
     traces_path = pathlib.Path(TRACES_DIR)
     if traces_path.exists() and traces_path.is_dir():
         shutil.rmtree(traces_path)
+
+    ai_reports_path = pathlib.Path(AI_REPORTS_PATH)
+    if ai_reports_path.exists() and ai_reports_path.is_dir():
+        shutil.rmtree(ai_reports_path)
 
 
 @pytest.hookimpl(hookwrapper=True)
