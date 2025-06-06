@@ -1,18 +1,18 @@
 # Practice test automation with Python and Playwright
 
-## Prerequisites:
+## Prerequisites
 
 [Install Poetry](https://python-poetry.org/docs/#installation) on your local machine  
 (optional) [Install Make](https://www.google.com/search?q=how+to+install+%22Make%22) on your local machine
 
-### How to run tests locally:
+### How to run tests locally
 
 1. Install all dependencies: `poetry install`
 2. Make sure you are using poetry venv: `poetry env activate`. You can also set poetry interpreter in your IDE.
 3. Run [Shopping Store app](bin) on your local machine
 4. Run tests: `python -m pytest`
 
-#### Optional test arguments:
+#### Optional test arguments
 
 1. Run in parallel: `-n <num_of_parallel_tests>`
 2. Browsers to run on: `--browser <browser_name>`. Possible values: `chromium`, `firefox`, `webkit`. Default value:
@@ -27,7 +27,7 @@
 Example command to run only working smoke UI tests in firefox in parallel:  
 `python -m pytest -n 5 --browser firefox -m 'smoke and not wip' tests/ui`
 
-### How to run tests inside of docker container:
+### How to run tests inside of docker container
 
 1. Build image: `docker-compose build test-runner`
 2. Run tests: `docker-compose run --rm test-runner xvfb-run pytest`  
@@ -35,10 +35,10 @@ Example command to run only working smoke UI tests in firefox in parallel:
    to [Optional test arguments](#optional-test-arguments)
    section to see the list of available arguments during run.
 
-Example docker-compose command to run only working smoke UI tests in parallel:  
+Example docker-compose command to run only working smoke UI tests in parallel  
 `docker-compose run --rm test-runner xvfb-run pytest -n 5 -m 'smoke and not wip' tests/ui`
 
-### How to run tests inside of GitHub:
+### How to run tests inside of GitHub
 
 1. Go to the **Actions** tab in GitHub.
 2. Find and select the **"Run Playwright Tests"** workflow.
@@ -60,19 +60,19 @@ Example docker-compose command to run only working smoke UI tests in parallel:
 5. Press **"Run workflow"** and wait for it to finish.
 6. Allure reports will be uploaded as artifacts.
 
-### How to use pre-commit hook:
+### How to use pre-commit hook
 
 1. Install pre-commit locally: `pre-commit install`
 2. You can run some pre-commit linters beforehand, example:
 `pre-commit run --files $(git diff --name-only main)`
 
-### How to start Jenkins UI:
+### How to start Jenkins UI
 
 1. Build image: `docker-compose build jenkins-ui`
 2. Run the container: `docker-compose up -d jenkins`
 3. Navigate to http://localhost:8080/. Username: `admin`. Password: `f84ae56e48094de7ab9b5943572d31d5`
 
-### How to see test results:
+### How to see test results
 
 Option 1: After tests are executed locally you can see allure results by running command:
 `allure serve allure-results`   
@@ -81,12 +81,12 @@ results by running command: `allure serve allure-results`
    
 **NOTE:** you can also open AI generated summary (.md and .html files) for failed tests in [tests/ai_reports](tests/ai_reports) folder
 
-### How to Lint code errors:
+### How to Lint code errors
 
 1. Pylint: run `pylint **/*.py` command to lint all code. Or with Make `make pylint`
 2. Mypy: run `mypy --explicit-package-bases .` command to lint all code. Or with Make `make mypy`
 
-### How to update libraries/dependencies (Poetry):
+### How to update libraries/dependencies (Poetry)
 
 1. Install all dependencies from `pyproject.toml`:  
    `poetry install`
@@ -100,12 +100,12 @@ results by running command: `allure serve allure-results`
 4. Update **all** dependencies to latest allowed versions:  
    `poetry update`
 
-### How to run Make commands:
+### How to run Make commands
 
 1. Have "Make" installed on your local machine, refer to [prerequisites](#prerequisites)
 2. Go through the [Makefile](Makefile) to see the list of available commands
 3. Run the command, example: `make test-docker-all`
 
-### How to autoformat code locally:
+### How to autoformat code locally
 
 1. Autoformat everything in a project: `black .`. You can also specify custom path or files you want to autoformat
